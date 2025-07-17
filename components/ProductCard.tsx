@@ -30,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
                 {product.brand}
             </div>
         </div>
-        <h3 className="font-serif text-lg font-bold text-slate-800 mb-2">{product.name}</h3>
+        <h3 className="text-lg font-bold text-slate-800 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{product.name}</h3>
         
         {product.presentation && (
           <div className="mb-4">
@@ -63,7 +63,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
             onClick={onShowDetails}
             whileHover={{ scale: 1.03, backgroundColor: '#1e293b', color: '#fff', borderColor: '#1e293b' }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-white text-slate-800 border border-slate-300 font-serif text-base font-medium py-2.5 px-4 rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200 tracking-wide">
+            className="w-full bg-white text-slate-800 border border-slate-300 text-base font-medium py-2.5 px-4 rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200 tracking-wide"
+            style={{ fontFamily: 'Inter, sans-serif' }}
+          >
           Ver Detalles
         </motion.button>
       </div>

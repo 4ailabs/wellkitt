@@ -86,7 +86,7 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
               <Sparkles className="w-10 h-10 text-brand-green-600"/>
             </div>
             <div>
-              <h2 className="text-2xl md:text-3xl font-serif font-bold text-brand-green-900">Tu kit personalizado Wellkitt</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-brand-green-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>Tu kit personalizado Wellkitt</h2>
               <p className="text-brand-green-800 mt-1">Basado en tus objetivos, aquí tienes nuestra recomendación:</p>
             </div>
           </div>
@@ -126,7 +126,8 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
             whileTap={{ scale: 0.97 }}
             onClick={() => handleExport('image')} 
             disabled={!!isExporting}
-            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 font-serif text-base font-bold py-2.5 px-5 rounded-xl border-2 border-slate-300 hover:bg-slate-100 transition-all duration-300 disabled:bg-slate-200 disabled:cursor-not-allowed tracking-wide"
+            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 text-base font-bold py-2.5 px-5 rounded-xl border-2 border-slate-300 hover:bg-slate-100 transition-all duration-300 disabled:bg-slate-200 disabled:cursor-not-allowed tracking-wide"
+            style={{ fontFamily: 'Inter, sans-serif' }}
           >
             {isExporting === 'image' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -140,7 +141,8 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
             whileTap={{ scale: 0.97 }}
             onClick={() => handleExport('pdf')} 
             disabled={!!isExporting}
-            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 font-serif text-base font-bold py-2.5 px-5 rounded-xl border-2 border-slate-300 hover:bg-slate-100 transition-all duration-300 disabled:bg-slate-200 disabled:cursor-not-allowed tracking-wide"
+            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 text-base font-bold py-2.5 px-5 rounded-xl border-2 border-slate-300 hover:bg-slate-100 transition-all duration-300 disabled:bg-slate-200 disabled:cursor-not-allowed tracking-wide"
+            style={{ fontFamily: 'Inter, sans-serif' }}
           >
             {isExporting === 'pdf' ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

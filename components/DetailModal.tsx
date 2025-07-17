@@ -22,7 +22,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ item, allProducts, onClose })
     return (
       <>
         <div className="p-6 sm:p-8">
-            <h3 className="text-3xl font-serif font-bold text-slate-900 mb-2">{kit.name}</h3>
+            <h3 className="text-3xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{kit.name}</h3>
             <p className="text-slate-600 mb-4">{kit.benefit}</p>
             <div className="inline-flex items-center gap-2 bg-brand-green-100 text-brand-green-800 rounded-full px-4 py-1.5 text-sm font-semibold mb-6">
                 <Tag className="w-4 h-4" />
@@ -72,7 +72,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ item, allProducts, onClose })
   const renderProductDetails = (product: Product) => {
     return (
         <div className="p-6 sm:p-8">
-            <h3 className="text-3xl font-serif font-bold text-slate-900 mb-2">{product.name}</h3>
+            <h3 className="text-3xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{product.name}</h3>
             <div className="flex flex-wrap gap-2 mb-6">
                 <span className="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full">{product.brand}</span>
                 <span className="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">{product.category}</span>

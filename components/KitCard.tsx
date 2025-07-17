@@ -57,7 +57,7 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
                 {kit.discount}% OFF
             </div>
         </div>
-        <h3 className="font-serif text-2xl font-extrabold text-slate-900 mb-4 tracking-tight leading-snug">{kit.name}</h3>
+        <h3 className="text-2xl font-extrabold text-slate-900 mb-4 tracking-tight leading-snug" style={{ fontFamily: 'Montserrat, sans-serif' }}>{kit.name}</h3>
         <p className="text-base text-slate-700 mb-6 h-12 leading-relaxed">{kit.benefit}</p>
         
         <div className="space-y-3 mt-4">
@@ -78,7 +78,9 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
             onClick={onShowDetails}
             whileHover={{ scale: 1.03, backgroundColor: '#1e293b', color: '#fff', borderColor: '#1e293b' }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-white text-slate-800 border border-slate-300 font-serif text-base font-medium py-2.5 px-4 rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200 tracking-wide">
+            className="w-full bg-white text-slate-800 border border-slate-300 text-base font-medium py-2.5 px-4 rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200 tracking-wide"
+            style={{ fontFamily: 'Inter, sans-serif' }}
+          >
           Ver Kit Completo
         </motion.button>
       </div>

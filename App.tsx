@@ -96,16 +96,16 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="font-serif text-3xl font-bold text-brand-green-800">Wellkitt</h1>
-          <p className="hidden md:block text-slate-600">Tu Navegador de Salud Natural</p>
+          <h1 className="text-3xl font-bold text-brand-green-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h1>
+          <p className="hidden md:block text-slate-600" style={{ fontFamily: 'Inter, sans-serif' }}>Tu Navegador de Salud Natural</p>
         </div>
       </header>
       
-      <main className="container mx-auto px-4 py-8 md:py-12">
+      <main className="container mx-auto px-4 py-8 md:py-12" style={{ fontFamily: 'Inter, sans-serif' }}>
         {/* AI Recommender Section */}
         <section className="bg-white rounded-3xl p-8 md:p-12 shadow-xl mb-16 border border-gray-100">
             <div className="text-center max-w-3xl mx-auto">
-                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-4">
+                 <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                     Encuentra tu Kit de Bienestar Ideal
                 </h2>
                 <p className="text-lg text-slate-600 mb-8">
@@ -141,7 +141,7 @@ const App: React.FC = () => {
         {/* Pre-defined Kits Section */}
         <section>
            <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                     O explora nuestros Kits Estratégicos
                 </h2>
                 <p className="text-md text-slate-600 max-w-xl mx-auto">
@@ -163,7 +163,7 @@ const App: React.FC = () => {
         {/* All Products Section */}
         <section className="mt-16">
             <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                     Explora Todos Nuestros Productos
                 </h2>
                 <p className="text-md text-slate-600 max-w-2xl mx-auto">
@@ -212,7 +212,7 @@ const App: React.FC = () => {
         <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                 <div>
-                    <h3 className="font-serif text-2xl font-bold text-white mb-2">Wellkitt</h3>
+                    <h3 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h3>
                     <p className="text-slate-400">Tu Navegador de Salud Natural.</p>
                     <p className="text-slate-400 mt-4">&copy; {new Date().getFullYear()} Wellkitt. Todos los derechos reservados.</p>
                 </div>
