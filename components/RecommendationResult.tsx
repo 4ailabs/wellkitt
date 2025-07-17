@@ -28,7 +28,7 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
 
     try {
       const canvas = await html2canvas(recommendationRef.current, {
-        scale: 2, // Higher scale for better quality
+        scale: 3, // Even higher scale for better quality
         useCORS: true,
         backgroundColor: null, // Capture the gradient background
       });
@@ -45,12 +45,16 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
         document.body.removeChild(link);
       } else { // PDF
         const imgData = canvas.toDataURL('image/png');
+        // Márgenes en px
+        const margin = 32;
+        const pdfWidth = canvas.width + margin * 2;
+        const pdfHeight = canvas.height + margin * 2;
         const pdf = new jsPDF({
           orientation: 'portrait',
           unit: 'px',
-          format: [canvas.width, canvas.height]
+          format: [pdfWidth, pdfHeight]
         });
-        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+        pdf.addImage(imgData, 'PNG', margin, margin, canvas.width, canvas.height);
         pdf.save(`${fileName}.pdf`);
       }
     } catch (error) {
