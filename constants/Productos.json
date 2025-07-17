@@ -1,0 +1,253 @@
+{
+  "productos": {
+    "biofito": [
+      {
+        "id": "BF001",
+        "nombre": "Pro-vit",
+        "ingredientes": ["Zapote blanco (Casimiroa edulis)", "Olivo (Olea europaea)", "Espino blanco (Crataegus monogyna)", "Melisa (Melissa officinalis)", "Maíz estilos (Zea mays)", "Galphimia glauca"],
+        "presentacion": "Frasco gotero de 50 ml",
+        "potencia": 4,
+        "categoria": "Regulación hormonal y glándulas",
+        "usos": ["Regulación hormonal", "Estrés", "Ansiedad"],
+        "beneficios": ["Equilibra hormonas", "Calma el sistema nervioso", "Mejora el estado de ánimo"],
+        "sistemas": ["inmune", "hormonal"]
+      },
+      {
+        "id": "SN017",
+        "nombre": "Oligonato 1",
+        "ingredientes": ["Cobre", "Magnesio", "Manganeso", "Potasio", "Cobalto"],
+        "presentacion": "Solución",
+        "categoria": "Oligoelementos",
+        "usos": ["Funciones neuromusculares", "Cardiovascular", "Sistema nervioso"],
+        "beneficios": ["Mejora funciones neuromusculares y cardiovasculares", "Equilibra sistema neurovegetativo", "Regula presión y función celular"],
+        "sistemas": ["nervioso", "circulatorio", "muscular"]
+      },
+      {
+        "id": "SN018",
+        "nombre": "Oligonato 2",
+        "ingredientes": ["Fósforo", "Flúor", "Yodo", "Azufre"],
+        "presentacion": "Solución",
+        "categoria": "Oligoelementos",
+        "usos": ["Salud ósea", "Dental", "Hormonal", "Desintoxicación"],
+        "beneficios": ["Salud ósea", "Dental", "Hormonal", "Esencial para tiroides", "Acción desintoxicante", "Articulaciones y piel"],
+        "sistemas": ["oseo", "hormonal", "piel", "musculoesqueletico"]
+      },
+      {
+        "id": "SN019",
+        "nombre": "Oligosor",
+        "ingredientes": ["Azufre", "Cobalto", "Cobre", "Fósforo", "Yodo", "Litio", "Magnesio", "Potasio", "Zinc"],
+        "presentacion": "Solución",
+        "categoria": "Oligoelementos completo",
+        "usos": ["Remineralización", "Estados emocionales", "Ansiedad", "Depresión"],
+        "beneficios": ["Remineralización", "Modulación neuroendocrina", "Regula estados emocionales", "Útil en ansiedad y depresión"],
+        "sistemas": ["nervioso", "hormonal", "general"]
+      },
+      {
+        "id": "SN020",
+        "nombre": "Resverasor",
+        "ingredientes": ["Resveratrol (extracto de uva negra)"],
+        "presentacion": "Cápsulas",
+        "categoria": "Antioxidante",
+        "usos": ["Antioxidante", "Salud cardiovascular", "Antiinflamatorio", "Neuroprotector"],
+        "beneficios": ["Antioxidante", "Salud cardiovascular", "Antiinflamatorio", "Neuroprotector"],
+        "sistemas": ["circulatorio", "nervioso"]
+      },
+      {
+        "id": "SN021",
+        "nombre": "Sorivid",
+        "ingredientes": ["Vitamina A", "Vitamina B12", "Vitamina C", "Vitamina D", "Vitamina E"],
+        "presentacion": "Cápsulas",
+        "categoria": "Complejo vitamínico",
+        "usos": ["Inmunidad", "Visión", "Piel", "Metabolismo celular"],
+        "beneficios": ["Inmunidad", "Visión", "Piel", "Metabolismo celular"],
+        "sistemas": ["inmune", "piel", "nervioso"]
+      },
+      {
+        "id": "SN022",
+        "nombre": "Totalvid 4",
+        "ingredientes": ["Vitamina C", "Vitamina E", "Vitamina B6", "Vitamina A", "Vitamina B12", "PABA", "Colina", "Hierro", "Zinc", "Inositol", "Niacina", "Manganeso", "Fluoruro"],
+        "presentacion": "Cápsulas",
+        "categoria": "Multivitamínico completo",
+        "usos": ["Antioxidante", "Energía", "Inmunidad", "Piel", "Sistema nervioso"],
+        "beneficios": ["Complejo multivitamínico completo", "Antioxidante", "Energía", "Inmunidad", "Piel", "Sistema nervioso"],
+        "sistemas": ["general", "inmune", "nervioso", "piel"]
+      }
+    ],
+    "aminoacidos": [
+      {
+        "id": "AA001",
+        "nombre": "Analis Aminoácido Glicina 130",
+        "ingredientes": ["Glicina"],
+        "presentacion": "Polvo 130g",
+        "categoria": "Aminoácidos esenciales",
+        "usos": ["Sueño", "Colágeno", "Antiinflamatorio", "Antioxidante"],
+        "beneficios": ["Neurotransmisor inhibidor", "Favorece sueño profundo", "Síntesis de colágeno", "Modula inflamación", "Glucogénesis", "Antioxidante", "Protege sistema nervioso"],
+        "sistemas": ["nervioso", "piel", "musculoesqueletico"]
+      },
+      {
+        "id": "AA002",
+        "nombre": "Analis Aminoácido Glicina 400",
+        "ingredientes": ["Glicina"],
+        "presentacion": "Polvo 400g",
+        "categoria": "Aminoácidos esenciales",
+        "usos": ["Sueño", "Colágeno", "Antiinflamatorio", "Antioxidante"],
+        "beneficios": ["Neurotransmisor inhibidor", "Favorece sueño profundo", "Síntesis de colágeno", "Modula inflamación", "Glucogénesis", "Antioxidante", "Protege sistema nervioso"],
+        "sistemas": ["nervioso", "piel", "musculoesqueletico"]
+      },
+      {
+        "id": "AA003",
+        "nombre": "Analis Aminoácido L-Arginina",
+        "ingredientes": ["L-Arginina", "L-Lisina"],
+        "presentacion": "60 cápsulas 500mg",
+        "categoria": "Aminoácidos semi-esenciales",
+        "usos": ["Circulación", "Inmunidad", "Crecimiento", "Rendimiento"],
+        "beneficios": ["Vasodilatador natural", "Mejora circulación", "Inmunomodulador", "Precursor óxido nítrico", "Estimula hormona del crecimiento"],
+        "sistemas": ["circulatorio", "inmune", "hormonal"]
+      },
+      {
+        "id": "AA004",
+        "nombre": "Analis Aminoácido L-Prolina",
+        "ingredientes": ["L-Prolina", "L-Lisina"],
+        "presentacion": "60 cápsulas 500mg",
+        "categoria": "Aminoácidos no esenciales",
+        "usos": ["Colágeno", "Articulaciones", "Piel", "Vasos sanguíneos"],
+        "beneficios": ["Cofactor formación de colágeno", "Elasticidad de tejidos", "Reparación articulaciones", "Piel y vasos sanguíneos"],
+        "sistemas": ["piel", "musculoesqueletico", "circulatorio"]
+      },
+      {
+        "id": "AA005",
+        "nombre": "Analis L-Triptófano",
+        "ingredientes": ["L-Lisina", "L-Triptófano"],
+        "presentacion": "60 cápsulas 500mg",
+        "categoria": "Aminoácidos esenciales",
+        "usos": ["Sueño", "Estado de ánimo", "Ansiedad", "Apetito"],
+        "beneficios": ["Precursor serotonina y melatonina", "Regula estado de ánimo", "Ritmo circadiano", "Ansiedad y apetito"],
+        "sistemas": ["nervioso"]
+      },
+      {
+        "id": "AA006",
+        "nombre": "Analis Neurotransmisores",
+        "ingredientes": ["L-Lisina", "L-Triptófano", "Glicina", "L-Arginina"],
+        "presentacion": "60 cápsulas 500mg",
+        "categoria": "Complejo aminoácidos",
+        "usos": ["Equilibrio emocional", "Insomnio", "Ansiedad", "Fatiga mental", "Estrés"],
+        "beneficios": ["Apoyo neuromodulador", "Equilibrio emocional", "Ayuda insomnio", "Ansiedad", "Fatiga mental y estrés"],
+        "sistemas": ["nervioso"]
+      },
+      {
+        "id": "AA007",
+        "nombre": "Carnilis",
+        "ingredientes": ["L-Carnitina", "Nitrato de cromo"],
+        "presentacion": "60 cápsulas 500mg",
+        "categoria": "Aminoácidos especializados",
+        "usos": ["Metabolismo energético", "Control de peso", "Rendimiento físico"],
+        "beneficios": ["Transporte ácidos grasos a mitocondrias", "Mejora metabolismo energético", "Reduce fatiga muscular", "Control de peso y rendimiento físico"],
+        "sistemas": ["metabolico", "muscular"]
+      },
+      {
+        "id": "AA008",
+        "nombre": "Cronovida",
+        "ingredientes": ["Ácido glutámico", "Glicina", "Arginina", "Fenilalanina", "L-Lisina", "L-Metionina", "Ácido fólico", "Colina"],
+        "presentacion": "Polvo 260g",
+        "categoria": "Complejo aminoácidos avanzado",
+        "usos": ["Ciclo sueño-vigilia", "Neurotransmisores", "Regeneración hepática", "Soporte metabólico"],
+        "beneficios": ["Regulación neuroendocrina y ciclo sueño-vigilia", "Modulación neurotransmisores", "Regeneración hepática", "Soporte metabólico y mental"],
+        "sistemas": ["nervioso", "hepatico", "hormonal"]
+      },
+      {
+        "id": "AA009",
+        "nombre": "Deprelat",
+        "ingredientes": ["L-Arginina", "L-Triptófano"],
+        "presentacion": "60 cápsulas 500mg",
+        "categoria": "Aminoácidos estado de ánimo",
+        "usos": ["Estado de ánimo", "Depresión leve", "Síndrome premenstrual", "Ansiedad"],
+        "beneficios": ["Regulador estado de ánimo", "Coadyuvante cuadros depresivos leves", "Síndrome premenstrual y ansiedad"],
+        "sistemas": ["nervioso", "hormonal"]
+      },
+      {
+        "id": "AA010",
+        "nombre": "Glicam 130",
+        "ingredientes": ["Glicina", "L-Lisina"],
+        "presentacion": "Polvo 130g",
+        "categoria": "Aminoácidos colágeno",
+        "usos": ["Colágeno", "Inmunidad", "Sueño", "Tejidos conectivos"],
+        "beneficios": ["Estimula síntesis colágeno", "Modula respuesta inmunitaria", "Favorece sueño profundo", "Repara tejidos conectivos"],
+        "sistemas": ["piel", "inmune", "nervioso", "musculoesqueletico"]
+      },
+      {
+        "id": "AA011",
+        "nombre": "Glicam 400",
+        "ingredientes": ["Glicina", "L-Lisina"],
+        "presentacion": "Polvo 400g",
+        "categoria": "Aminoácidos colágeno",
+        "usos": ["Colágeno", "Inmunidad", "Sueño", "Tejidos conectivos"],
+        "beneficios": ["Estimula síntesis colágeno", "Modula respuesta inmunitaria", "Favorece sueño profundo", "Repara tejidos conectivos"],
+        "sistemas": ["piel", "inmune", "nervioso", "musculoesqueletico"]
+      },
+      {
+        "id": "AA012",
+        "nombre": "Lisam 200",
+        "ingredientes": ["L-Lisina"],
+        "presentacion": "200 cápsulas 500mg",
+        "categoria": "Aminoácidos esenciales",
+        "usos": ["Síntesis proteínas", "Absorción calcio", "Crecimiento óseo", "Antiviral"],
+        "beneficios": ["Favorece síntesis proteínas", "Absorción calcio", "Crecimiento óseo", "Regeneración tisular", "Antiviral contra herpes simplex"],
+        "sistemas": ["oseo", "inmune", "muscular"]
+      },
+      {
+        "id": "AA013",
+        "nombre": "Lisam 60",
+        "ingredientes": ["L-Lisina"],
+        "presentacion": "60 cápsulas 500mg",
+        "categoria": "Aminoácidos esenciales",
+        "usos": ["Síntesis proteínas", "Absorción calcio", "Crecimiento óseo", "Antiviral"],
+        "beneficios": ["Favorece síntesis proteínas", "Absorción calcio", "Crecimiento óseo", "Regeneración tisular", "Antiviral contra herpes simplex"],
+        "sistemas": ["oseo", "inmune", "muscular"]
+      },
+      {
+        "id": "AA014",
+        "nombre": "Melis",
+        "ingredientes": ["L-Lisina", "L-Metionina"],
+        "presentacion": "60 cápsulas 500mg",
+        "categoria": "Aminoácidos detox",
+        "usos": ["Antiviral", "Desintoxicación hepática", "Metabolismo lipídico"],
+        "beneficios": ["Acción antiviral", "Desintoxicante hepático", "Mejora metabolismo lipídico", "Regeneración tejidos"],
+        "sistemas": ["inmune", "hepatico", "metabolico"]
+      }
+    ]
+  },
+  "categorias_sistema": {
+    "hormonal": ["Pro-vit", "Fem-vit", "Barbasco", "Maca Peruana", "Epilobio", "Calciflavón", "Diatonato 3", "Diatonato 5.1", "Diatonato 5.2", "Oligosor", "Deprelat"],
+    "nervioso": ["Pro-vit", "Matlali", "Fem-vit", "Zapote Blanco", "Té del Corazón", "Espino Blanco", "Ginkgo Biloba", "Té Verde", "Salvia", "Melissa", "Valeriana", "Sedanlex", "Ner-vit", "In-So", "Hierba de San Juan", "Damiana de California", "Fosfoserina Complex", "Oligonato 1", "Oligosor", "Resverasor", "Totalvid 4", "Analis Neurotransmisores", "L-Triptófano", "Glicina"],
+    "circulatorio": ["Milenrama", "Matlali", "Zapote Blanco", "Hierba del Sapo", "Varilex", "Vari-vit", "Espino Blanco", "Colex", "Castaño de Indias", "Hamamelis", "Ajo", "Ginkgo Biloba", "Coenzima Q10", "Oligonato 1", "Resverasor", "L-Arginina", "L-Prolina"],
+    "digestivo": ["Milenrama", "Vermi-vit", "Tomillo", "Salvia", "Polvo Cal-Bil", "Melissa", "Malbar", "Laxil", "Jengibre", "Hinojo", "Hepacryl", "Enebro", "Diente de León", "Cúrcuma", "Cuachalalate", "Colix", "Chaparro Amargo", "Anti-B", "Alcachofa", "Aci-vit", "Inulac Tablets", "Lacticol", "Levadura de Cerveza"],
+    "urinario": ["Epilobio", "Hierba del Sapo", "Ren-vit", "Polvo Cal-ren", "Pelo de Elote", "Palo Azul", "Ortiga", "Gayuba", "Dren-vit", "Cola de Caballo", "Enebro", "Diente de León", "Acidux", "Colex"],
+    "respiratorio": ["Tomillo", "Melissa", "Fenogreco", "Jarabe Sauco-vit", "Immune Herb", "Ojo de Gallina", "Equinácea", "Anti-B", "Ajo", "Jengibre", "Diatonato 1"],
+    "inmune": ["Equinácea", "Anti-B", "Ajo", "Jengibre", "Immune Herb", "Moringa", "Mapurite", "Uña de Gato", "Cancerina", "Alga Espirulina", "Cúrcuma", "Diatonato 2", "Diatonato 5.1", "Fostprint Classic", "Fostprint Junior", "Lacticol", "Minesor con Selenio", "Sorivid", "Totalvid 4", "L-Arginina", "Lisam", "Melis"],
+    "hepatico": ["Polvo Cal-Bil", "Malbar", "Hepacryl", "Diente de León", "Cardo Mariano", "Colex", "Alcachofa", "Diatonato 5.2", "Cronovida", "Melis"],
+    "metabolico": ["Sayumel", "Fenogreco", "Té Verde", "Glu-vit", "Palo Azul", "Chaparro Amargo", "Ojo de Gallina", "Fat-less", "Diatonato 2", "Diatonato 5.2", "Carnilis"],
+    "musculoesqueletico": ["Harpagofito", "Uña de Gato", "Bálsamo 3 Damianas", "Dren-vit", "Cartílago de Tiburón", "Alfalfa", "Acidux", "Ortiga", "Enebro", "Diatonato 1", "Mincartil", "Oligonato 2", "L-Prolina", "Glicina", "Glicam"],
+    "piel": ["Hamamelis", "Cola de Caballo", "Levadura de Cerveza", "Cúrcuma", "Diatonato 5.1", "Crisálida G", "Mincartil", "Oligonato 2", "Sorivid", "Totalvid 4", "L-Prolina", "Glicina"],
+    "energético": ["Maca Peruana", "Alga Espirulina", "Té Verde", "Damiana de California", "Coenzima Q10", "Diatonato 3", "Fostprint Classic", "Fostprint Junior", "Fostprint MAX", "Carnilis"],
+    "reproductivo": ["Maca Peruana", "Epilobio", "Damiana de California", "Diatonato 5.1"]
+  },
+  "interacciones_sinergicas": {
+    "detox_hepatico": ["Hepacryl", "Cardo Mariano", "Alcachofa", "Diente de León", "Cúrcuma"],
+    "detox_renal": ["Ren-vit", "Polvo Cal-ren", "Gayuba", "Cola de Caballo", "Hierba del Sapo"],
+    "antiinflamatorio": ["Cúrcuma", "Harpagofito", "Uña de Gato", "Milenrama", "Jengibre"],
+    "circulacion_venosa": ["Varilex", "Vari-vit", "Castaño de Indias", "Hamamelis", "Ginkgo Biloba"],
+    "relajante_nervioso": ["Valeriana", "Ner-vit", "Zapote Blanco", "Melissa", "Pasiflora"],
+    "inmunidad": ["Equinácea", "Anti-B", "Immune Herb", "Uña de Gato", "Moringa"],
+    "digestivo_completo": ["Colix", "Jengibre", "Hinojo", "Melissa", "Inulac Tablets"],
+    "energia_natural": ["Maca Peruana", "Alga Espirulina", "Coenzima Q10", "Fostprint MAX", "Carnilis"],
+    "hormonal_femenino": ["Fem-vit", "Barbasco", "Milenrama", "Calciflavón", "Diatonato 5.1"],
+    "articular": ["Harpagofito", "Uña de Gato", "Cúrcuma", "Cartílago de Tiburón", "Acidux"]
+  },
+  "contraindicaciones": {
+    "embarazo": ["Barbasco", "Fem-vit", "Milenrama", "Valeriana", "Hierba de San Juan"],
+    "hipertension": ["Ajo", "Jengibre", "Maca Peruana"],
+    "diabetes": ["Glu-vit", "Sayumel", "Fenogreco", "Palo Azul"],
+    "anticoagulantes": ["Ajo", "Jengibre", "Ginkgo Biloba"],
+    "tiroides": ["Alga Espirulina", "Minesor con Selenio"]
+  }
+}

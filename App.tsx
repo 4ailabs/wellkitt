@@ -1,6 +1,7 @@
 
 import React, { useState, useCallback } from 'react';
-import { products, kits } from './constants/data';
+import { products as baseProducts, kits } from './constants/data';
+import productosJsonRaw from './constants/Productos.json';
 import { Product, Kit, Recommendation } from './types';
 import KitCard from './components/KitCard';
 import RecommendationResult from './components/RecommendationResult';
@@ -18,6 +19,34 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<Kit | Product | null>(null);
   const [activeCategory, setActiveCategory] = useState('All');
+
+  // Tipar como any para evitar errores de tipo
+  const productosJson: any = productosJsonRaw;
+
+  // Mapear productos extra
+  const extraProducts = [
+    ...(productosJson.productos?.biofito || []).map((p: any) => ({
+      id: p.id,
+      name: p.nombre,
+      brand: 'Biofito',
+      ingredients: p.ingredientes,
+      benefits: p.beneficios,
+      presentation: p.presentacion,
+      category: Array.isArray(p.categoria) ? p.categoria[0] : p.categoria,
+    })),
+    ...(productosJson.productos?.aminoacidos || []).map((p: any) => ({
+      id: p.id,
+      name: p.nombre,
+      brand: 'Aminoácidos',
+      ingredients: p.ingredientes,
+      benefits: p.beneficios,
+      presentation: p.presentacion,
+      category: Array.isArray(p.categoria) ? p.categoria[0] : p.categoria,
+    })),
+  ];
+  const existingIds = new Set(baseProducts.map(p => p.id));
+  const newProducts = extraProducts.filter(p => !existingIds.has(p.id));
+  const products = [...baseProducts, ...newProducts];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserInput(e.target.value);
@@ -47,7 +76,7 @@ const App: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [userInput]);
+  }, [userInput, products, kits]);
 
   const handleShowDetails = (item: Kit | Product) => {
     setSelectedItem(item);
