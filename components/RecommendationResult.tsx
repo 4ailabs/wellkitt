@@ -47,14 +47,27 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
         const imgData = canvas.toDataURL('image/png');
         // Márgenes en px
         const margin = 32;
-        const pdfWidth = canvas.width + margin * 2;
-        const pdfHeight = canvas.height + margin * 2;
+        // Tamaño máximo de página (A4 en px a 96dpi aprox)
+        const maxPdfWidth = 794; // 210mm
+        const maxPdfHeight = 1123; // 297mm
+        // Escalar si es necesario
+        let imgWidth = canvas.width;
+        let imgHeight = canvas.height;
+        let scale = 1;
+        if (imgWidth + margin * 2 > maxPdfWidth || imgHeight + margin * 2 > maxPdfHeight) {
+          scale = Math.min(
+            (maxPdfWidth - margin * 2) / imgWidth,
+            (maxPdfHeight - margin * 2) / imgHeight
+          );
+          imgWidth = imgWidth * scale;
+          imgHeight = imgHeight * scale;
+        }
         const pdf = new jsPDF({
           orientation: 'portrait',
           unit: 'px',
-          format: [pdfWidth, pdfHeight]
+          format: [maxPdfWidth, maxPdfHeight]
         });
-        pdf.addImage(imgData, 'PNG', margin, margin, canvas.width, canvas.height);
+        pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
         pdf.save(`${fileName}.pdf`);
       }
     } catch (error) {
