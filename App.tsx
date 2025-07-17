@@ -247,6 +247,9 @@ const App: React.FC = () => {
             </div>
         </div>
       </footer>
+      <div className="text-center text-slate-400 text-sm py-4">
+        <a href="https://www.wellkitt.com" target="_blank" rel="noopener noreferrer" className="hover:text-brand-green-600 underline transition-colors duration-200">www.wellkitt.com</a>
+      </div>
 
       <DetailModal 
         item={selectedItem}
