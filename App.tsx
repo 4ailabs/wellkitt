@@ -247,6 +247,10 @@ const App: React.FC = () => {
             </div>
         </div>
       </footer>
+      <div className="text-center text-slate-400 text-xs px-4 max-w-2xl mx-auto">
+        <strong>Descargo de responsabilidad:</strong> <br/>
+        La información y recomendaciones presentadas en este sitio no sustituyen el consejo, diagnóstico o tratamiento médico profesional. Consulta siempre a tu médico u otro proveedor de salud calificado ante cualquier duda sobre una condición médica. No ignores el consejo médico profesional ni retrases su búsqueda debido a algo que hayas leído en Wellkitt.
+      </div>
       <div className="text-center text-slate-400 text-sm py-4">
         <a href="https://www.wellkitt.com" target="_blank" rel="noopener noreferrer" className="hover:text-brand-green-600 underline transition-colors duration-200">www.wellkitt.com</a>
       </div>
