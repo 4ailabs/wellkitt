@@ -225,6 +225,12 @@ const App: React.FC = () => {
                                 <span>WhatsApp</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="tel:+525579076626" className="inline-flex items-center justify-center md:justify-start gap-3 hover:text-brand-green-400 transition-colors bg-brand-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-brand-green-700 transition-colors duration-200" style={{ fontFamily: 'Inter, sans-serif' }}>
+                                <Phone className="w-5 h-5" />
+                                <span>Llamar a un asesor</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div>
