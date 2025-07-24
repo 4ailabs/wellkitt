@@ -184,7 +184,7 @@ ${recommendation.reasoning}
                             onClick={handleAddRecommendationToCart}
                             className="bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold py-2 md:py-3 px-4 md:px-6 rounded-lg md:rounded-xl transition-colors text-sm md:text-base flex items-center justify-center gap-2"
                         >
-                            <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
+                            <ShoppingCart className="w-4 h-4" />
                             Agregar al Carrito
                         </button>
                         <button 

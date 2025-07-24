@@ -13,7 +13,7 @@ import EndotelioTest from './components/EndotelioTest';
 import Cart from './components/Cart';
 import { CartProvider } from './contexts/CartContext';
 import { categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Shield, Activity, Brain, Moon } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Shield, Activity, Brain, Moon, MessageCircle } from 'lucide-react';
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState('');
@@ -375,7 +375,7 @@ const App: React.FC = () => {
                 })}
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6 px-4" data-section="products-grid">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 px-4" data-section="products-grid">
                 {filteredProducts.map(product => (
                     <ProductCard 
                         key={product.id} 
