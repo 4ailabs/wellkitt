@@ -10,8 +10,8 @@ interface ImportMeta {
 }
 
 export const ANALYTICS_CONFIG = {
-  // Reemplaza con tu ID de Google Analytics 4
-  GA_MEASUREMENT_ID: 'G-XXXXXXXXXX', // Cambiar por tu ID real
+  // ID de Google Analytics 4 para Wellkitt
+  GA_MEASUREMENT_ID: 'G-KQVFDWQ8VT',
   
   // Eventos personalizados
   EVENTS: {
