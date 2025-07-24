@@ -86,6 +86,21 @@ const App: React.FC = () => {
     setSelectedItem(null);
   };
 
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    
+    // Scroll automático a la sección de productos en móviles
+    setTimeout(() => {
+      const productsSection = document.querySelector('[data-section="products"]');
+      if (productsSection) {
+        productsSection.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+    }, 100);
+  };
+
   const categories = ['All', ...Object.keys(categoryConfig)];
   
   const filteredProducts = activeCategory === 'All'
@@ -161,7 +176,7 @@ const App: React.FC = () => {
         </section>
 
         {/* All Products Section */}
-        <section className="mt-16">
+        <section className="mt-16" data-section="products">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                     Explora Todos Nuestros Productos
@@ -180,7 +195,7 @@ const App: React.FC = () => {
                     return (
                         <button
                             key={category}
-                            onClick={() => setActiveCategory(category)}
+                            onClick={() => handleCategoryChange(category)}
                             className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300 border-2 ${
                                 isActive
                                     ? 'bg-slate-800 text-white border-slate-800 shadow-md'
