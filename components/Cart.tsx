@@ -47,18 +47,18 @@ const Cart: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 md:p-4"
             onClick={() => setIsOpen(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] md:max-h-[80vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="bg-brand-green-600 text-white p-6 flex items-center justify-between">
+              <div className="bg-brand-green-600 text-white p-4 md:p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <ShoppingCart className="w-6 h-6" />
                   <h2 className="text-xl font-bold">Mi Carrito</h2>
@@ -72,7 +72,7 @@ const Cart: React.FC = () => {
               </div>
 
               {/* Contenido */}
-              <div className="p-6 overflow-y-auto max-h-[60vh]">
+              <div className="p-4 md:p-6 overflow-y-auto max-h-[50vh] md:max-h-[60vh]">
                 {state.items.length === 0 ? (
                   <div className="text-center py-8">
                     <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
@@ -134,8 +134,8 @@ const Cart: React.FC = () => {
 
               {/* Footer */}
               {state.items.length > 0 && (
-                <div className="border-t border-gray-200 p-6 bg-gray-50">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50">
+                  <div className="flex items-center justify-between mb-3 md:mb-4">
                     <span className="text-sm text-gray-600">
                       Total: {state.totalItems} productos
                     </span>
@@ -147,16 +147,16 @@ const Cart: React.FC = () => {
                     </button>
                   </div>
                   
-                  <div className="flex gap-3">
+                  <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                     <button
                       onClick={() => setIsOpen(false)}
-                      className="flex-1 bg-gray-200 text-gray-800 font-semibold py-3 px-4 rounded-xl hover:bg-gray-300 transition-colors"
+                      className="w-full sm:flex-1 bg-gray-200 text-gray-800 font-semibold py-2.5 md:py-3 px-4 rounded-xl hover:bg-gray-300 transition-colors text-sm md:text-base"
                     >
                       Seguir comprando
                     </button>
                     <button
                       onClick={handleSendToWhatsApp}
-                      className="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+                      className="w-full sm:flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-2.5 md:py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm md:text-base"
                     >
                       <Send className="w-4 h-4" />
                       Pedir por WhatsApp
