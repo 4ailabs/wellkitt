@@ -89,16 +89,16 @@ const App: React.FC = () => {
   const handleCategoryChange = (category: string) => {
     setActiveCategory(category);
     
-    // Scroll automático a la sección de productos en móviles
+    // Scroll automático a la grilla de productos en móviles
     setTimeout(() => {
-      const productsSection = document.querySelector('[data-section="products"]');
-      if (productsSection) {
-        productsSection.scrollIntoView({ 
+      const productsGrid = document.querySelector('[data-section="products-grid"]');
+      if (productsGrid) {
+        productsGrid.scrollIntoView({ 
           behavior: 'smooth', 
-          block: 'start' 
+          block: 'center' 
         });
       }
-    }, 100);
+    }, 200);
   };
 
   const categories = ['All', ...Object.keys(categoryConfig)];
@@ -210,7 +210,7 @@ const App: React.FC = () => {
                 })}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" data-section="products-grid">
                 {filteredProducts.map(product => (
                     <ProductCard 
                         key={product.id} 
