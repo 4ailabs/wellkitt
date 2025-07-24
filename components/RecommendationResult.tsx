@@ -59,10 +59,25 @@ ${recommendation.reasoning}
     setIsExporting(format);
 
     try {
+      // Pequeño delay para asegurar que todo esté renderizado
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Detectar si es móvil para ajustar la configuración
+      const isMobile = window.innerWidth <= 768;
+      
       const canvas = await html2canvas(recommendationRef.current, {
-        scale: 3, // Even higher scale for better quality
+        scale: isMobile ? 2 : 3, // Escala reducida en móviles para mejor rendimiento
         useCORS: true,
-        backgroundColor: null, // Capture the gradient background
+        backgroundColor: '#ffffff', // Fondo blanco para mejor compatibilidad
+        allowTaint: true,
+        foreignObjectRendering: true,
+        logging: false,
+        width: recommendationRef.current.scrollWidth,
+        height: recommendationRef.current.scrollHeight,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.offsetWidth,
+        windowHeight: document.documentElement.offsetHeight,
       });
 
       const fileName = `wellkitt_recomendacion_${new Date().toISOString().split('T')[0]}`;
@@ -112,7 +127,7 @@ ${recommendation.reasoning}
 
   return (
     <div className="mt-6 md:mt-8 animate-fade-in">
-      <div ref={recommendationRef} className="bg-gradient-to-br from-brand-green-50 to-emerald-100 border-2 border-brand-green-500 rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
+      <div ref={recommendationRef} className="bg-gradient-to-br from-brand-green-50 to-emerald-100 border-2 border-brand-green-500 rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6 mb-4 md:mb-6">
             <div className="bg-white p-3 md:p-4 rounded-full shadow-lg">
               <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-brand-green-600"/>
@@ -132,9 +147,19 @@ ${recommendation.reasoning}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {recommendedProducts.map(product => (
                 <div key={product.id} className="bg-white p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                  <p className="font-bold text-slate-800 text-sm md:text-base">{product.name}</p>
+                  <div className="flex items-start justify-between mb-2">
+                    <p className="font-bold text-slate-800 text-sm md:text-base">{product.name}</p>
+                    <span className="text-xs text-brand-green-700 bg-brand-green-100 px-2 py-1 rounded-full whitespace-nowrap">{product.category}</span>
+                  </div>
                   <p className="text-xs md:text-sm text-slate-500">{product.brand}</p>
-                  <p className="text-xs text-brand-green-700 mt-2 bg-brand-green-100 px-2 py-1 rounded-full inline-block">{product.category}</p>
+                  {product.benefits && product.benefits.length > 0 && (
+                    <p className="text-xs text-slate-600 mt-2 overflow-hidden" style={{ 
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      textOverflow: 'ellipsis'
+                    }}>{product.benefits.slice(0, 2).join(', ')}</p>
+                  )}
                 </div>
               ))}
             </div>
@@ -164,6 +189,11 @@ ${recommendation.reasoning}
       <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-brand-green-200 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
         <h4 className="font-semibold text-brand-green-800 text-sm md:text-base">¿Guardar o compartir?</h4>
         <div className="flex gap-3 md:gap-4">
+          {isExporting && (
+            <div className="text-sm text-brand-green-600 font-medium">
+              {isExporting === 'image' ? 'Generando imagen...' : 'Generando PDF...'}
+            </div>
+          )}
           <motion.button
             whileHover={{ scale: 1.05, boxShadow: '0 4px 24px rgba(30,41,59,0.18)' }}
             whileTap={{ scale: 0.97 }}
