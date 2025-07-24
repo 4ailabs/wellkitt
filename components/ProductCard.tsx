@@ -3,6 +3,8 @@ import React from 'react';
 import { Product } from '../types';
 import { categoryConfig } from './category-config';
 import { motion } from 'framer-motion';
+import { useCart } from '../contexts/CartContext';
+import { ShoppingCart } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -12,6 +14,12 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => {
   const config = categoryConfig[product.category];
   const Icon = config?.icon;
+  const { addItem } = useCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addItem(product);
+  };
 
   return (
     <motion.div
@@ -59,15 +67,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
 
       </div>
        <div className="p-4 md:p-6 bg-slate-50/70 border-t border-gray-100 mt-auto">
-        <motion.button
-            onClick={onShowDetails}
-            whileHover={{ scale: 1.03, backgroundColor: '#1e293b', color: '#fff', borderColor: '#1e293b' }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full bg-white text-slate-800 border border-slate-300 text-sm md:text-base font-medium py-2 md:py-2.5 px-3 md:px-4 rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200 tracking-wide"
-            style={{ fontFamily: 'Inter, sans-serif' }}
-          >
-          Ver Detalles
-        </motion.button>
+        <div className="flex gap-2">
+          <motion.button
+              onClick={onShowDetails}
+              whileHover={{ scale: 1.03, backgroundColor: '#1e293b', color: '#fff', borderColor: '#1e293b' }}
+              whileTap={{ scale: 0.98 }}
+              className="flex-1 bg-white text-slate-800 border border-slate-300 text-sm md:text-base font-medium py-2 md:py-2.5 px-3 md:px-4 rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200 tracking-wide"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+            Ver Detalles
+          </motion.button>
+          <motion.button
+              onClick={handleAddToCart}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-brand-green-600 text-white border border-brand-green-600 text-sm md:text-base font-medium py-2 md:py-2.5 px-3 md:px-4 rounded-lg shadow-sm hover:bg-brand-green-700 hover:border-brand-green-700 transition-all duration-200 tracking-wide flex items-center justify-center"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+            <ShoppingCart className="w-4 h-4" />
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );

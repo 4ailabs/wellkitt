@@ -10,6 +10,8 @@ import { getKitRecommendation } from './services/geminiService';
 import ProductCard from './components/ProductCard';
 import DetailModal from './components/DetailModal';
 import EndotelioTest from './components/EndotelioTest';
+import Cart from './components/Cart';
+import { CartProvider } from './contexts/CartContext';
 import { categoryConfig } from './components/category-config';
 import { Phone, MapPin, List, Heart } from 'lucide-react';
 
@@ -347,8 +349,18 @@ const App: React.FC = () => {
         allProducts={products}
         onClose={handleCloseDetails}
       />
+      
+      <Cart />
     </div>
   );
 };
 
-export default App;
+const AppWithCart: React.FC = () => {
+  return (
+    <CartProvider>
+      <App />
+    </CartProvider>
+  );
+};
+
+export default AppWithCart;

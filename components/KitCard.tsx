@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Kit, Product } from '../types';
-import { ShieldCheck, Soup, Moon, Zap, HeartPulse, Bone, Shield, Gauge } from 'lucide-react';
+import { ShieldCheck, Soup, Moon, Zap, HeartPulse, Bone, Shield, Gauge, ShoppingCart } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useCart } from '../contexts/CartContext';
 
 interface KitCardProps {
   kit: Kit;
@@ -37,6 +38,13 @@ const kitColors: { [key: string]: { bg: string; icon: string } } = {
 const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) => {
   const kitProducts = kit.productIds.map(id => allProducts.find(p => p.id === id)).filter(Boolean) as Product[];
   const color = kitColors[kit.id] || { bg: 'bg-white', icon: 'text-brand-green-600' };
+  const { addItem } = useCart();
+
+  const handleAddKitToCart = () => {
+    kitProducts.forEach(product => {
+      addItem(product);
+    });
+  };
 
   return (
     <motion.div
@@ -74,15 +82,26 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
         </div>
       </div>
        <div className="p-4 md:p-6 bg-slate-50 border-t border-gray-200">
-        <motion.button
-            onClick={onShowDetails}
-            whileHover={{ scale: 1.03, backgroundColor: '#1e293b', color: '#fff', borderColor: '#1e293b' }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full bg-white text-slate-800 border border-slate-300 text-sm md:text-base font-medium py-2 md:py-2.5 px-3 md:px-4 rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200 tracking-wide"
-            style={{ fontFamily: 'Inter, sans-serif' }}
-          >
-          Ver Kit Completo
-        </motion.button>
+        <div className="flex gap-2">
+          <motion.button
+              onClick={onShowDetails}
+              whileHover={{ scale: 1.03, backgroundColor: '#1e293b', color: '#fff', borderColor: '#1e293b' }}
+              whileTap={{ scale: 0.98 }}
+              className="flex-1 bg-white text-slate-800 border border-slate-300 text-sm md:text-base font-medium py-2 md:py-2.5 px-3 md:px-4 rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200 tracking-wide"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+            Ver Kit Completo
+          </motion.button>
+          <motion.button
+              onClick={handleAddKitToCart}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-brand-green-600 text-white border border-brand-green-600 text-sm md:text-base font-medium py-2 md:py-2.5 px-3 md:px-4 rounded-lg shadow-sm hover:bg-brand-green-700 hover:border-brand-green-700 transition-all duration-200 tracking-wide flex items-center justify-center"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+            <ShoppingCart className="w-4 h-4" />
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );
