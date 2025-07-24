@@ -13,7 +13,7 @@ import EndotelioTest from './components/EndotelioTest';
 import Cart from './components/Cart';
 import { CartProvider } from './contexts/CartContext';
 import { categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Shield, Activity, Brain, Moon } from 'lucide-react';
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState('');
@@ -223,6 +223,98 @@ const App: React.FC = () => {
                 >
                     Realizar Test de Endotelio
                 </button>
+            </div>
+        </section>
+
+        {/* Sueroterapia Section */}
+        <section className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 shadow-xl mb-12 md:mb-16 border border-blue-200">
+            <div className="text-center max-w-4xl mx-auto">
+                <div className="flex justify-center mb-3 md:mb-4">
+                    <Droplets className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Sueroterapia Premium
+                </h2>
+                <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-8 px-4 max-w-3xl mx-auto">
+                    Hidratación intravenosa personalizada con vitaminas, minerales y antioxidantes. 
+                    Recupera tu energía, mejora tu sistema inmune y optimiza tu bienestar general.
+                </p>
+                
+                {/* Beneficios Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-blue-200">
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Zap className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Energía Inmediata</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Recupera tu vitalidad y energía de forma rápida y efectiva</p>
+                    </div>
+                    
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-blue-200">
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Shield className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Sistema Inmune</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Fortalece tus defensas naturales con vitaminas C, D y zinc</p>
+                    </div>
+                    
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-blue-200">
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Activity className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Recuperación</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Acelera la recuperación post-ejercicio y reduce la fatiga</p>
+                    </div>
+                    
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-blue-200">
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Brain className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Claridad Mental</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Mejora la concentración y reduce el estrés mental</p>
+                    </div>
+                    
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-blue-200">
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Moon className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Calidad del Sueño</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Optimiza tu descanso y mejora la calidad del sueño</p>
+                    </div>
+                    
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-blue-200">
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Heart className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Bienestar General</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Mejora tu salud integral y calidad de vida</p>
+                    </div>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a 
+                        href="https://wa.me/+525579076626?text=Hola! Me interesa la sueroterapia premium. ¿Podrían darme más información sobre los tratamientos disponibles?"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto bg-blue-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 shadow-lg flex items-center justify-center gap-2"
+                    >
+                        <Phone className="w-5 h-5" />
+                        <span>Consultar Sueroterapia</span>
+                    </a>
+                    
+                    <a 
+                        href="https://sueroterapia-premiun.vercel.app"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto bg-white text-blue-600 font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 shadow-lg border-2 border-blue-600 flex items-center justify-center gap-2"
+                    >
+                        <span>Ver Más Información</span>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </section>
 

@@ -31,7 +31,7 @@
 Edita `config/analytics.ts`:
 ```typescript
 export const ANALYTICS_CONFIG = {
-  GA_MEASUREMENT_ID: 'G-TU-ID-REAL-AQUI', // Reemplaza con tu ID
+  GA_MEASUREMENT_ID: 'G-KQVFDWQ8VT', // Reemplaza con tu ID
   // ... resto de configuración
 };
 ```
