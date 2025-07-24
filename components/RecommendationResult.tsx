@@ -79,38 +79,38 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
   };
 
   return (
-    <div className="mt-8 animate-fade-in">
-      <div ref={recommendationRef} className="bg-gradient-to-br from-brand-green-50 to-emerald-100 border-2 border-brand-green-500 rounded-3xl p-8 shadow-2xl">
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 mb-6">
-            <div className="bg-white p-4 rounded-full shadow-lg">
-              <Sparkles className="w-10 h-10 text-brand-green-600"/>
+    <div className="mt-6 md:mt-8 animate-fade-in">
+      <div ref={recommendationRef} className="bg-gradient-to-br from-brand-green-50 to-emerald-100 border-2 border-brand-green-500 rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6 mb-4 md:mb-6">
+            <div className="bg-white p-3 md:p-4 rounded-full shadow-lg">
+              <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-brand-green-600"/>
             </div>
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-brand-green-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>Tu kit personalizado Wellkitt</h2>
-              <p className="text-brand-green-800 mt-1">Basado en tus objetivos, aquí tienes nuestra recomendación:</p>
+            <div className="text-center md:text-left">
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-brand-green-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>Tu kit personalizado Wellkitt</h2>
+              <p className="text-sm md:text-base text-brand-green-800 mt-1">Basado en tus objetivos, aquí tienes nuestra recomendación:</p>
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6">
-            <h3 className="text-xl font-bold text-slate-800 mb-2">{kitName}</h3>
-            {recommendation.custom_kit_description && <p className="text-slate-600 mb-4">{recommendation.custom_kit_description}</p>}
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6">
+            <h3 className="text-lg md:text-xl font-bold text-slate-800 mb-2">{kitName}</h3>
+            {recommendation.custom_kit_description && <p className="text-sm md:text-base text-slate-600 mb-3 md:mb-4">{recommendation.custom_kit_description}</p>}
             
-            <p className="text-slate-700 mb-6 border-l-4 border-brand-green-400 pl-4 italic">"{recommendation.reasoning}"</p>
+            <p className="text-sm md:text-base text-slate-700 mb-4 md:mb-6 border-l-4 border-brand-green-400 pl-3 md:pl-4 italic">"{recommendation.reasoning}"</p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {recommendedProducts.map(product => (
-                <div key={product.id} className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                  <p className="font-bold text-slate-800">{product.name}</p>
-                  <p className="text-sm text-slate-500">{product.brand}</p>
+                <div key={product.id} className="bg-white p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                  <p className="font-bold text-slate-800 text-sm md:text-base">{product.name}</p>
+                  <p className="text-xs md:text-sm text-slate-500">{product.brand}</p>
                   <p className="text-xs text-brand-green-700 mt-2 bg-brand-green-100 px-2 py-1 rounded-full inline-block">{product.category}</p>
                 </div>
               ))}
             </div>
             
-            <div className="mt-6 pt-4 border-t border-brand-green-200 text-center">
-                <p className="text-sm text-slate-600">¿Tienes dudas o quieres realizar tu pedido?</p>
-                <div className="inline-flex items-center justify-center gap-2 mt-2 font-semibold text-brand-green-800">
-                    <Phone className="w-5 h-5" />
+            <div className="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-brand-green-200 text-center">
+                <p className="text-xs md:text-sm text-slate-600">¿Tienes dudas o quieres realizar tu pedido?</p>
+                <div className="inline-flex items-center justify-center gap-2 mt-2 font-semibold text-brand-green-800 text-sm md:text-base">
+                    <Phone className="w-4 h-4 md:w-5 md:h-5" />
                     <span>WhatsApp: +52 55 7907 6626</span>
                 </div>
             </div>
@@ -118,21 +118,21 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
           </div>
       </div>
 
-      <div className="mt-6 pt-6 border-t border-brand-green-200 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <h4 className="font-semibold text-brand-green-800">¿Guardar o compartir?</h4>
-        <div className="flex gap-4">
+      <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-brand-green-200 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
+        <h4 className="font-semibold text-brand-green-800 text-sm md:text-base">¿Guardar o compartir?</h4>
+        <div className="flex gap-3 md:gap-4">
           <motion.button
             whileHover={{ scale: 1.05, boxShadow: '0 4px 24px rgba(30,41,59,0.18)' }}
             whileTap={{ scale: 0.97 }}
             onClick={() => handleExport('image')} 
             disabled={!!isExporting}
-            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 text-base font-bold py-2.5 px-5 rounded-xl border-2 border-slate-300 hover:bg-slate-100 transition-all duration-300 disabled:bg-slate-200 disabled:cursor-not-allowed tracking-wide"
+            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 text-sm md:text-base font-bold py-2 md:py-2.5 px-4 md:px-5 rounded-lg md:rounded-xl border-2 border-slate-300 hover:bg-slate-100 transition-all duration-300 disabled:bg-slate-200 disabled:cursor-not-allowed tracking-wide"
             style={{ fontFamily: 'Inter, sans-serif' }}
           >
             {isExporting === 'image' ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
             ) : (
-                <FileImage className="w-5 h-5" />
+                <FileImage className="w-4 h-4 md:w-5 md:h-5" />
             )}
             <span>{isExporting === 'image' ? 'Exportando...' : 'Imagen'}</span>
           </motion.button>
@@ -141,13 +141,13 @@ const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendat
             whileTap={{ scale: 0.97 }}
             onClick={() => handleExport('pdf')} 
             disabled={!!isExporting}
-            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 text-base font-bold py-2.5 px-5 rounded-xl border-2 border-slate-300 hover:bg-slate-100 transition-all duration-300 disabled:bg-slate-200 disabled:cursor-not-allowed tracking-wide"
+            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 text-sm md:text-base font-bold py-2 md:py-2.5 px-4 md:px-5 rounded-lg md:rounded-xl border-2 border-slate-300 hover:bg-slate-100 transition-all duration-300 disabled:bg-slate-200 disabled:cursor-not-allowed tracking-wide"
             style={{ fontFamily: 'Inter, sans-serif' }}
           >
             {isExporting === 'pdf' ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
             ) : (
-                <FileText className="w-5 h-5" />
+                <FileText className="w-4 h-4 md:w-5 md:h-5" />
             )}
             <span>{isExporting === 'pdf' ? 'Exportando...' : 'PDF'}</span>
           </motion.button>

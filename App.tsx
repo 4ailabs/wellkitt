@@ -9,8 +9,9 @@ import Spinner from './components/Spinner';
 import { getKitRecommendation } from './services/geminiService';
 import ProductCard from './components/ProductCard';
 import DetailModal from './components/DetailModal';
+import EndotelioTest from './components/EndotelioTest';
 import { categoryConfig } from './components/category-config';
-import { Phone, MapPin, List } from 'lucide-react';
+import { Phone, MapPin, List, Heart } from 'lucide-react';
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState('');
@@ -19,6 +20,11 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<Kit | Product | null>(null);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [showEndotelioTest, setShowEndotelioTest] = useState(false);
+
+  const handleBackToMain = () => {
+    setShowEndotelioTest(false);
+  };
 
   // Tipar como any para evitar errores de tipo
   const productosJson: any = productosJsonRaw;
@@ -110,60 +116,125 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
       <header className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-brand-green-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h1>
+        <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
+          <h1 className="text-2xl md:text-3xl font-bold text-brand-green-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h1>
           <p className="hidden md:block text-slate-600" style={{ fontFamily: 'Inter, sans-serif' }}>Tu Navegador de Salud Natural</p>
         </div>
       </header>
       
       <main className="container mx-auto px-4 py-8 md:py-12" style={{ fontFamily: 'Inter, sans-serif' }}>
-        {/* AI Recommender Section */}
-        <section className="bg-white rounded-3xl p-8 md:p-12 shadow-xl mb-16 border border-gray-100">
-            <div className="text-center max-w-3xl mx-auto">
-                 <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Encuentra tu Kit de Bienestar Ideal
-                </h2>
-                <p className="text-lg text-slate-600 mb-8">
-                    Nuestro sistema avanzado inteligente te creará un kit personalizado con los mejores productos naturales para ti.
-                </p>
-            </div>
-           
-            <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
-                <div className="relative">
-                    <textarea
-                        value={userInput}
-                        onChange={handleInputChange}
-                        placeholder="Ej: 'Quiero más energía durante el día y mejorar mi digestión...'"
-                        className="w-full h-32 p-4 pr-32 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-brand-green-200 focus:border-brand-green-500 transition-all duration-300 resize-none text-base"
-                        disabled={isLoading}
-                    />
-                    <button 
-                        type="submit"
-                        className="absolute top-1/2 right-4 -translate-y-1/2 bg-brand-green-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-brand-green-700 focus:outline-none focus:ring-4 focus:ring-brand-green-300 transition-all duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Creando...' : 'Crear mi Kit'}
-                    </button>
+        {showEndotelioTest ? (
+          <EndotelioTest 
+            allProducts={products} 
+            onShowDetails={handleShowDetails}
+            onBackToMain={handleBackToMain}
+          />
+        ) : (
+          <>
+                    {/* AI Recommender Section */}
+        <section className="bg-gradient-to-br from-white via-brand-green-50 to-white rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 shadow-2xl mb-12 md:mb-16 border border-brand-green-100 relative overflow-hidden">
+            {/* Background decoration - hidden on mobile */}
+            <div className="hidden md:block absolute top-0 right-0 w-32 h-32 bg-brand-green-200 rounded-full opacity-20 -translate-y-16 translate-x-16"></div>
+            <div className="hidden md:block absolute bottom-0 left-0 w-24 h-24 bg-brand-green-300 rounded-full opacity-30 translate-y-12 -translate-x-12"></div>
+            
+            <div className="text-center max-w-4xl mx-auto relative z-10">
+                <div className="mb-4 md:mb-6">
+                    <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-brand-green-100 rounded-full mb-3 md:mb-4">
+                        <svg className="w-6 h-6 md:w-8 md:h-8 text-brand-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-slate-900 mb-4 md:mb-6 px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                        Encuentra tu Kit de Bienestar Ideal
+                    </h2>
+                    <p className="text-base md:text-xl text-slate-600 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
+                        Nuestro sistema avanzado inteligente te creará un kit personalizado con los mejores productos naturales para ti.
+                    </p>
                 </div>
-                {error && <p className="text-red-600 text-center mt-4">{error}</p>}
-            </form>
+           
+                <form onSubmit={handleSubmit} className="max-w-3xl mx-auto px-2">
+                    <div className="space-y-4 md:space-y-6">
+                        <div className="relative group">
+                            <div className="absolute inset-0 bg-gradient-to-r from-brand-green-400 to-brand-green-600 rounded-xl md:rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+                            <div className="relative bg-white rounded-xl md:rounded-2xl shadow-xl border border-brand-green-200">
+                                <textarea
+                                    value={userInput}
+                                    onChange={handleInputChange}
+                                    placeholder="Ej: 'Quiero más energía durante el día y mejorar mi digestión...'"
+                                    className="w-full h-28 md:h-36 p-4 md:p-6 border-0 rounded-xl md:rounded-2xl resize-none text-base md:text-lg focus:outline-none focus:ring-0 bg-transparent"
+                                    disabled={isLoading}
+                                />
+                            </div>
+                        </div>
+                        
+                        <div className="flex justify-center">
+                            <button 
+                                type="submit"
+                                className="w-full sm:w-auto bg-gradient-to-r from-brand-green-600 to-brand-green-700 text-white font-bold py-3 md:py-4 px-8 md:px-12 rounded-xl md:rounded-2xl hover:from-brand-green-700 hover:to-brand-green-800 focus:outline-none focus:ring-4 focus:ring-brand-green-300 transition-all duration-300 disabled:from-slate-400 disabled:to-slate-500 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? (
+                                    <div className="flex items-center justify-center gap-2 md:gap-3">
+                                        <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        <span className="text-base md:text-lg">Creando tu Kit...</span>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center justify-center gap-2 md:gap-3">
+                                        <span className="text-base md:text-lg">Crear mi Kit</span>
+                                        <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </div>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    {error && (
+                        <div className="mt-4 md:mt-6 p-3 md:p-4 bg-red-50 border border-red-200 rounded-xl">
+                            <p className="text-red-600 text-center font-medium text-sm md:text-base">{error}</p>
+                        </div>
+                    )}
+                </form>
 
-            {isLoading && <Spinner />}
-            {recommendation && <RecommendationResult recommendation={recommendation} allProducts={products} />}
+                {isLoading && <Spinner />}
+                {recommendation && <RecommendationResult recommendation={recommendation} allProducts={products} />}
+            </div>
+        </section>
 
+        {/* Endotelio Test Section */}
+        <section className="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 shadow-xl mb-12 md:mb-16 border border-red-200">
+            <div className="text-center max-w-3xl mx-auto">
+                <div className="flex justify-center mb-3 md:mb-4">
+                    <Heart className="w-10 h-10 md:w-12 md:h-12 text-red-600" />
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Test de Salud Endotelial
+                </h2>
+                <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-8 px-4">
+                    Descubre el estado de tu endotelio con nuestro test científico de 20 preguntas. 
+                    Evalúa 6 áreas clave de tu salud y obtén recomendaciones personalizadas.
+                </p>
+                <button 
+                    onClick={() => setShowEndotelioTest(true)}
+                    className="w-full sm:w-auto bg-red-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 transition-all duration-300 shadow-lg"
+                >
+                    Realizar Test de Endotelio
+                </button>
+            </div>
         </section>
 
         {/* Pre-defined Kits Section */}
         <section>
-           <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+           <div className="text-center mb-8 md:mb-12 px-4">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                     O explora nuestros Kits Estratégicos
                 </h2>
-                <p className="text-md text-slate-600 max-w-xl mx-auto">
+                <p className="text-sm md:text-base text-slate-600 max-w-xl mx-auto">
                     Soluciones expertas diseñadas para los objetivos de salud más comunes.
                 </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 px-4">
                 {kits.map(kit => (
                     <KitCard 
                         key={kit.id} 
@@ -176,17 +247,17 @@ const App: React.FC = () => {
         </section>
 
         {/* All Products Section */}
-        <section className="mt-16" data-section="products">
-            <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        <section className="mt-12 md:mt-16" data-section="products">
+            <div className="text-center mb-8 md:mb-12 px-4">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                     Explora Todos Nuestros Productos
                 </h2>
-                <p className="text-md text-slate-600 max-w-2xl mx-auto">
+                <p className="text-sm md:text-base text-slate-600 max-w-2xl mx-auto">
                     Encuentra el suplemento individual perfecto para tus necesidades específicas de nuestra completa selección.
                 </p>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
+            <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12 px-4">
                 {categories.map(category => {
                     const isActive = activeCategory === category;
                     const config = categoryConfig[category];
@@ -196,21 +267,21 @@ const App: React.FC = () => {
                         <button
                             key={category}
                             onClick={() => handleCategoryChange(category)}
-                            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300 border-2 ${
+                            className={`flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-semibold rounded-full transition-all duration-300 border-2 ${
                                 isActive
                                     ? 'bg-slate-800 text-white border-slate-800 shadow-md'
                                     : 'bg-white text-slate-700 border-gray-200 hover:border-slate-300'
                             }`}
                         >
-                            {Icon && <Icon className={`w-5 h-5 ${isActive ? 'text-white' : config.colorClass}`} />}
-                            {category === 'All' && <List className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-700'}`} />}
+                            {Icon && <Icon className={`w-4 h-4 md:w-5 md:h-5 ${isActive ? 'text-white' : config.colorClass}`} />}
+                            {category === 'All' && <List className={`w-4 h-4 md:w-5 md:h-5 ${isActive ? 'text-white' : 'text-slate-700'}`} />}
                             <span>{category === 'All' ? 'Todos' : category}</span>
                         </button>
                     );
                 })}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" data-section="products-grid">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6 px-4" data-section="products-grid">
                 {filteredProducts.map(product => (
                     <ProductCard 
                         key={product.id} 
@@ -220,40 +291,41 @@ const App: React.FC = () => {
                 ))}
             </div>
         </section>
-
+          </>
+        )}
       </main>
 
-      <footer className="bg-slate-800 text-slate-300 mt-16 border-t-4 border-brand-green-700">
-        <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+      <footer className="bg-slate-800 text-slate-300 mt-12 md:mt-16 border-t-4 border-brand-green-700">
+        <div className="container mx-auto px-4 py-6 md:py-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center md:text-left">
                 <div>
-                    <h3 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h3>
-                    <p className="text-slate-400">Tu Navegador de Salud Natural.</p>
-                    <p className="text-slate-400 mt-4">&copy; {new Date().getFullYear()} Wellkitt. Todos los derechos reservados.</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-white mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h3>
+                    <p className="text-sm md:text-base text-slate-400">Tu Navegador de Salud Natural.</p>
+                    <p className="text-xs md:text-sm text-slate-400 mt-3 md:mt-4">&copy; {new Date().getFullYear()} Wellkitt. Todos los derechos reservados.</p>
                 </div>
                 <div>
-                    <h4 className="font-bold text-white uppercase tracking-wider mb-4">Contacto</h4>
-                    <ul className="space-y-3">
+                    <h4 className="font-bold text-white uppercase tracking-wider mb-3 md:mb-4 text-sm md:text-base">Contacto</h4>
+                    <ul className="space-y-2 md:space-y-3">
                         <li>
-                            <a href="https://wa.me/+525579076626" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center md:justify-start gap-3 hover:text-brand-green-400 transition-colors">
-                                <Phone className="w-5 h-5" />
+                            <a href="https://wa.me/+525579076626" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center md:justify-start gap-2 md:gap-3 hover:text-brand-green-400 transition-colors text-sm md:text-base">
+                                <Phone className="w-4 h-4 md:w-5 md:h-5" />
                                 <span>WhatsApp</span>
                             </a>
                         </li>
                         <li>
-                            <a href="tel:+525579076626" className="inline-flex items-center justify-center md:justify-start gap-3 hover:text-brand-green-400 transition-colors bg-brand-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-brand-green-700 transition-colors duration-200" style={{ fontFamily: 'Inter, sans-serif' }}>
-                                <Phone className="w-5 h-5" />
+                            <a href="tel:+525579076626" className="inline-flex items-center justify-center md:justify-start gap-2 md:gap-3 hover:text-brand-green-400 transition-colors bg-brand-green-600 text-white font-semibold py-2 px-3 md:px-4 rounded-lg shadow-md hover:bg-brand-green-700 transition-colors duration-200 text-sm md:text-base" style={{ fontFamily: 'Inter, sans-serif' }}>
+                                <Phone className="w-4 h-4 md:w-5 md:h-5" />
                                 <span>Llamar a un asesor</span>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div>
-                    <h4 className="font-bold text-white uppercase tracking-wider mb-4">Ubicación</h4>
-                    <ul className="space-y-3">
+                    <h4 className="font-bold text-white uppercase tracking-wider mb-3 md:mb-4 text-sm md:text-base">Ubicación</h4>
+                    <ul className="space-y-2 md:space-y-3">
                         <li>
-                            <a href="https://maps.google.com/?q=Acapulco%2036%20Roma%20Nte.,%20Cuauhtémoc,%2006700%20Ciudad%20de%20México,%20CDMX" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center md:justify-start gap-3 hover:text-brand-green-400 transition-colors">
-                                <MapPin className="w-5 h-5" />
+                            <a href="https://maps.google.com/?q=Acapulco%2036%20Roma%20Nte.,%20Cuauhtémoc,%2006700%20Ciudad%20de%20México,%20CDMX" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center md:justify-start gap-2 md:gap-3 hover:text-brand-green-400 transition-colors text-sm md:text-base">
+                                <MapPin className="w-4 h-4 md:w-5 md:h-5" />
                                 <span>Acapulco 36, Roma Nte., CDMX</span>
                             </a>
                         </li>
