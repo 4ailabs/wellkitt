@@ -10,10 +10,11 @@ import { getKitRecommendation } from './services/geminiService';
 import ProductCard from './components/ProductCard';
 import DetailModal from './components/DetailModal';
 import EndotelioTest from './components/EndotelioTest';
+import NutrigenomicaTest from './components/NutrigenomicaTest';
 import Cart from './components/Cart';
 import { CartProvider } from './contexts/CartContext';
 import { categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Shield, Activity, Brain, Moon, MessageCircle } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Shield, Activity, Brain, Moon, Dna } from 'lucide-react';
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState('');
@@ -23,9 +24,11 @@ const App: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<Kit | Product | null>(null);
   const [activeCategory, setActiveCategory] = useState('All');
   const [showEndotelioTest, setShowEndotelioTest] = useState(false);
+  const [showNutrigenomicaTest, setShowNutrigenomicaTest] = useState(false);
 
   const handleBackToMain = () => {
     setShowEndotelioTest(false);
+    setShowNutrigenomicaTest(false);
   };
 
   // Tipar como any para evitar errores de tipo
@@ -131,6 +134,12 @@ const App: React.FC = () => {
             onShowDetails={handleShowDetails}
             onBackToMain={handleBackToMain}
           />
+        ) : showNutrigenomicaTest ? (
+          <NutrigenomicaTest 
+            allProducts={products} 
+            onShowDetails={handleShowDetails}
+            onBackToMain={handleBackToMain}
+          />
         ) : (
           <>
                     {/* AI Recommender Section */}
@@ -222,6 +231,56 @@ const App: React.FC = () => {
                     className="w-full sm:w-auto bg-red-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 transition-all duration-300 shadow-lg"
                 >
                     Realizar Test de Endotelio
+                </button>
+            </div>
+        </section>
+
+        {/* Nutrigenómica Test Section */}
+        <section className="bg-gradient-to-br from-purple-50 to-indigo-100 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 shadow-xl mb-12 md:mb-16 border border-purple-200">
+            <div className="text-center max-w-3xl mx-auto">
+                <div className="flex justify-center mb-3 md:mb-4">
+                    <Dna className="w-10 h-10 md:w-12 md:h-12 text-purple-600" />
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Test de Nutrigenómica Wellvibe
+                </h2>
+                <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-8 px-4">
+                    Descubre cómo tus genes responden a los alimentos. Análisis personalizado de 20 preguntas 
+                    sobre 7 áreas genéticas clave para optimizar tu nutrición según tu perfil único.
+                </p>
+                
+                {/* Características del Test */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-purple-200">
+                        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Brain className="w-6 h-6 text-purple-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Genes Detox</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Evalúa tu capacidad genética de procesamiento de antioxidantes</p>
+                    </div>
+                    
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-purple-200">
+                        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Zap className="w-6 h-6 text-purple-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Metabolismo</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Descubre cómo tus genes manejan la energía y los nutrientes</p>
+                    </div>
+                    
+                    <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-purple-200">
+                        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Activity className="w-6 h-6 text-purple-600" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-2 text-sm md:text-base">Inflamación</h3>
+                        <p className="text-xs md:text-sm text-slate-600">Analiza tu respuesta genética antiinflamatoria</p>
+                    </div>
+                </div>
+
+                <button 
+                    onClick={() => setShowNutrigenomicaTest(true)}
+                    className="w-full sm:w-auto bg-purple-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-all duration-300 shadow-lg"
+                >
+                    Realizar Test de Nutrigenómica
                 </button>
             </div>
         </section>

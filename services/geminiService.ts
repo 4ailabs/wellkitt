@@ -73,7 +73,7 @@ export const getKitRecommendation = async (
       },
     });
 
-    const jsonText = response.text.trim();
+    const jsonText = response.text?.trim() || '';
     if (!jsonText) {
         console.error("Gemini API returned an empty response.");
         return null;

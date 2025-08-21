@@ -84,3 +84,43 @@ export interface EndotelioPregunta {
     texto: string;
   }>;
 }
+
+// Tipos para el Test de Nutrigenómica
+export interface NutrigenomicaRespuestas {
+  [key: string]: number; // ng1, ng2, ng3, etc.
+}
+
+export interface NutrigenomicaCategorias {
+  detoxificacion: number;        // Genes NRF2 - Antioxidantes y detoxificación
+  metabolismo: number;           // Genes AMPK/SIRT1 - Metabolismo energético
+  inflamacion: number;           // Respuesta antiinflamatoria
+  procesados: number;            // Sensibilidad a alimentos procesados
+  microbiota: number;            // Salud intestinal y fibra
+  sensibilidades: number;        // Intolerancias alimentarias
+  circadiano: number;            // Ritmos circadianos y horarios
+}
+
+export interface NutrigenomicaResultado {
+  puntuacionTotal: number;
+  categorias: NutrigenomicaCategorias;
+  perfil: 'OPTIMIZADOR' | 'EQUILIBRADO' | 'SENSIBLE' | 'REACTIVO';
+  areaOportunidad: string;
+  productos: Array<{
+    id: string;
+    nombre: string;
+    prioridad: number;
+  }>;
+  descuento: number;
+  mensaje: string;
+  recomendacionConsulta: boolean;
+}
+
+export interface NutrigenomicaPregunta {
+  id: string;
+  categoria: string;
+  pregunta: string;
+  opciones: Array<{
+    valor: number;
+    texto: string;
+  }>;
+}

@@ -57,9 +57,7 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
       <div className="p-3 md:p-6 flex-grow">
         <div className="flex items-start justify-between mb-2 md:mb-4">
             <div className={`p-1.5 md:p-3 bg-white rounded-full`}>
-                {kitIcons[kit.id]
-                  ? React.cloneElement(kitIcons[kit.id] as React.ReactElement, { className: `w-5 h-5 md:w-8 md:h-8 ${color.icon}` })
-                  : <div className="w-5 h-5 md:w-8 md:h-8"></div>}
+                {kitIcons[kit.id] || <div className="w-5 h-5 md:w-8 md:h-8"></div>}
             </div>
             <div className="bg-brand-green-600 text-white text-xs font-bold px-2 md:px-3 py-1 rounded-full">
                 {kit.discount}% OFF
