@@ -187,12 +187,9 @@ const App: React.FC = () => {
                         <span className="text-brand-green-600">Wellkitt:</span> Tu Salud,<br className="hidden sm:block" /> 
                         <span className="bg-gradient-to-r from-brand-green-600 to-brand-green-700 bg-clip-text text-transparent">Ciencia Personalizada</span>
                     </h1>
-                    <p className="text-lg md:text-xl text-slate-600 mb-8 md:mb-10 px-4 max-w-4xl mx-auto leading-relaxed">
-                        <span className="font-semibold text-slate-700">Revoluciona tu bienestar</span> con nuestros algoritmos especializados de última generación. 
-                        Obtén <span className="text-brand-green-600 font-medium">recomendaciones precisas</span>, 
-                        realiza <span className="text-purple-600 font-medium">tests genéticos avanzados</span>, 
-                        y accede a <span className="text-blue-600 font-medium">sueroterapia premium</span> 
-                        — todo diseñado específicamente para tu perfil único de salud.
+                    <p className="text-lg md:text-xl text-slate-600 mb-8 md:mb-10 px-4 max-w-3xl mx-auto leading-relaxed">
+                        <span className="font-semibold text-slate-700">Revoluciona tu bienestar</span> con algoritmos especializados. 
+                        Tests genéticos, sueroterapia premium y recomendaciones personalizadas para tu perfil único.
                     </p>
                     
                     {/* Badges de características principales */}
