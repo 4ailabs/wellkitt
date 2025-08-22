@@ -168,13 +168,33 @@ const App: React.FC = () => {
                     <div className="flex justify-center mb-3 md:mb-4">
                         <Heart className="w-10 h-10 md:w-12 md:h-12 text-brand-green-600" />
                     </div>
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-3 md:mb-4 px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                        Bienvenido a Wellkitt
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 md:mb-6 px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                        <span className="text-brand-green-600">Wellkitt:</span> Tu Salud,<br className="hidden sm:block" /> 
+                        <span className="bg-gradient-to-r from-brand-green-600 to-brand-green-700 bg-clip-text text-transparent">Ciencia Personalizada</span>
                     </h1>
-                    <p className="text-lg md:text-xl text-slate-600 mb-6 md:mb-8 px-4 max-w-3xl mx-auto">
-                        Tu navegador personal de salud natural. Descubre suplementos, kits y tratamientos 
-                        personalizados para optimizar tu bienestar integral.
+                    <p className="text-lg md:text-xl text-slate-600 mb-8 md:mb-10 px-4 max-w-4xl mx-auto leading-relaxed">
+                        <span className="font-semibold text-slate-700">Revoluciona tu bienestar</span> con nuestros algoritmos especializados de última generación. 
+                        Obtén <span className="text-brand-green-600 font-medium">recomendaciones precisas</span>, 
+                        realiza <span className="text-purple-600 font-medium">tests genéticos avanzados</span>, 
+                        y accede a <span className="text-blue-600 font-medium">sueroterapia premium</span> 
+                        — todo diseñado específicamente para tu perfil único de salud.
                     </p>
+                    
+                    {/* Badges de características principales */}
+                    <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-10">
+                        <span className="bg-white/80 backdrop-blur-sm text-brand-green-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-brand-green-200 shadow-sm">
+                            🧬 Tests Genéticos
+                        </span>
+                        <span className="bg-white/80 backdrop-blur-sm text-blue-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-blue-200 shadow-sm">
+                            💧 Sueroterapia IV
+                        </span>
+                        <span className="bg-white/80 backdrop-blur-sm text-purple-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-purple-200 shadow-sm">
+                            🔬 Análisis Especializado
+                        </span>
+                        <span className="bg-white/80 backdrop-blur-sm text-slate-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-slate-200 shadow-sm">
+                            📦 Kits Expertos
+                        </span>
+                    </div>
                     
                     {/* Formulario de IA */}
                     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
@@ -186,13 +206,13 @@ const App: React.FC = () => {
                                 className="flex-1 p-3 md:p-4 border-2 border-gray-300 rounded-xl md:rounded-2xl focus:border-brand-green-500 focus:outline-none resize-none text-sm md:text-base"
                                 rows={3}
                             />
-                            <button
-                                type="submit"
-                                disabled={isLoading}
-                                className="bg-brand-green-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:bg-brand-green-700 focus:outline-none focus:ring-4 focus:ring-brand-green-300 transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isLoading ? 'Analizando...' : 'Obtener Recomendación IA'}
-                            </button>
+                                                    <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="bg-brand-green-600 text-white font-semibold py-2 md:py-3 px-4 md:px-6 rounded-lg md:rounded-xl hover:bg-brand-green-700 focus:outline-none focus:ring-4 focus:ring-brand-green-300 transition-all duration-300 shadow-md disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
+                        >
+                            {isLoading ? 'Analizando...' : 'Obtener Recomendación'}
+                        </button>
                         </div>
                         
                         {error && (
