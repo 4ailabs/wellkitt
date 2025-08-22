@@ -13,7 +13,7 @@ import EndotelioTest from './components/EndotelioTest';
 import NutrigenomicaTest from './components/NutrigenomicaTest';
 import Cart from './components/Cart';
 import { CartProvider } from './contexts/CartContext';
-import { categoryConfig } from './components/category-config';
+import { categoryConfig, mainCategories, getSubcategories } from './components/category-config';
 import { Phone, MapPin, List, Heart, Droplets, Zap, Shield, Activity, Brain, Moon, Dna } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -112,11 +112,31 @@ const App: React.FC = () => {
     }, 200);
   };
 
+  const handleSubcategoryChange = (subcategory: string) => {
+    setActiveCategory(subcategory);
+    // Scroll automático a la grilla de productos en móviles
+    setTimeout(() => {
+      const productsGrid = document.querySelector('[data-section="products-grid"]');
+      if (productsGrid) {
+        productsGrid.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }
+    }, 200);
+  };
+
   const categories = ['All', ...Object.keys(categoryConfig)];
   
-  const filteredProducts = activeCategory === 'All'
-    ? products
+  // Filtrado inteligente de productos
+  const filteredProducts = activeCategory === 'All' 
+    ? products 
     : products.filter(p => p.category === activeCategory);
+
+  // Obtener subcategorías de una categoría principal
+  const getSubcategoriesForMainCategory = (mainCategory: string): string[] => {
+    return getSubcategories(mainCategory);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
@@ -410,28 +430,50 @@ const App: React.FC = () => {
                 </p>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12 px-4">
-                {categories.map(category => {
-                    const isActive = activeCategory === category;
-                    const config = categoryConfig[category];
-                    const Icon = config?.icon;
-                    
-                    return (
-                        <button
-                            key={category}
-                            onClick={() => handleCategoryChange(category)}
-                            className={`flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-semibold rounded-full transition-all duration-300 border-2 ${
-                                isActive
-                                    ? 'bg-slate-800 text-white border-slate-800 shadow-md'
-                                    : 'bg-white text-slate-700 border-gray-200 hover:border-slate-300'
-                            }`}
-                        >
-                            {Icon && <Icon className={`w-4 h-4 md:w-5 md:h-5 ${isActive ? 'text-white' : config.colorClass}`} />}
-                            {category === 'All' && <List className={`w-4 h-4 md:w-5 md:h-5 ${isActive ? 'text-white' : 'text-slate-700'}`} />}
-                            <span>{category === 'All' ? 'Todos' : category}</span>
-                        </button>
-                    );
-                })}
+            {/* Categorías Principales - Navegación por Pestañas */}
+            <div className="mb-8 md:mb-12 px-4">
+                <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6">
+                    {['All', ...mainCategories.map(cat => cat.name)].map(category => {
+                        const isActive = activeCategory === category;
+                        const mainCat = mainCategories.find(cat => cat.name === category);
+                        const Icon = category === 'All' ? List : mainCat?.icon;
+                        
+                        return (
+                            <button
+                                key={category}
+                                onClick={() => handleCategoryChange(category)}
+                                className={`flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 border-2 ${
+                                    isActive
+                                        ? 'bg-slate-800 text-white border-slate-800 shadow-md'
+                                        : 'bg-white text-slate-700 border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                                }`}
+                            >
+                                {Icon && <Icon className="w-4 h-4 md:w-5 md:h-5" />}
+                                <span>{category === 'All' ? 'Todos' : category}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+
+                {/* Subcategorías Específicas - Solo se muestran cuando se selecciona una categoría principal */}
+                {activeCategory !== 'All' && mainCategories.some(cat => cat.name === activeCategory) && (
+                    <div className="bg-gray-50 rounded-xl p-4 md:p-6 border border-gray-200">
+                        <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 text-center">
+                            Filtros Específicos de {activeCategory}
+                        </h3>
+                        <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+                            {getSubcategoriesForMainCategory(activeCategory).map(subcategory => (
+                                <button
+                                    key={subcategory}
+                                    onClick={() => handleSubcategoryChange(subcategory)}
+                                    className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium rounded-full bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all duration-200"
+                                >
+                                    {subcategory}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 px-4" data-section="products-grid">
