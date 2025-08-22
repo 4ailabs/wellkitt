@@ -153,37 +153,37 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
 
   if (resultado) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 py-8">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 py-4 sm:py-8">
+        <div className="container mx-auto px-3 sm:px-4 max-w-6xl">
           <button
             onClick={onBackToMain}
-            className="mb-6 flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors"
+            className="mb-4 sm:mb-6 flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors text-sm sm:text-base"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             Volver al inicio
           </button>
 
           {/* Resultado Principal */}
-          <div className={`bg-gradient-to-br ${getPerfilColor(resultado.perfil)} rounded-3xl p-8 shadow-xl mb-8 border`}>
-            <div className="text-center mb-6">
-              <div className="flex justify-center mb-4">
+          <div className={`bg-gradient-to-br ${getPerfilColor(resultado.perfil)} rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl mb-6 sm:mb-8 border`}>
+            <div className="text-center mb-4 sm:mb-6">
+              <div className="flex justify-center mb-3 sm:mb-4">
                 {getPerfilIcon(resultado.perfil)}
               </div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">
                 Perfil Nutrigenómico: {resultado.perfil}
               </h2>
-              <p className="text-lg text-gray-700 mb-4">{resultado.mensaje}</p>
-              <div className="text-4xl font-bold text-gray-800 mb-2">{resultado.puntuacionTotal}/100</div>
-              <div className="text-sm text-gray-600">Puntuación General de Compatibilidad Genético-Nutricional</div>
+              <p className="text-base sm:text-lg text-gray-700 mb-3 sm:mb-4">{resultado.mensaje}</p>
+              <div className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">{resultado.puntuacionTotal}/100</div>
+              <div className="text-xs sm:text-sm text-gray-600">Puntuación General de Compatibilidad Genético-Nutricional</div>
             </div>
           </div>
 
           {/* Nutrientes Recomendados */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg mb-8">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">
               Nutrientes que tu Cuerpo Necesita
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {Object.entries(resultado.categorias).map(([categoria, puntuacion]) => {
                 const Icon = getCategoryIcon(categoria);
                 const colorClass = getCategoryColor(categoria);
@@ -193,7 +193,7 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
                 return (
                   <div
                     key={categoria}
-                    className={`p-6 rounded-xl border-2 ${isAreaOportunidad ? 'ring-2 ring-purple-400' : ''} ${colorClass.includes('green') ? 'bg-green-50 border-green-200' : 
+                    className={`p-4 sm:p-6 rounded-xl border-2 ${isAreaOportunidad ? 'ring-2 ring-purple-400' : ''} ${colorClass.includes('green') ? 'bg-green-50 border-green-200' : 
                       colorClass.includes('yellow') ? 'bg-yellow-50 border-yellow-200' :
                       colorClass.includes('red') ? 'bg-red-50 border-red-200' :
                       colorClass.includes('purple') ? 'bg-purple-50 border-purple-200' :
@@ -201,18 +201,18 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
                       colorClass.includes('orange') ? 'bg-orange-50 border-orange-200' :
                       'bg-indigo-50 border-indigo-200'}`}
                   >
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${colorClass}`}>
-                        <Icon className="w-5 h-5" />
+                    <div className="flex items-center gap-2 sm:gap-3 mb-3">
+                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${colorClass}`}>
+                        <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                       </div>
-                      <div>
-                        <h4 className="font-bold text-gray-800">{nutrienteInfo.nombre}</h4>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-gray-800 text-sm sm:text-base">{nutrienteInfo.nombre}</h4>
                         <p className="text-xs text-gray-600">{nutrienteInfo.fuente}</p>
                         {isAreaOportunidad && <span className="text-xs text-purple-600 font-medium">⭐ Mayor Necesidad</span>}
                       </div>
                     </div>
                     <div className="mb-2">
-                      <div className="flex justify-between text-sm text-gray-600 mb-1">
+                      <div className="flex justify-between text-xs sm:text-sm text-gray-600 mb-1">
                         <span>Necesidad</span>
                         <span>{puntuacion < 60 ? 'Alta' : puntuacion < 80 ? 'Media' : 'Baja'}</span>
                       </div>
@@ -232,16 +232,16 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
           </div>
 
           {/* Productos Recomendados */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg mb-8">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">
               Productos Personalizados para tu Perfil Genético
             </h3>
-            <p className="text-center text-gray-600 mb-8">
+            <p className="text-center text-gray-600 mb-6 sm:mb-8 text-sm sm:text-base">
               Basado en tu análisis nutrigenómico, estos productos están especialmente seleccionados 
               para optimizar la comunicación entre tus genes y nutrientes.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
               {resultado.productos.map((productoRecomendado, index) => {
                 const producto = allProducts.find(p => p.id === productoRecomendado.id);
                 if (!producto) return null;
@@ -249,24 +249,24 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
                 return (
                   <div
                     key={producto.id}
-                    className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 border border-purple-200 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-4 sm:p-6 border border-purple-200 hover:shadow-lg transition-all duration-300 cursor-pointer"
                     onClick={() => onShowDetails(producto)}
                   >
                     <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-bold text-gray-800 mb-1">{producto.name}</h4>
-                        <p className="text-sm text-purple-600 font-medium">{producto.brand}</p>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-gray-800 mb-1 text-sm sm:text-base">{producto.name}</h4>
+                        <p className="text-xs sm:text-sm text-purple-600 font-medium">{producto.brand}</p>
                       </div>
-                      <div className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                      <div className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full ml-2">
                         #{index + 1}
                       </div>
                     </div>
-                    <p className="text-sm text-gray-600 mb-3">
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3">
                       {producto.benefits.slice(0, 2).join(', ')}
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-500">{producto.category}</span>
-                      <button className="text-sm text-purple-600 hover:text-purple-700 font-medium">
+                      <button className="text-xs sm:text-sm text-purple-600 hover:text-purple-700 font-medium">
                         Ver detalles →
                       </button>
                     </div>
@@ -279,10 +279,10 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
 
           {/* Recomendación de Consulta */}
           {resultado.recomendacionConsulta && (
-            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-6 text-center">
-              <Dna className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-              <h4 className="text-lg font-bold text-purple-800 mb-2">Consulta Nutrigenómica Personalizada</h4>
-              <p className="text-purple-700 mb-4">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-4 sm:p-6 text-center">
+              <Dna className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mx-auto mb-3" />
+              <h4 className="text-base sm:text-lg font-bold text-purple-800 mb-2">Consulta Nutrigenómica Personalizada</h4>
+              <p className="text-purple-700 mb-4 text-sm sm:text-base">
                 Optimiza aún más tu alimentación con una consulta especializada. Nuestros expertos te ayudarán 
                 a crear un plan nutricional específico según tu perfil genético y necesidades individuales.
               </p>
@@ -290,10 +290,11 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
                 href="https://wa.me/+525579076626?text=Hola! Realicé el test de nutrigenómica en Wellkitt y me gustaría una consulta personalizada para optimizar mi alimentación según mi perfil genético."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium inline-flex items-center gap-2"
+                className="bg-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium inline-flex items-center gap-2 text-sm sm:text-base"
               >
-                <Dna className="w-5 h-5" />
-                Solicitar Consulta Nutrigenómica
+                <Dna className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">Solicitar Consulta Nutrigenómica</span>
+                <span className="sm:hidden">Solicitar Consulta</span>
               </a>
             </div>
           )}
@@ -304,81 +305,81 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
 
   // Test en progreso
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 py-8">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 py-4 sm:py-8">
+      <div className="container mx-auto px-3 sm:px-4 max-w-4xl">
         <button
           onClick={onBackToMain}
-          className="mb-6 flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors"
+          className="mb-4 sm:mb-6 flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors text-sm sm:text-base"
         >
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           Volver al inicio
         </button>
 
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <Dna className="w-12 h-12 text-purple-600" />
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="flex justify-center mb-3 sm:mb-4">
+            <Dna className="w-10 h-10 sm:w-12 sm:h-12 text-purple-600" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
             Test de Nutrigenómica Wellvibe
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2">
             Descubre cómo tus genes responden a los alimentos y optimiza tu nutrición personalizada
           </p>
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex justify-between text-xs sm:text-sm text-gray-600 mb-2">
             <span>Pregunta {currentStep + 1} de {totalSteps}</span>
             <span>{Math.round(progress)}% completado</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+          <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3">
             <div
-              className="bg-gradient-to-r from-purple-600 to-indigo-600 h-3 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 h-2 sm:h-3 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
         </div>
 
         {/* Question Card */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg mb-8">
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getCategoryColor(currentQuestion.categoria)}`}>
-                {React.createElement(getCategoryIcon(currentQuestion.categoria), { className: "w-5 h-5" })}
+        <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg mb-6 sm:mb-8">
+          <div className="mb-4 sm:mb-6">
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${getCategoryColor(currentQuestion.categoria)}`}>
+                {React.createElement(getCategoryIcon(currentQuestion.categoria), { className: "w-4 h-4 sm:w-5 sm:h-5" })}
               </div>
-              <span className="text-sm font-medium text-gray-600 capitalize">
+              <span className="text-xs sm:text-sm font-medium text-gray-600 capitalize">
                 {currentQuestion.categoria.replace(/([A-Z])/g, ' $1')}
               </span>
             </div>
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
               {currentQuestion.pregunta}
             </h2>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {currentQuestion.opciones.map((opcion) => (
               <button
                 key={opcion.valor}
                 onClick={() => handleRespuesta(currentQuestion.id, opcion.valor)}
-                className={`w-full p-4 text-left rounded-xl border-2 transition-all duration-200 ${
+                className={`w-full p-3 sm:p-4 text-left rounded-xl border-2 transition-all duration-200 ${
                   respuestas[currentQuestion.id] === opcion.valor
                     ? 'border-purple-500 bg-purple-50 text-purple-700'
                     : 'border-gray-200 hover:border-purple-300 hover:bg-purple-25'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center ${
                     respuestas[currentQuestion.id] === opcion.valor
                       ? 'border-purple-500 bg-purple-500'
                       : 'border-gray-300'
                   }`}>
                     {respuestas[currentQuestion.id] === opcion.valor && (
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                     )}
                   </div>
-                  <span className="font-medium">{opcion.texto}</span>
+                  <span className="font-medium text-sm sm:text-base">{opcion.texto}</span>
                 </div>
               </button>
             ))}
@@ -386,13 +387,13 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-between">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between">
           <button
             onClick={handlePrevious}
             disabled={currentStep === 0}
-            className="flex items-center gap-2 px-6 py-3 text-gray-600 border border-gray-300 rounded-xl hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-gray-600 border border-gray-300 rounded-xl hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base order-2 sm:order-1"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             Anterior
           </button>
 
@@ -400,19 +401,21 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
             <button
               onClick={handleSubmit}
               disabled={!respuestas[currentQuestion.id]}
-              className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center justify-center gap-2 px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm sm:text-base order-1 sm:order-2"
             >
-              <CheckCircle className="w-5 h-5" />
-              Analizar mi Perfil
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Analizar mi Perfil</span>
+              <span className="sm:hidden">Analizar Perfil</span>
             </button>
           ) : (
             <button
               onClick={handleNext}
               disabled={!respuestas[currentQuestion.id]}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm sm:text-base order-1 sm:order-2"
             >
-              Siguiente
-              <ArrowRight className="w-5 h-5" />
+              <span className="hidden sm:inline">Siguiente</span>
+              <span className="sm:hidden">Siguiente</span>
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           )}
         </div>
