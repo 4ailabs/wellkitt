@@ -15,6 +15,8 @@ import Cart from './components/Cart';
 import { CartProvider } from './contexts/CartContext';
 import { categoryConfig, mainCategories, getSubcategories } from './components/category-config';
 import { Phone, MapPin, List, Heart, Droplets, Zap, Shield, Activity, Brain, Moon, Dna } from 'lucide-react';
+import SplashScreen from './components/SplashScreen';
+import useMobileDetect from './hooks/useMobileDetect';
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState('');
@@ -25,10 +27,18 @@ const App: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [showEndotelioTest, setShowEndotelioTest] = useState(false);
   const [showNutrigenomicaTest, setShowNutrigenomicaTest] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+  
+  // Detectar dispositivo móvil
+  const { isMobile } = useMobileDetect();
 
   const handleBackToMain = () => {
     setShowEndotelioTest(false);
     setShowNutrigenomicaTest(false);
+  };
+
+  const handleSplashFinish = () => {
+    setShowSplash(false);
   };
 
   // Tipar como any para evitar errores de tipo
@@ -137,6 +147,11 @@ const App: React.FC = () => {
   const getSubcategoriesForMainCategory = (mainCategory: string): string[] => {
     return getSubcategories(mainCategory);
   };
+
+  // Mostrar splash screen solo en dispositivos móviles
+  if (isMobile && showSplash) {
+    return <SplashScreen onFinish={handleSplashFinish} />;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
