@@ -182,17 +182,21 @@ const App: React.FC = () => {
                     
                     {/* Badges de características principales */}
                     <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-10">
-                        <span className="bg-white/80 backdrop-blur-sm text-brand-green-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-brand-green-200 shadow-sm">
-                            🧬 Tests Genéticos
+                        <span className="bg-white/80 backdrop-blur-sm text-brand-green-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-brand-green-200 shadow-sm flex items-center gap-1">
+                            <Dna className="w-3 h-3 md:w-4 md:h-4" />
+                            Tests Genéticos
                         </span>
-                        <span className="bg-white/80 backdrop-blur-sm text-blue-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-blue-200 shadow-sm">
-                            💧 Sueroterapia IV
+                        <span className="bg-white/80 backdrop-blur-sm text-blue-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-blue-200 shadow-sm flex items-center gap-1">
+                            <Droplets className="w-3 h-3 md:w-4 md:h-4" />
+                            Sueroterapia IV
                         </span>
-                        <span className="bg-white/80 backdrop-blur-sm text-purple-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-purple-200 shadow-sm">
-                            🔬 Análisis Especializado
+                        <span className="bg-white/80 backdrop-blur-sm text-purple-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-purple-200 shadow-sm flex items-center gap-1">
+                            <Activity className="w-3 h-3 md:w-4 md:h-4" />
+                            Análisis Especializado
                         </span>
-                        <span className="bg-white/80 backdrop-blur-sm text-slate-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-slate-200 shadow-sm">
-                            📦 Kits Expertos
+                        <span className="bg-white/80 backdrop-blur-sm text-slate-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-semibold border border-slate-200 shadow-sm flex items-center gap-1">
+                            <Heart className="w-3 h-3 md:w-4 md:h-4" />
+                            Kits Expertos
                         </span>
                     </div>
                     
@@ -290,13 +294,19 @@ const App: React.FC = () => {
             </div>
 
             {/* Nutrigenómica Test Section */}
-            <section className="bg-gradient-to-br from-purple-50 to-indigo-100 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 shadow-xl mb-12 md:mb-16 border border-purple-200">
+            <section className="bg-gradient-to-br from-purple-50 to-indigo-100 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 shadow-xl mb-12 md:mb-16 border border-purple-200 animate-pulse hover:animate-none transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
                 <div className="text-center max-w-3xl mx-auto">
                     <div className="flex justify-center mb-3 md:mb-4">
-                        <Dna className="w-10 h-10 md:w-12 md:h-12 text-purple-600" />
+                        <div className="relative">
+                            <Dna className="w-10 h-10 md:w-12 md:h-12 text-purple-600 animate-pulse" />
+                            <div className="absolute inset-0 bg-purple-400/30 rounded-full animate-ping"></div>
+                        </div>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                        Test de Nutrigenómica Wellvibe
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 px-2 relative" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                        <span className="relative z-10">
+                            Test de Nutrigenómica Wellvibe
+                        </span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-indigo-400/20 rounded-lg animate-pulse"></div>
                     </h2>
                     <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-8 px-4">
                         Descubre cómo tus genes responden a los alimentos. Análisis personalizado de 20 preguntas 
@@ -332,9 +342,15 @@ const App: React.FC = () => {
 
                     <button 
                         onClick={() => setShowNutrigenomicaTest(true)}
-                        className="w-full sm:w-auto bg-purple-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-all duration-300 shadow-lg"
+                        className="w-full sm:w-auto bg-purple-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-all duration-300 shadow-lg animate-bounce hover:animate-none transform hover:scale-105 hover:shadow-2xl"
                     >
-                        Realizar Test de Nutrigenómica
+                        <span className="flex items-center gap-2">
+                            <span className="relative">
+                                <Dna className="w-5 h-5 md:w-6 md:h-6 animate-spin" />
+                                <div className="absolute inset-0 bg-purple-400 rounded-full animate-ping opacity-75"></div>
+                            </span>
+                            Realizar Test de Nutrigenómica
+                        </span>
                     </button>
                 </div>
             </section>
