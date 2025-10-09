@@ -28,9 +28,14 @@ const App: React.FC = () => {
   const [showEndotelioTest, setShowEndotelioTest] = useState(false);
   const [showNutrigenomicaTest, setShowNutrigenomicaTest] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [showAllKits, setShowAllKits] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   
   // Detectar dispositivo móvil
   const { isMobile } = useMobileDetect();
+  
+  // Productos por página según dispositivo
+  const productsPerPage = isMobile ? 6 : 12; // Móvil: 6 productos (3x2), Desktop: 12 productos (3x4)
 
   const handleBackToMain = () => {
     setShowEndotelioTest(false);
@@ -109,6 +114,7 @@ const App: React.FC = () => {
 
   const handleCategoryChange = (category: string) => {
     setActiveCategory(category);
+    setCurrentPage(1); // Resetear a la primera página
     
     // Scroll automático a la grilla de productos en móviles
     setTimeout(() => {
@@ -124,6 +130,7 @@ const App: React.FC = () => {
 
   const handleSubcategoryChange = (subcategory: string) => {
     setActiveCategory(subcategory);
+    setCurrentPage(1); // Resetear a la primera página
     // Scroll automático a la grilla de productos en móviles
     setTimeout(() => {
       const productsGrid = document.querySelector('[data-section="products-grid"]');
@@ -136,12 +143,30 @@ const App: React.FC = () => {
     }, 200);
   };
 
-  const categories = ['All', ...Object.keys(categoryConfig)];
-  
   // Filtrado inteligente de productos
   const filteredProducts = activeCategory === 'All' 
     ? products 
     : products.filter(p => p.category === activeCategory);
+
+  // Paginación de productos
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    // Scroll al inicio de los productos
+    setTimeout(() => {
+      const productsGrid = document.querySelector('[data-section="products-grid"]');
+      if (productsGrid) {
+        productsGrid.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+    }, 100);
+  };
 
   // Obtener subcategorías de una categoría principal
   const getSubcategoriesForMainCategory = (mainCategory: string): string[] => {
@@ -500,8 +525,8 @@ const App: React.FC = () => {
             </div>
 
             {/* Pre-defined Kits Section */}
-            <section>
-               <div className="text-center mb-8 md:mb-12 px-4">
+            <section className="px-4">
+               <div className="text-center mb-8 md:mb-12">
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                         O explora nuestros Kits Estratégicos
                     </h2>
@@ -509,8 +534,17 @@ const App: React.FC = () => {
                         Soluciones expertas diseñadas para los objetivos de salud más comunes.
                     </p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 px-4">
-                    {kits.map(kit => (
+                
+                {/* Grid centrado con justificación mejorada */}
+                <div className={`
+                    grid gap-4 md:gap-6 
+                    ${showAllKits 
+                        ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+                        : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+                    }
+                    ${!showAllKits ? 'max-w-6xl mx-auto' : ''}
+                `}>
+                    {(showAllKits ? kits : kits.slice(0, 3)).map(kit => (
                         <KitCard 
                             key={kit.id} 
                             kit={kit} 
@@ -519,6 +553,31 @@ const App: React.FC = () => {
                         />
                     ))}
                 </div>
+                
+                {/* Botón Ver Más/Menos Kits */}
+                {kits.length > 3 && (
+                    <div className="flex justify-center mt-8 md:mt-10">
+                        <button
+                            onClick={() => setShowAllKits(!showAllKits)}
+                            className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-brand-green-600 to-brand-green-700 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:from-brand-green-700 hover:to-brand-green-800 focus:outline-none focus:ring-4 focus:ring-brand-green-300 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
+                        >
+                            <span className="relative z-10">
+                                {showAllKits ? 'Ver Menos Kits' : `Ver Todos los Kits (${kits.length})`}
+                            </span>
+                            <svg 
+                                className={`w-5 h-5 transition-transform duration-300 ${showAllKits ? 'rotate-180' : ''}`} 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                            
+                            {/* Efecto de brillo al hacer hover */}
+                            <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        </button>
+                    </div>
+                )}
             </section>
 
             {/* Separador Visual entre Kits y Productos */}
@@ -598,8 +657,8 @@ const App: React.FC = () => {
                     )}
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 px-4" data-section="products-grid">
-                    {filteredProducts.map(product => (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 px-4" data-section="products-grid">
+                    {currentProducts.map(product => (
                         <ProductCard 
                             key={product.id} 
                             product={product} 
@@ -607,6 +666,87 @@ const App: React.FC = () => {
                         />
                     ))}
                 </div>
+
+                {/* Información de productos y paginación */}
+                {filteredProducts.length > 0 && (
+                    <div className="mt-6 md:mt-12 px-4">
+                        {/* Contador de productos */}
+                        <div className="text-center mb-4 md:mb-6">
+                            <p className="text-xs md:text-base text-slate-600">
+                                Mostrando <span className="font-bold text-slate-800">{indexOfFirstProduct + 1}</span>-<span className="font-bold text-slate-800">{Math.min(indexOfLastProduct, filteredProducts.length)}</span> de <span className="font-bold text-slate-800">{filteredProducts.length}</span>
+                            </p>
+                        </div>
+
+                        {/* Controles de paginación */}
+                        {totalPages > 1 && (
+                            <div className="flex flex-wrap justify-center items-center gap-1.5 md:gap-3">
+                                {/* Botón Anterior */}
+                                <button
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className={`flex items-center gap-1 px-2.5 md:px-4 py-2 md:py-3 rounded-lg font-semibold transition-all duration-300 text-xs md:text-base ${
+                                        currentPage === 1
+                                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                            : 'bg-brand-green-600 text-white hover:bg-brand-green-700 shadow-md hover:shadow-lg active:scale-95'
+                                    }`}
+                                >
+                                    <svg className="w-3.5 h-3.5 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                    <span className="hidden sm:inline">Anterior</span>
+                                </button>
+
+                                {/* Números de página */}
+                                <div className="flex flex-wrap justify-center gap-1 md:gap-2">
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => {
+                                        // Mostrar solo algunas páginas para no saturar en móviles
+                                        const showPage = 
+                                            pageNumber === 1 || 
+                                            pageNumber === totalPages || 
+                                            (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1);
+                                        
+                                        // Mostrar puntos suspensivos
+                                        if (!showPage && (pageNumber === currentPage - 2 || pageNumber === currentPage + 2)) {
+                                            return <span key={pageNumber} className="px-2 text-slate-400">...</span>;
+                                        }
+                                        
+                                        if (!showPage) return null;
+
+                                        return (
+                                            <button
+                                                key={pageNumber}
+                                                onClick={() => handlePageChange(pageNumber)}
+                                                className={`min-w-[32px] h-8 md:min-w-[40px] md:h-10 px-2 md:px-3 rounded-lg font-bold transition-all duration-300 text-xs md:text-base active:scale-95 ${
+                                                    currentPage === pageNumber
+                                                        ? 'bg-brand-green-600 text-white shadow-lg scale-105'
+                                                        : 'bg-white text-slate-700 border border-gray-300 hover:border-brand-green-500 hover:bg-brand-green-50'
+                                                }`}
+                                            >
+                                                {pageNumber}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                {/* Botón Siguiente */}
+                                <button
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                    className={`flex items-center gap-1 px-2.5 md:px-4 py-2 md:py-3 rounded-lg font-semibold transition-all duration-300 text-xs md:text-base ${
+                                        currentPage === totalPages
+                                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                            : 'bg-brand-green-600 text-white hover:bg-brand-green-700 shadow-md hover:shadow-lg active:scale-95'
+                                    }`}
+                                >
+                                    <span className="hidden sm:inline">Siguiente</span>
+                                    <svg className="w-3.5 h-3.5 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
             </section>
           </>
         )}

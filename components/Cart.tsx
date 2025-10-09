@@ -27,16 +27,16 @@ const Cart: React.FC = () => {
       {/* Botón del carrito */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 bg-brand-green-600 text-white p-4 rounded-full shadow-lg hover:bg-brand-green-700 transition-all duration-300 group"
+        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 bg-brand-green-600 text-white p-3 md:p-4 rounded-full shadow-lg hover:bg-brand-green-700 active:scale-95 transition-all duration-300 group"
       >
-        <ShoppingCart className="w-6 h-6" />
+        <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
         {state.totalItems > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-[10px] md:text-xs font-bold rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center">
             {state.totalItems > 99 ? '99+' : state.totalItems}
           </span>
         )}
-        <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-slate-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-          Mi Carrito ({state.totalItems} productos)
+        <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-slate-800 text-white text-xs md:text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+          Mi Carrito ({state.totalItems})
         </div>
       </button>
 
