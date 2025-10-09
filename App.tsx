@@ -35,7 +35,7 @@ const App: React.FC = () => {
   const { isMobile } = useMobileDetect();
   
   // Productos por página según dispositivo
-  const productsPerPage = isMobile ? 6 : 12; // Móvil: 6 productos (3x2), Desktop: 12 productos (3x4)
+  const productsPerPage = isMobile ? 4 : 12; // Móvil: 4 productos (1 columna), Desktop: 12 productos (3x4)
 
   const handleBackToMain = () => {
     setShowEndotelioTest(false);
@@ -657,7 +657,7 @@ const App: React.FC = () => {
                     )}
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 px-4" data-section="products-grid">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-4" data-section="products-grid">
                     {currentProducts.map(product => (
                         <ProductCard 
                             key={product.id} 

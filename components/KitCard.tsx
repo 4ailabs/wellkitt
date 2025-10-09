@@ -12,14 +12,14 @@ interface KitCardProps {
 }
 
 const kitIcons: { [key: string]: React.ReactNode } = {
-  K01: <ShieldCheck className="w-4 h-4 md:w-8 md:h-8 text-brand-green-600" />,
-  K02: <Soup className="w-4 h-4 md:w-8 md:h-8 text-brand-green-600" />,
-  K03: <Moon className="w-4 h-4 md:w-8 md:h-8 text-brand-green-600" />,
-  K04: <Zap className="w-4 h-4 md:w-8 md:h-8 text-brand-green-600" />,
-  K05: <HeartPulse className="w-4 h-4 md:w-8 md:h-8 text-brand-green-600" />,
-  K06: <Bone className="w-4 h-4 md:w-8 md:h-8 text-brand-green-600" />,
-  K07: <Shield className="w-4 h-4 md:w-8 md:h-8 text-brand-green-600" />,
-  K08: <Gauge className="w-4 h-4 md:w-8 md:h-8 text-brand-green-600" />,
+  K01: <ShieldCheck className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
+  K02: <Soup className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
+  K03: <Moon className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
+  K04: <Zap className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
+  K05: <HeartPulse className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
+  K06: <Bone className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
+  K07: <Shield className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
+  K08: <Gauge className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
 };
 
 // Paleta de colores para cada kit
@@ -54,38 +54,38 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
       whileHover={{ scale: 1.03, boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}
       transition={{ type: 'spring', stiffness: 120, damping: 18 }}
     >
-      <div className="p-2.5 md:p-6 flex-grow">
-        <div className="flex items-start justify-between mb-1.5 md:mb-4">
-            <div className={`p-1 md:p-3 bg-white rounded-full`}>
-                {kitIcons[kit.id] || <div className="w-4 h-4 md:w-8 md:h-8"></div>}
+      <div className="p-3 md:p-6 flex-grow">
+        <div className="flex items-start justify-between mb-2 md:mb-4">
+            <div className={`p-1.5 md:p-3 bg-white rounded-full`}>
+                {kitIcons[kit.id] || <div className="w-5 h-5 md:w-8 md:h-8"></div>}
             </div>
-            <div className="bg-brand-green-600 text-white text-[10px] md:text-xs font-bold px-1.5 md:px-3 py-0.5 md:py-1 rounded-full">
+            <div className="bg-brand-green-600 text-white text-xs md:text-xs font-bold px-2 md:px-3 py-1 md:py-1 rounded-full">
                 {kit.discount}% OFF
             </div>
         </div>
-        <h3 className="text-sm md:text-2xl font-extrabold text-slate-900 mb-1.5 md:mb-4 tracking-tight leading-tight md:leading-snug line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{kit.name}</h3>
-        <p className="text-[10px] md:text-base text-slate-700 mb-2 md:mb-6 line-clamp-3 md:line-clamp-2 leading-snug md:leading-relaxed">{kit.benefit}</p>
+        <h3 className="text-lg md:text-2xl font-extrabold text-slate-900 mb-2 md:mb-4 tracking-tight leading-tight md:leading-snug line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{kit.name}</h3>
+        <p className="text-sm md:text-base text-slate-700 mb-3 md:mb-6 line-clamp-3 md:line-clamp-2 leading-snug md:leading-relaxed">{kit.benefit}</p>
         
-        <div className="space-y-0.5 md:space-y-3 mt-1.5 md:mt-4">
-            <h4 className="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5 md:mb-1">Incluye:</h4>
-            <ul className="text-[10px] md:text-base text-slate-800 space-y-0.5 md:space-y-2">
+        <div className="space-y-1 md:space-y-3 mt-2 md:mt-4">
+            <h4 className="text-xs md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-1">Incluye:</h4>
+            <ul className="text-sm md:text-base text-slate-800 space-y-1 md:space-y-2">
                 {kitProducts.slice(0, 3).map(product => (
                     <li key={product.id} className="truncate">
                         <span className="font-medium">{product.name}</span>
                         <span className="text-slate-500 hidden md:inline"> ({product.brand})</span>
                     </li>
                 ))}
-                {kitProducts.length > 3 && <li className="text-slate-500 font-medium text-[9px] md:text-xs">y {kitProducts.length - 3} más...</li>}
+                {kitProducts.length > 3 && <li className="text-slate-500 font-medium text-xs md:text-xs">y {kitProducts.length - 3} más...</li>}
             </ul>
         </div>
       </div>
-       <div className="p-2 md:p-6 bg-slate-50 border-t border-gray-200">
-        <div className="flex gap-1.5 md:gap-2">
+       <div className="p-3 md:p-6 bg-slate-50 border-t border-gray-200">
+        <div className="flex gap-2 md:gap-2">
           <motion.button
               onClick={onShowDetails}
               whileHover={{ scale: 1.03, backgroundColor: '#1e293b', color: '#fff', borderColor: '#1e293b' }}
               whileTap={{ scale: 0.98 }}
-              className="flex-1 bg-white text-slate-800 border border-slate-300 text-[10px] md:text-base font-medium py-2 md:py-2.5 px-1.5 md:px-4 rounded-md md:rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200"
+              className="flex-1 bg-white text-slate-800 border border-slate-300 text-sm md:text-base font-medium py-2.5 md:py-2.5 px-3 md:px-4 rounded-lg md:rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200"
               style={{ fontFamily: 'Inter, sans-serif' }}
             >
             Ver Kit
@@ -94,10 +94,10 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
               onClick={handleAddKitToCart}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              className="bg-brand-green-600 text-white border border-brand-green-600 text-[10px] md:text-base font-medium py-2 md:py-2.5 px-2 md:px-4 rounded-md md:rounded-lg shadow-sm hover:bg-brand-green-700 hover:border-brand-green-700 transition-all duration-200 flex items-center justify-center"
+              className="bg-brand-green-600 text-white border border-brand-green-600 text-sm md:text-base font-medium py-2.5 md:py-2.5 px-3 md:px-4 rounded-lg md:rounded-lg shadow-sm hover:bg-brand-green-700 hover:border-brand-green-700 transition-all duration-200 flex items-center justify-center"
               style={{ fontFamily: 'Inter, sans-serif' }}
             >
-            <ShoppingCart className="w-3.5 h-3.5 md:w-4 md:h-4" />
+            <ShoppingCart className="w-4 h-4 md:w-4 md:h-4" />
           </motion.button>
         </div>
       </div>
