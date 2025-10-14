@@ -4,12 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run dev:all",
+    "dev:client": "vite",
+    "dev:server": "node server.js",
+    "dev:all": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "node server.js"
   },
   "dependencies": {
     "@google/genai": "^1.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "framer-motion": "^12.23.9",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
@@ -20,6 +27,7 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/react-dom": "^19.1.7",
+    "concurrently": "^9.2.1",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   }

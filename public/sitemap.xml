@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Página Principal -->
+  <url>
+    <loc>https://www.wellkitt.com/</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Test de Endotelio -->
+  <url>
+    <loc>https://www.wellkitt.com/#test-endotelio</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Test Nutrigenómico -->
+  <url>
+    <loc>https://www.wellkitt.com/#test-nutrigenomico</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Sueroterapia -->
+  <url>
+    <loc>https://sueroterapia-premiun.vercel.app</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Kits Estratégicos -->
+  <url>
+    <loc>https://www.wellkitt.com/#kits</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Catálogo de Productos -->
+  <url>
+    <loc>https://www.wellkitt.com/#productos</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Páginas de categorías (puedes expandir según tus categorías) -->
+  <url>
+    <loc>https://www.wellkitt.com/#categoria-energia</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.wellkitt.com/#categoria-digestivo</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.wellkitt.com/#categoria-inmune</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.wellkitt.com/#categoria-detox</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.wellkitt.com/#categoria-estres</loc>
+    <lastmod>2025-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

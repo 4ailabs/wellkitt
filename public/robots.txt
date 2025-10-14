@@ -1,0 +1,31 @@
+# robots.txt para Wellkitt
+# https://www.wellkitt.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Directorios permitidos
+Allow: /products
+Allow: /tests
+Allow: /kits
+
+# Directorios prohibidos (API y archivos internos)
+Disallow: /api/
+Disallow: /node_modules/
+Disallow: /*.json$
+
+# Sitemap
+Sitemap: https://www.wellkitt.com/sitemap.xml
+
+# Configuración para bots específicos
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Frecuencia de rastreo (opcional)
+Crawl-delay: 1
