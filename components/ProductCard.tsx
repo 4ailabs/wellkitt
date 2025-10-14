@@ -4,7 +4,8 @@ import { Product } from '../types';
 import { categoryConfig } from './category-config';
 import { motion } from 'framer-motion';
 import { useCart } from '../contexts/CartContext';
-import { ShoppingCart } from 'lucide-react';
+import { useFavorites } from '../contexts/FavoritesContext';
+import { ShoppingCart, Heart } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -15,10 +16,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
   const config = categoryConfig[product.category];
   const Icon = config?.icon;
   const { addItem } = useCart();
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const isProductFavorite = isFavorite(product.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     addItem(product);
+  };
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isProductFavorite) {
+      removeFavorite(product.id);
+    } else {
+      addFavorite(product);
+    }
   };
 
   // Extraer el color principal de la categoría para el borde
@@ -73,15 +85,34 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
             <div className={`p-1.5 md:p-3 ${config?.bgClass || 'bg-gray-100'} rounded-full shadow-sm`}>
                 {Icon ? <Icon className={`w-5 h-5 md:w-7 md:h-7 ${config.colorClass}`} /> : <div className="w-5 h-5 md:w-7 md:h-7"></div>}
             </div>
-            <div className="flex flex-col gap-1 items-end">
-                <div className="bg-slate-100 text-slate-600 text-xs md:text-xs font-bold px-2 md:px-3 py-1 md:py-1 rounded-full">
-                    {product.brand}
-                </div>
-                {product.category && (
-                    <div className={`${config?.bgClass || 'bg-gray-100'} ${config?.colorClass || 'text-gray-600'} text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full`}>
-                        {product.category}
+            <div className="flex items-start gap-2">
+                <div className="flex flex-col gap-1 items-end">
+                    <div className="bg-slate-100 text-slate-600 text-xs md:text-xs font-bold px-2 md:px-3 py-1 md:py-1 rounded-full">
+                        {product.brand}
                     </div>
-                )}
+                    {product.category && (
+                        <div className={`${config?.bgClass || 'bg-gray-100'} ${config?.colorClass || 'text-gray-600'} text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full`}>
+                            {product.category}
+                        </div>
+                    )}
+                </div>
+                <motion.button
+                    onClick={handleToggleFavorite}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={`p-2 rounded-full transition-colors ${
+                        isProductFavorite 
+                            ? 'bg-red-100 text-red-600' 
+                            : 'bg-gray-100 text-gray-400 hover:bg-red-50 hover:text-red-500'
+                    }`}
+                    title={isProductFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                >
+                    <Heart 
+                        className="w-4 h-4 md:w-5 md:h-5" 
+                        fill={isProductFavorite ? 'currentColor' : 'none'}
+                        strokeWidth={2}
+                    />
+                </motion.button>
             </div>
         </div>
         <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 md:mb-2 line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{product.name}</h3>

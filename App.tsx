@@ -12,9 +12,12 @@ import DetailModal from './components/DetailModal';
 import EndotelioTest from './components/EndotelioTest';
 import NutrigenomicaTest from './components/NutrigenomicaTest';
 import Cart from './components/Cart';
+import Favorites from './components/Favorites';
+import Chatbot from './components/Chatbot';
 import { CartProvider } from './contexts/CartContext';
+import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Dna } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import useMobileDetect from './hooks/useMobileDetect';
 
@@ -30,6 +33,7 @@ const App: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [showAllKits, setShowAllKits] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
   
   // Detectar dispositivo móvil
   const { isMobile } = useMobileDetect();
@@ -143,10 +147,26 @@ const App: React.FC = () => {
     }, 200);
   };
 
-  // Filtrado inteligente de productos
-  const filteredProducts = activeCategory === 'All' 
-    ? products 
-    : products.filter(p => p.category === activeCategory);
+  // Filtrado inteligente de productos con búsqueda
+  const filteredProducts = products.filter(p => {
+    // Filtro por categoría
+    const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
+    
+    // Filtro por búsqueda
+    if (!searchQuery.trim()) {
+      return matchesCategory;
+    }
+    
+    const query = searchQuery.toLowerCase();
+    const matchesSearch = 
+      p.name.toLowerCase().includes(query) ||
+      p.brand.toLowerCase().includes(query) ||
+      p.ingredients.some((ing: string) => ing.toLowerCase().includes(query)) ||
+      p.benefits.some((ben: string) => ben.toLowerCase().includes(query)) ||
+      p.category.toLowerCase().includes(query);
+    
+    return matchesCategory && matchesSearch;
+  });
 
   // Paginación de productos
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -498,6 +518,41 @@ const App: React.FC = () => {
                     </p>
                 </div>
 
+                {/* Barra de Búsqueda */}
+                <div className="mb-6 md:mb-8 px-4 max-w-3xl mx-auto">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                setCurrentPage(1);
+                            }}
+                            placeholder="Buscar por nombre, ingrediente, beneficio o marca..."
+                            className="w-full px-4 md:px-5 py-3 md:py-4 pl-12 md:pl-14 pr-10 border-2 border-gray-200 rounded-xl md:rounded-2xl focus:border-brand-green-500 focus:outline-none text-sm md:text-base text-slate-700 bg-white shadow-sm"
+                        />
+                        <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        {searchQuery && (
+                            <button
+                                onClick={() => {
+                                    setSearchQuery('');
+                                    setCurrentPage(1);
+                                }}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition-colors"
+                            >
+                                <X className="w-4 h-4 md:w-5 md:h-5 text-gray-500" />
+                            </button>
+                        )}
+                    </div>
+                    {searchQuery && (
+                        <p className="mt-2 text-sm text-slate-600 text-center">
+                            {filteredProducts.length} {filteredProducts.length === 1 ? 'resultado' : 'resultados'} encontrados
+                        </p>
+                    )}
+                </div>
+
                 {/* Categorías Principales - Navegación por Pestañas */}
                 <div className="mb-8 md:mb-12 px-4">
                     <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6">
@@ -698,15 +753,19 @@ const App: React.FC = () => {
       />
       
       <Cart />
+      <Favorites allProducts={products} onShowDetails={handleShowDetails} />
+      <Chatbot />
     </div>
   );
 };
 
 const AppWithCart: React.FC = () => {
   return (
-    <CartProvider>
-      <App />
-    </CartProvider>
+    <FavoritesProvider>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </FavoritesProvider>
   );
 };
 

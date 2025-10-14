@@ -1,9 +1,10 @@
 
 import React from 'react';
 import { Kit, Product } from '../types';
-import { ShieldCheck, Soup, Moon, Zap, HeartPulse, Bone, Shield, Gauge, ShoppingCart } from 'lucide-react';
+import { ShieldCheck, Soup, Moon, Zap, HeartPulse, Bone, Shield, Gauge, ShoppingCart, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCart } from '../contexts/CartContext';
+import { useFavorites } from '../contexts/FavoritesContext';
 
 interface KitCardProps {
   kit: Kit;
@@ -39,11 +40,22 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
   const kitProducts = kit.productIds.map(id => allProducts.find(p => p.id === id)).filter(Boolean) as Product[];
   const color = kitColors[kit.id] || { bg: 'bg-white', icon: 'text-brand-green-600', border: 'border-t-gray-300', accent: 'bg-gray-100' };
   const { addItem } = useCart();
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const isKitFavorite = isFavorite(kit.id);
 
   const handleAddKitToCart = () => {
     kitProducts.forEach(product => {
       addItem(product);
     });
+  };
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isKitFavorite) {
+      removeFavorite(kit.id);
+    } else {
+      addFavorite(kit);
+    }
   };
 
   return (
@@ -59,13 +71,32 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
             <div className={`p-1.5 md:p-3 bg-white rounded-full shadow-md`}>
                 {kitIcons[kit.id] || <div className="w-5 h-5 md:w-8 md:h-8"></div>}
             </div>
-            <div className="flex flex-col gap-1.5 items-end">
-                <div className="bg-brand-green-600 text-white text-xs md:text-xs font-bold px-2.5 md:px-3 py-1 md:py-1 rounded-full shadow-sm">
-                    {kit.discount}% OFF
+            <div className="flex items-start gap-2">
+                <div className="flex flex-col gap-1.5 items-end">
+                    <div className="bg-brand-green-600 text-white text-xs md:text-xs font-bold px-2.5 md:px-3 py-1 md:py-1 rounded-full shadow-sm">
+                        {kit.discount}% OFF
+                    </div>
+                    <div className={`${color.accent} ${color.icon} text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full`}>
+                        KIT
+                    </div>
                 </div>
-                <div className={`${color.accent} ${color.icon} text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full`}>
-                    KIT
-                </div>
+                <motion.button
+                    onClick={handleToggleFavorite}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={`p-2 rounded-full transition-colors ${
+                        isKitFavorite 
+                            ? 'bg-red-100 text-red-600' 
+                            : 'bg-white text-gray-400 hover:bg-red-50 hover:text-red-500'
+                    }`}
+                    title={isKitFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                >
+                    <Heart 
+                        className="w-4 h-4 md:w-5 md:h-5" 
+                        fill={isKitFavorite ? 'currentColor' : 'none'}
+                        strokeWidth={2}
+                    />
+                </motion.button>
             </div>
         </div>
         <h3 className="text-lg md:text-2xl font-extrabold text-slate-900 mb-2 md:mb-4 tracking-tight leading-tight md:leading-snug line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{kit.name}</h3>
