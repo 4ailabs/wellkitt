@@ -33,20 +33,23 @@ const Favorites: React.FC<FavoritesProps> = ({ allProducts, onShowDetails }) => 
 
   return (
     <>
-      {/* Botón Flotante de Favoritos */}
+      {/* Botón Flotante de Favoritos - Medio */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-24 right-4 md:bottom-6 md:right-6 z-40 bg-red-600 text-white rounded-full p-4 shadow-2xl hover:bg-red-700 transition-colors"
+        className="fixed bottom-20 right-4 md:bottom-6 md:right-28 z-40 bg-red-600 text-white rounded-full p-3 md:p-4 shadow-2xl hover:bg-red-700 transition-colors group"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         title="Ver Favoritos"
       >
-        <Heart className="w-6 h-6" fill="currentColor" />
+        <Heart className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" />
         {favoritesCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-white text-red-600 text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center border-2 border-red-600">
+          <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-white text-red-600 text-[10px] md:text-xs font-bold rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center border-2 border-red-600">
             {favoritesCount}
           </span>
         )}
+        <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-slate-800 text-white text-xs md:text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+          Mis Favoritos ({favoritesCount})
+        </div>
       </motion.button>
 
       {/* Panel Lateral de Favoritos */}

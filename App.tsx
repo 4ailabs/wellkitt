@@ -13,7 +13,6 @@ import EndotelioTest from './components/EndotelioTest';
 import NutrigenomicaTest from './components/NutrigenomicaTest';
 import Cart from './components/Cart';
 import Favorites from './components/Favorites';
-import Chatbot from './components/Chatbot';
 import { CartProvider } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories } from './components/category-config';
@@ -754,7 +753,6 @@ const App: React.FC = () => {
       
       <Cart />
       <Favorites allProducts={products} onShowDetails={handleShowDetails} />
-      <Chatbot />
     </div>
   );
 };

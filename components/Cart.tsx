@@ -24,10 +24,10 @@ const Cart: React.FC = () => {
 
   return (
     <>
-      {/* Botón del carrito */}
+      {/* Botón del carrito - Abajo */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 bg-brand-green-600 text-white p-3 md:p-4 rounded-full shadow-lg hover:bg-brand-green-700 active:scale-95 transition-all duration-300 group"
+        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 bg-brand-green-600 text-white p-3 md:p-4 rounded-full shadow-2xl hover:bg-brand-green-700 active:scale-95 transition-all duration-300 group"
       >
         <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
         {state.totalItems > 0 && (
