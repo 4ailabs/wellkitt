@@ -203,18 +203,18 @@ const App: React.FC = () => {
         ) : (
           <>
             {/* Hero Section */}
-            <section className="max-w-5xl mx-auto mb-20 md:mb-28 px-4">
+            <section className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
                 <div className="text-center">
-                    <div className="flex justify-center mb-6">
-                        <Heart className="w-16 h-16 md:w-20 md:h-20 text-brand-green-600" strokeWidth={1.5} />
+                    <div className="flex justify-center mb-4 md:mb-6">
+                        <Heart className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-brand-green-600" strokeWidth={1.5} />
                     </div>
                     
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 mb-4 md:mb-6 tracking-tight px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                         <span className="text-brand-green-600">Wellkitt:</span> Tu Salud,<br className="hidden sm:block" /> 
                         <span className="text-slate-900">Ciencia Personalizada</span>
                     </h1>
                     
-                    <p className="text-xl md:text-2xl text-slate-600 mb-12 px-4 max-w-3xl mx-auto leading-relaxed font-light">
+                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-600 mb-8 md:mb-12 px-2 md:px-4 max-w-3xl mx-auto leading-relaxed font-light">
                         Revoluciona tu bienestar con algoritmos especializados. 
                         Tests genéticos, sueroterapia premium y recomendaciones personalizadas para tu perfil único.
                     </p>
@@ -256,47 +256,47 @@ const App: React.FC = () => {
             </section>
 
             {/* Producto Destacado: Carnilis */}
-            <section className="max-w-5xl mx-auto mb-20 md:mb-28 px-4">
-                <div className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 rounded-3xl p-8 md:p-12 border border-orange-200">
-                    <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
-                        <div className="flex-1">
-                            <div className="inline-block px-4 py-1 bg-orange-500 text-white text-sm font-bold rounded-full mb-4">
+            <section className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
+                <div className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 border border-orange-200">
+                    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 mb-6 md:mb-8">
+                        <div className="flex-1 w-full">
+                            <div className="inline-block px-3 py-1 md:px-4 md:py-1 bg-orange-500 text-white text-xs md:text-sm font-bold rounded-full mb-3 md:mb-4">
                                 PRODUCTO DESTACADO
                             </div>
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                                 Carnilis
                             </h2>
-                            <p className="text-xl md:text-2xl text-slate-700 mb-4 font-light leading-relaxed">
+                            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-700 mb-3 md:mb-4 font-light leading-relaxed">
                                 Potencia tu metabolismo energético con L-Carnitina. Optimiza el transporte de ácidos grasos y reduce la fatiga.
                             </p>
-                            <div className="flex flex-wrap gap-2 mb-6">
-                                <span className="px-3 py-1 bg-white/80 text-orange-700 rounded-full text-sm font-semibold border border-orange-200">L-Carnitina</span>
-                                <span className="px-3 py-1 bg-white/80 text-orange-700 rounded-full text-sm font-semibold border border-orange-200">Metabolismo Energético</span>
-                                <span className="px-3 py-1 bg-white/80 text-orange-700 rounded-full text-sm font-semibold border border-orange-200">60 cápsulas</span>
+                            <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
+                                <span className="px-2.5 py-1 md:px-3 md:py-1 bg-white/80 text-orange-700 rounded-full text-xs md:text-sm font-semibold border border-orange-200">L-Carnitina</span>
+                                <span className="px-2.5 py-1 md:px-3 md:py-1 bg-white/80 text-orange-700 rounded-full text-xs md:text-sm font-semibold border border-orange-200">Metabolismo Energético</span>
+                                <span className="px-2.5 py-1 md:px-3 md:py-1 bg-white/80 text-orange-700 rounded-full text-xs md:text-sm font-semibold border border-orange-200">60 cápsulas</span>
                             </div>
                             <button 
                                 onClick={() => {
                                     const carnilis = products.find(p => p.id === "SN21" || p.name === "Carnilis");
                                     if (carnilis) handleShowDetails(carnilis);
                                 }}
-                                className="group inline-flex items-center gap-3 text-orange-600 text-lg md:text-xl font-semibold hover:gap-4 transition-all duration-300"
+                                className="group inline-flex items-center gap-2 md:gap-3 text-orange-600 text-base md:text-lg lg:text-xl font-semibold hover:gap-3 md:hover:gap-4 transition-all duration-300"
                             >
                                 <span>Ver Detalles</span>
-                                <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
                             </button>
                         </div>
-                        <div className="flex-shrink-0">
-                            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center shadow-2xl">
-                                <Zap className="w-20 h-20 md:w-24 md:h-24 text-white" strokeWidth={1.5} />
+                        <div className="flex-shrink-0 hidden md:block">
+                            <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center shadow-2xl">
+                                <Zap className="w-16 h-16 lg:w-24 lg:h-24 text-white" strokeWidth={1.5} />
                             </div>
                         </div>
                     </div>
                     
                     {/* Video Embed */}
                     <div className="w-full">
-                        <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl" style={{ paddingBottom: '56.25%' }}>
+                        <div className="relative w-full rounded-xl md:rounded-2xl overflow-hidden shadow-lg md:shadow-2xl" style={{ paddingBottom: '56.25%' }}>
                             <iframe 
                                 className="absolute top-0 left-0 w-full h-full"
                                 src="https://www.youtube.com/embed/c3d1YQ2s7qY"
@@ -311,41 +311,41 @@ const App: React.FC = () => {
             </section>
 
             {/* Divisor */}
-            <div className="max-w-5xl mx-auto mb-20 md:mb-28 px-4">
+            <div className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
                 <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
             </div>
 
             {/* Tests Section - Agrupados */}
-            <section className="max-w-6xl mx-auto mb-20 md:mb-28 px-4">
-                <div className="text-center mb-12 md:mb-16">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <section className="max-w-6xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
+                <div className="text-center mb-8 md:mb-12 lg:mb-16">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                         Tests de Salud <span className="text-brand-green-600">Personalizados</span>
                     </h2>
-                    <p className="text-lg md:text-xl text-slate-600 font-light max-w-3xl mx-auto">
+                    <p className="text-base md:text-lg lg:text-xl text-slate-600 font-light max-w-3xl mx-auto px-2">
                         Evaluaciones científicas para conocer tu perfil de salud y recibir recomendaciones personalizadas
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                     {/* Endotelio Test */}
-                    <div className="group">
+                    <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
                         <div className="h-full flex flex-col">
-                            <div className="mb-4">
-                                <Heart className="w-12 h-12 text-red-600 mb-3" strokeWidth={1.5} />
-                                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                            <div className="mb-3 md:mb-4">
+                                <Heart className="w-10 h-10 md:w-12 md:h-12 text-red-600 mb-2 md:mb-3" strokeWidth={1.5} />
+                                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                                     Test Endotelial
                                 </h3>
-                                <div className="h-0.5 w-16 bg-red-600 mb-4"></div>
+                                <div className="h-0.5 w-12 md:w-16 bg-red-600 mb-3 md:mb-4"></div>
                             </div>
-                            <p className="text-base md:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
+                            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
                                 Evalúa tu salud cardiovascular con 20 preguntas sobre 6 áreas fundamentales.
                             </p>
                             <button 
                                 onClick={() => setShowEndotelioTest(true)}
-                                className="group/btn inline-flex items-center gap-2 text-red-600 font-semibold hover:gap-3 transition-all duration-300"
+                                className="group/btn inline-flex items-center gap-2 text-red-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
                             >
                                 <span>Realizar Test</span>
-                                <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
                             </button>
@@ -353,24 +353,24 @@ const App: React.FC = () => {
                     </div>
 
                     {/* Nutrigenómica Test */}
-                    <div className="group">
+                    <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
                         <div className="h-full flex flex-col">
-                            <div className="mb-4">
-                                <Dna className="w-12 h-12 text-purple-600 mb-3" strokeWidth={1.5} />
-                                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                            <div className="mb-3 md:mb-4">
+                                <Dna className="w-10 h-10 md:w-12 md:h-12 text-purple-600 mb-2 md:mb-3" strokeWidth={1.5} />
+                                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                                     Test Nutrigenómico
                                 </h3>
-                                <div className="h-0.5 w-16 bg-purple-600 mb-4"></div>
+                                <div className="h-0.5 w-12 md:w-16 bg-purple-600 mb-3 md:mb-4"></div>
                             </div>
-                            <p className="text-base md:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
+                            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
                                 Descubre cómo tus genes responden a los alimentos. 20 preguntas sobre 7 áreas genéticas.
                             </p>
                             <button 
                                 onClick={() => setShowNutrigenomicaTest(true)}
-                                className="group/btn inline-flex items-center gap-2 text-purple-600 font-semibold hover:gap-3 transition-all duration-300"
+                                className="group/btn inline-flex items-center gap-2 text-purple-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
                             >
                                 <span>Realizar Test</span>
-                                <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
                             </button>
@@ -378,26 +378,26 @@ const App: React.FC = () => {
                     </div>
 
                     {/* Sueroterapia */}
-                    <div className="group">
+                    <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
                         <div className="h-full flex flex-col">
-                            <div className="mb-4">
-                                <Droplets className="w-12 h-12 text-blue-600 mb-3" strokeWidth={1.5} />
-                                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                            <div className="mb-3 md:mb-4">
+                                <Droplets className="w-10 h-10 md:w-12 md:h-12 text-blue-600 mb-2 md:mb-3" strokeWidth={1.5} />
+                                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                                     Sueroterapia Premium
                                 </h3>
-                                <div className="h-0.5 w-16 bg-blue-600 mb-4"></div>
+                                <div className="h-0.5 w-12 md:w-16 bg-blue-600 mb-3 md:mb-4"></div>
                             </div>
-                            <p className="text-base md:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
+                            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
                                 Hidratación intravenosa con vitaminas, minerales y antioxidantes. Recupera tu energía inmediatamente.
                             </p>
                             <a 
                                 href="https://sueroterapia-premiun.vercel.app"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group/btn inline-flex items-center gap-2 text-blue-600 font-semibold hover:gap-3 transition-all duration-300"
+                                className="group/btn inline-flex items-center gap-2 text-blue-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
                             >
                                 <span>Realizar Test</span>
-                                <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
                             </a>
@@ -407,7 +407,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Divisor */}
-            <div className="max-w-5xl mx-auto mb-20 md:mb-28 px-4">
+            <div className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
                 <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
             </div>
 
@@ -639,38 +639,38 @@ const App: React.FC = () => {
         )}
       </main>
 
-      <footer className="bg-white/60 backdrop-blur-sm border-t border-gray-200 mt-20 md:mt-28">
-        <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-center md:text-left">
+      <footer className="bg-white/60 backdrop-blur-sm border-t border-gray-200 mt-12 md:mt-20 lg:mt-28">
+        <div className="max-w-5xl mx-auto px-4 py-8 md:py-12 lg:py-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 text-center md:text-left">
                 <div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h3>
-                    <p className="text-base text-slate-600 font-light">Tu Navegador de Salud Natural</p>
-                    <p className="text-sm text-slate-500 mt-4">&copy; {new Date().getFullYear()} Wellkitt. Todos los derechos reservados.</p>
+                    <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h3>
+                    <p className="text-sm md:text-base text-slate-600 font-light">Tu Navegador de Salud Natural</p>
+                    <p className="text-xs md:text-sm text-slate-500 mt-3 md:mt-4">&copy; {new Date().getFullYear()} Wellkitt. Todos los derechos reservados.</p>
                 </div>
                 <div>
-                    <h4 className="font-semibold text-slate-900 text-lg mb-4">Contacto</h4>
-                    <ul className="space-y-3">
+                    <h4 className="font-semibold text-slate-900 text-base md:text-lg mb-3 md:mb-4">Contacto</h4>
+                    <ul className="space-y-2 md:space-y-3">
                         <li>
-                            <a href="https://wa.me/+525579076626" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 text-slate-600 hover:text-brand-green-600 transition-colors">
-                                <Phone className="w-5 h-5" />
+                            <a href="https://wa.me/+525579076626" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center justify-center md:justify-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors text-sm md:text-base">
+                                <Phone className="w-4 h-4 md:w-5 md:h-5" />
                                 <span>WhatsApp</span>
                             </a>
                         </li>
                         <li>
-                            <a href="tel:+525579076626" className="group inline-flex items-center gap-2 text-slate-600 hover:text-brand-green-600 transition-colors">
-                                <Phone className="w-5 h-5" />
+                            <a href="tel:+525579076626" className="group inline-flex items-center justify-center md:justify-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors text-sm md:text-base">
+                                <Phone className="w-4 h-4 md:w-5 md:h-5" />
                                 <span>Llamar a un asesor</span>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div>
-                    <h4 className="font-semibold text-slate-900 text-lg mb-4">Ubicación</h4>
-                    <ul className="space-y-3">
+                    <h4 className="font-semibold text-slate-900 text-base md:text-lg mb-3 md:mb-4">Ubicación</h4>
+                    <ul className="space-y-2 md:space-y-3">
                         <li>
-                            <a href="https://maps.google.com/?q=Acapulco%2036%20Roma%20Nte.,%20Cuauhtémoc,%2006700%20Ciudad%20de%20México,%20CDMX" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors">
-                                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                <span>Acapulco 36, Roma Nte., CDMX</span>
+                            <a href="https://maps.google.com/?q=Acapulco%2036%20Roma%20Nte.,%20Cuauhtémoc,%2006700%20Ciudad%20de%20México,%20CDMX" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start justify-center md:justify-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors text-sm md:text-base">
+                                <MapPin className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0 mt-0.5" />
+                                <span className="text-center md:text-left">Acapulco 36, Roma Nte., CDMX</span>
                             </a>
                         </li>
                     </ul>
@@ -678,13 +678,13 @@ const App: React.FC = () => {
             </div>
         </div>
       </footer>
-      <div className="bg-slate-100/50 border-t border-gray-200 mt-12 pt-8 pb-6">
+      <div className="bg-slate-100/50 border-t border-gray-200 mt-8 md:mt-12 pt-6 md:pt-8 pb-4 md:pb-6">
         <div className="max-w-5xl mx-auto px-4">
-          <p className="text-center text-slate-500 text-sm leading-relaxed mb-4">
+          <p className="text-center text-slate-500 text-xs md:text-sm leading-relaxed mb-3 md:mb-4">
             <span className="font-semibold text-slate-700">Descargo de responsabilidad:</span> La información y recomendaciones presentadas en este sitio no sustituyen el consejo, diagnóstico o tratamiento médico profesional. Consulta siempre a tu médico u otro proveedor de salud calificado ante cualquier duda sobre una condición médica.
           </p>
           <div className="text-center">
-            <a href="https://www.wellkitt.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-brand-green-600 transition-colors duration-200 font-medium">
+            <a href="https://www.wellkitt.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-brand-green-600 transition-colors duration-200 font-medium text-sm md:text-base">
               www.wellkitt.com
             </a>
           </div>

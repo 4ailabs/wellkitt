@@ -21,21 +21,67 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
     addItem(product);
   };
 
+  // Extraer el color principal de la categoría para el borde
+  const getBorderColor = () => {
+    if (config?.colorClass) {
+      // Convertir la clase de color a un color de borde
+      const colorMap: { [key: string]: string } = {
+        'text-pink-500': 'border-t-pink-500',
+        'text-yellow-500': 'border-t-yellow-500',
+        'text-green-500': 'border-t-green-500',
+        'text-blue-500': 'border-t-blue-500',
+        'text-indigo-500': 'border-t-indigo-500',
+        'text-orange-500': 'border-t-orange-500',
+        'text-purple-500': 'border-t-purple-500',
+        'text-teal-500': 'border-t-teal-500',
+        'text-red-500': 'border-t-red-500',
+        'text-cyan-500': 'border-t-cyan-500',
+        'text-amber-500': 'border-t-amber-500',
+        'text-amber-700': 'border-t-amber-700',
+        'text-lime-700': 'border-t-lime-700',
+        'text-yellow-700': 'border-t-yellow-700',
+        'text-blue-700': 'border-t-blue-700',
+        'text-pink-700': 'border-t-pink-700',
+        'text-gray-700': 'border-t-gray-700',
+        'text-purple-700': 'border-t-purple-700',
+        'text-indigo-700': 'border-t-indigo-700',
+        'text-indigo-900': 'border-t-indigo-900',
+        'text-green-700': 'border-t-green-700',
+        'text-green-900': 'border-t-green-900',
+        'text-orange-700': 'border-t-orange-700',
+        'text-orange-900': 'border-t-orange-900',
+        'text-cyan-700': 'border-t-cyan-700',
+      };
+      return colorMap[config.colorClass] || 'border-t-gray-300';
+    }
+    return 'border-t-gray-300';
+  };
+
   return (
     <motion.div
-      className="bg-white border border-gray-100 rounded-lg md:rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full min-h-[280px] md:min-h-[420px]"
+      className={`relative bg-white border border-gray-100 ${getBorderColor()} border-t-4 rounded-lg md:rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full min-h-[280px] md:min-h-[420px] overflow-hidden`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02, boxShadow: '0 8px 32px rgba(0,0,0,0.10)' }}
+      whileHover={{ scale: 1.03, boxShadow: '0 12px 40px rgba(0,0,0,0.12)' }}
       transition={{ type: 'spring', stiffness: 120, damping: 18 }}
     >
-      <div className="p-3 md:p-7 flex-grow flex flex-col">
+      {/* Gradiente sutil de fondo */}
+      <div className={`absolute inset-0 opacity-[0.03] ${config?.bgClass || 'bg-gray-100'} pointer-events-none rounded-lg md:rounded-2xl`}></div>
+      
+      <div className="p-3 md:p-7 flex-grow flex flex-col relative z-10">
         <div className="flex items-start justify-between mb-2 md:mb-4">
-            <div className={`p-1.5 md:p-3 ${config?.bgClass || 'bg-gray-100'} rounded-full`}>
+            <div className={`p-1.5 md:p-3 ${config?.bgClass || 'bg-gray-100'} rounded-full shadow-sm`}>
                 {Icon ? <Icon className={`w-5 h-5 md:w-7 md:h-7 ${config.colorClass}`} /> : <div className="w-5 h-5 md:w-7 md:h-7"></div>}
             </div>
-            <div className="bg-slate-100 text-slate-600 text-xs md:text-xs font-bold px-2 md:px-3 py-1 md:py-1 rounded-full">
-                {product.brand}
+            <div className="flex flex-col gap-1 items-end">
+                <div className="bg-slate-100 text-slate-600 text-xs md:text-xs font-bold px-2 md:px-3 py-1 md:py-1 rounded-full">
+                    {product.brand}
+                </div>
+                {product.category && (
+                    <div className={`${config?.bgClass || 'bg-gray-100'} ${config?.colorClass || 'text-gray-600'} text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full`}>
+                        {product.category}
+                    </div>
+                )}
             </div>
         </div>
         <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 md:mb-2 line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{product.name}</h3>

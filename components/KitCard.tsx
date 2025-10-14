@@ -23,21 +23,21 @@ const kitIcons: { [key: string]: React.ReactNode } = {
 };
 
 // Paleta de colores para cada kit
-const kitColors: { [key: string]: { bg: string; icon: string } } = {
-  K01: { bg: 'bg-green-50', icon: 'text-green-600' },
-  K02: { bg: 'bg-blue-50', icon: 'text-blue-600' },
-  K03: { bg: 'bg-purple-50', icon: 'text-purple-600' },
-  K04: { bg: 'bg-yellow-50', icon: 'text-yellow-600' },
-  K05: { bg: 'bg-pink-50', icon: 'text-pink-600' },
-  K06: { bg: 'bg-orange-50', icon: 'text-orange-600' },
-  K07: { bg: 'bg-teal-50', icon: 'text-teal-600' },
-  K08: { bg: 'bg-lime-50', icon: 'text-lime-600' },
+const kitColors: { [key: string]: { bg: string; icon: string; border: string; accent: string } } = {
+  K01: { bg: 'bg-green-50', icon: 'text-green-600', border: 'border-t-green-500', accent: 'bg-green-100' },
+  K02: { bg: 'bg-blue-50', icon: 'text-blue-600', border: 'border-t-blue-500', accent: 'bg-blue-100' },
+  K03: { bg: 'bg-purple-50', icon: 'text-purple-600', border: 'border-t-purple-500', accent: 'bg-purple-100' },
+  K04: { bg: 'bg-yellow-50', icon: 'text-yellow-600', border: 'border-t-yellow-500', accent: 'bg-yellow-100' },
+  K05: { bg: 'bg-pink-50', icon: 'text-pink-600', border: 'border-t-pink-500', accent: 'bg-pink-100' },
+  K06: { bg: 'bg-orange-50', icon: 'text-orange-600', border: 'border-t-orange-500', accent: 'bg-orange-100' },
+  K07: { bg: 'bg-teal-50', icon: 'text-teal-600', border: 'border-t-teal-500', accent: 'bg-teal-100' },
+  K08: { bg: 'bg-lime-50', icon: 'text-lime-600', border: 'border-t-lime-500', accent: 'bg-lime-100' },
 };
 
 
 const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) => {
   const kitProducts = kit.productIds.map(id => allProducts.find(p => p.id === id)).filter(Boolean) as Product[];
-  const color = kitColors[kit.id] || { bg: 'bg-white', icon: 'text-brand-green-600' };
+  const color = kitColors[kit.id] || { bg: 'bg-white', icon: 'text-brand-green-600', border: 'border-t-gray-300', accent: 'bg-gray-100' };
   const { addItem } = useCart();
 
   const handleAddKitToCart = () => {
@@ -48,19 +48,24 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
 
   return (
     <motion.div
-      className={`${color.bg} border border-gray-200 rounded-lg md:rounded-2xl shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 overflow-hidden flex flex-col h-full min-h-[340px] md:min-h-[480px]`}
+      className={`${color.bg} border border-gray-200 ${color.border} border-t-4 rounded-lg md:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col h-full min-h-[340px] md:min-h-[480px]`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.03, boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}
+      whileHover={{ scale: 1.03, boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}
       transition={{ type: 'spring', stiffness: 120, damping: 18 }}
     >
       <div className="p-3 md:p-6 flex-grow">
         <div className="flex items-start justify-between mb-2 md:mb-4">
-            <div className={`p-1.5 md:p-3 bg-white rounded-full`}>
+            <div className={`p-1.5 md:p-3 bg-white rounded-full shadow-md`}>
                 {kitIcons[kit.id] || <div className="w-5 h-5 md:w-8 md:h-8"></div>}
             </div>
-            <div className="bg-brand-green-600 text-white text-xs md:text-xs font-bold px-2 md:px-3 py-1 md:py-1 rounded-full">
-                {kit.discount}% OFF
+            <div className="flex flex-col gap-1.5 items-end">
+                <div className="bg-brand-green-600 text-white text-xs md:text-xs font-bold px-2.5 md:px-3 py-1 md:py-1 rounded-full shadow-sm">
+                    {kit.discount}% OFF
+                </div>
+                <div className={`${color.accent} ${color.icon} text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full`}>
+                    KIT
+                </div>
             </div>
         </div>
         <h3 className="text-lg md:text-2xl font-extrabold text-slate-900 mb-2 md:mb-4 tracking-tight leading-tight md:leading-snug line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{kit.name}</h3>
