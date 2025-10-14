@@ -16,7 +16,18 @@ interface RecommendationResultProps {
 const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendation, allProducts }) => {
   const recommendationRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState<null | 'image' | 'pdf'>(null);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
   const { addItem } = useCart();
+  
+  // Detectar dispositivo móvil
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobileDevice(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleAddRecommendationToCart = () => {
     recommendedProducts.forEach(product => {
@@ -63,71 +74,254 @@ ${recommendation.reasoning}
   const kitName = recommendation.custom_kit_name || `Kit Personalizado`;
 
   const handleExport = async (format: 'image' | 'pdf') => {
-    if (!recommendationRef.current || isExporting) return;
+    if (!recommendationRef.current || isExporting) {
+      console.log('Exportación bloqueada: elemento no disponible o ya exportando');
+      return;
+    }
+    
     setIsExporting(format);
+    console.log('🚀 Iniciando exportación como:', format);
 
     try {
-      // Pequeño delay para asegurar que todo esté renderizado
-      await new Promise(resolve => setTimeout(resolve, 100));
+      const element = recommendationRef.current;
+      console.log('📦 Elemento a capturar:', {
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+        scrollWidth: element.scrollWidth,
+        scrollHeight: element.scrollHeight
+      });
       
-      // Detectar si es móvil para ajustar la configuración
+      // Delay más largo para asegurar renderizado completo
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Detectar si es móvil
       const isMobile = window.innerWidth <= 768;
+      const scale = isMobile ? 2 : 3;
       
-      const canvas = await html2canvas(recommendationRef.current, {
-        scale: isMobile ? 2 : 3, // Escala reducida en móviles para mejor rendimiento
+      console.log('⚙️ Configuración:', { isMobile, scale });
+      
+      // Scroll a la posición del elemento para asegurar que esté visible
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      const canvas = await html2canvas(element, {
+        scale: scale,
         useCORS: true,
-        backgroundColor: '#ffffff', // Fondo blanco para mejor compatibilidad
         allowTaint: true,
-        foreignObjectRendering: true,
+        backgroundColor: '#ffffff',
         logging: false,
-        width: recommendationRef.current.scrollWidth,
-        height: recommendationRef.current.scrollHeight,
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: document.documentElement.offsetWidth,
-        windowHeight: document.documentElement.offsetHeight,
+        imageTimeout: 0,
+        removeContainer: true,
+        width: element.offsetWidth,
+        height: element.offsetHeight,
       });
 
-      const fileName = `wellkitt_recomendacion_${new Date().toISOString().split('T')[0]}`;
+      console.log('✅ Canvas generado exitosamente:', canvas.width, 'x', canvas.height);
+
+      if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        throw new Error('El canvas generado está vacío');
+      }
+
+      const timestamp = new Date().toISOString().split('T')[0].replace(/-/g, '');
+      const fileName = `wellkitt_recomendacion_${timestamp}`;
 
       if (format === 'image') {
-        const imgData = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = imgData;
-        link.download = `${fileName}.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else { // PDF
-        const imgData = canvas.toDataURL('image/png');
-        // Márgenes en px
-        const margin = 32;
-        // Tamaño máximo de página (A4 en px a 96dpi aprox)
-        const maxPdfWidth = 794; // 210mm
-        const maxPdfHeight = 1123; // 297mm
-        // Escalar si es necesario
-        let imgWidth = canvas.width;
-        let imgHeight = canvas.height;
-        let scale = 1;
-        if (imgWidth + margin * 2 > maxPdfWidth || imgHeight + margin * 2 > maxPdfHeight) {
-          scale = Math.min(
-            (maxPdfWidth - margin * 2) / imgWidth,
-            (maxPdfHeight - margin * 2) / imgHeight
-          );
-          imgWidth = imgWidth * scale;
-          imgHeight = imgHeight * scale;
+        console.log('🖼️ Generando imagen PNG...');
+        const imgData = canvas.toDataURL('image/png', 1.0);
+        
+        if (!imgData || imgData === 'data:,') {
+          throw new Error('No se pudo generar la imagen');
         }
-        const pdf = new jsPDF({
-          orientation: 'portrait',
-          unit: 'px',
-          format: [maxPdfWidth, maxPdfHeight]
+        
+        if (isMobile) {
+          // En móviles, abrir la imagen en una nueva pestaña
+          console.log('📱 Modo móvil: Abriendo imagen en nueva pestaña');
+          const newWindow = window.open();
+          if (newWindow) {
+            newWindow.document.write(`
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Wellkitt - Recomendación</title>
+                  <style>
+                    body {
+                      margin: 0;
+                      padding: 0;
+                      background: #f3f4f6;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: center;
+                      min-height: 100vh;
+                      font-family: system-ui, -apple-system, sans-serif;
+                    }
+                    .container {
+                      text-align: center;
+                      padding: 20px;
+                      max-width: 100%;
+                    }
+                    img {
+                      max-width: 100%;
+                      height: auto;
+                      border-radius: 12px;
+                      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                      margin-bottom: 20px;
+                    }
+                    .instructions {
+                      background: white;
+                      padding: 15px;
+                      border-radius: 8px;
+                      margin-top: 15px;
+                      color: #374151;
+                      font-size: 14px;
+                      line-height: 1.6;
+                    }
+                    .title {
+                      color: #059669;
+                      font-weight: bold;
+                      margin-bottom: 10px;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <div class="container">
+                    <img src="${imgData}" alt="Wellkitt Recomendación">
+                    <div class="instructions">
+                      <div class="title">📸 Para guardar la imagen:</div>
+                      <p><strong>iOS:</strong> Mantén presionada la imagen y selecciona "Guardar imagen"</p>
+                      <p><strong>Android:</strong> Mantén presionada la imagen y selecciona "Descargar imagen"</p>
+                    </div>
+                  </div>
+                </body>
+              </html>
+            `);
+            newWindow.document.close();
+            alert('📱 Imagen abierta en nueva pestaña.\n\nMantén presionada la imagen para guardarla en tu galería.');
+          } else {
+            throw new Error('No se pudo abrir la ventana. Verifica los permisos de pop-ups.');
+          }
+        } else {
+          // En desktop, descarga directa
+          console.log('💻 Modo desktop: Descarga directa');
+          const link = document.createElement('a');
+          link.href = imgData;
+          link.download = `${fileName}.png`;
+          link.style.display = 'none';
+          
+          document.body.appendChild(link);
+          link.click();
+          
+          setTimeout(() => {
+            document.body.removeChild(link);
+          }, 100);
+          
+          alert('✅ Imagen descargada correctamente');
+        }
+        
+        console.log('✅ Imagen procesada exitosamente');
+        
+      } else { // PDF
+        console.log('📄 Generando PDF...');
+        const imgData = canvas.toDataURL('image/png', 1.0);
+        
+        if (!imgData || imgData === 'data:,') {
+          throw new Error('No se pudo generar la imagen para el PDF');
+        }
+        
+        // Dimensiones del canvas en píxeles
+        const canvasWidthPx = canvas.width;
+        const canvasHeightPx = canvas.height;
+        
+        // Convertir a mm (usando una escala más precisa)
+        const pxToMm = 0.264583;
+        const imgWidthMM = (canvasWidthPx * pxToMm) / scale;
+        const imgHeightMM = (canvasHeightPx * pxToMm) / scale;
+        
+        // Tamaño A4 en mm
+        const a4WidthMM = 210;
+        const a4HeightMM = 297;
+        const marginMM = 15;
+        
+        // Área útil
+        const maxWidthMM = a4WidthMM - (marginMM * 2);
+        const maxHeightMM = a4HeightMM - (marginMM * 2);
+        
+        console.log('📏 Dimensiones:', {
+          'Canvas (px)': `${canvasWidthPx} x ${canvasHeightPx}`,
+          'Imagen (mm)': `${imgWidthMM.toFixed(2)} x ${imgHeightMM.toFixed(2)}`,
+          'Área útil A4 (mm)': `${maxWidthMM} x ${maxHeightMM}`
         });
-        pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
-        pdf.save(`${fileName}.pdf`);
+        
+        // Calcular escala para ajustar a la página
+        let finalWidthMM = imgWidthMM;
+        let finalHeightMM = imgHeightMM;
+        
+        if (finalWidthMM > maxWidthMM || finalHeightMM > maxHeightMM) {
+          const scaleRatio = Math.min(
+            maxWidthMM / finalWidthMM,
+            maxHeightMM / finalHeightMM
+          );
+          finalWidthMM *= scaleRatio;
+          finalHeightMM *= scaleRatio;
+        }
+        
+        // Determinar orientación
+        const orientation = finalWidthMM > finalHeightMM ? 'landscape' : 'portrait';
+        
+        console.log('📐 PDF final:', {
+          orientation,
+          'Dimensiones (mm)': `${finalWidthMM.toFixed(2)} x ${finalHeightMM.toFixed(2)}`
+        });
+        
+        const pdf = new jsPDF({
+          orientation: orientation,
+          unit: 'mm',
+          format: 'a4',
+          compress: true
+        });
+        
+        // Centrar la imagen
+        const xPosition = (a4WidthMM - finalWidthMM) / 2;
+        const yPosition = marginMM;
+        
+        pdf.addImage(
+          imgData,
+          'PNG',
+          xPosition,
+          yPosition,
+          finalWidthMM,
+          finalHeightMM,
+          undefined,
+          'FAST'
+        );
+        
+        if (isMobile) {
+          // En móviles, abrir el PDF en una nueva pestaña
+          console.log('📱 Modo móvil: Abriendo PDF en nueva pestaña');
+          const pdfBlob = pdf.output('blob');
+          const pdfUrl = URL.createObjectURL(pdfBlob);
+          const newWindow = window.open(pdfUrl, '_blank');
+          if (newWindow) {
+            alert('📱 PDF abierto en nueva pestaña.\n\nUsa el botón de compartir para guardar o enviar el PDF.');
+          } else {
+            throw new Error('No se pudo abrir el PDF. Verifica los permisos de pop-ups.');
+          }
+          // Limpiar el URL después de un tiempo
+          setTimeout(() => URL.revokeObjectURL(pdfUrl), 10000);
+        } else {
+          // En desktop, descarga directa
+          pdf.save(`${fileName}.pdf`);
+          alert('✅ PDF descargado correctamente');
+        }
+        
+        console.log('✅ PDF procesado exitosamente');
       }
+      
     } catch (error) {
-      console.error('Error during export:', error);
-      // Optionally, set an error state to inform the user
+      console.error('❌ Error detallado durante exportación:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      alert(`❌ Error al exportar: ${errorMessage}\n\nPor favor, intenta de nuevo o contacta a soporte.`);
     } finally {
       setIsExporting(null);
     }
@@ -203,8 +397,15 @@ ${recommendation.reasoning}
           </div>
       </div>
 
-      <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-brand-green-200 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
-        <h4 className="font-semibold text-brand-green-800 text-sm md:text-base">¿Guardar o compartir?</h4>
+      <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-brand-green-200 flex flex-col items-center justify-center gap-3 md:gap-4">
+        <div className="text-center">
+          <h4 className="font-semibold text-brand-green-800 text-sm md:text-base">
+            {isMobileDevice ? '📱 Guardar en tu dispositivo' : '💾 Guardar o compartir'}
+          </h4>
+          {isMobileDevice && (
+            <p className="text-xs text-slate-600 mt-1">Se abrirá en nueva pestaña para guardar</p>
+          )}
+        </div>
         <div className="flex gap-3 md:gap-4">
           {isExporting && (
             <div className="text-sm text-brand-green-600 font-medium">
@@ -224,7 +425,9 @@ ${recommendation.reasoning}
             ) : (
                 <FileImage className="w-4 h-4 md:w-5 md:h-5" />
             )}
-            <span>{isExporting === 'image' ? 'Exportando...' : 'Imagen'}</span>
+            <span>
+              {isExporting === 'image' ? 'Exportando...' : (isMobileDevice ? 'Guardar Imagen' : 'Imagen')}
+            </span>
           </motion.button>
            <motion.button
             whileHover={{ scale: 1.05, boxShadow: '0 4px 24px rgba(30,41,59,0.18)' }}
@@ -239,7 +442,9 @@ ${recommendation.reasoning}
             ) : (
                 <FileText className="w-4 h-4 md:w-5 md:h-5" />
             )}
-            <span>{isExporting === 'pdf' ? 'Exportando...' : 'PDF'}</span>
+            <span>
+              {isExporting === 'pdf' ? 'Exportando...' : (isMobileDevice ? 'Guardar PDF' : 'PDF')}
+            </span>
           </motion.button>
         </div>
       </div>
