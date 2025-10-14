@@ -133,74 +133,60 @@ ${recommendation.reasoning}
           throw new Error('No se pudo generar la imagen');
         }
         
-        if (isMobile) {
-          // En móviles, abrir la imagen en una nueva pestaña
-          console.log('📱 Modo móvil: Abriendo imagen en nueva pestaña');
-          const newWindow = window.open();
-          if (newWindow) {
-            newWindow.document.write(`
-              <!DOCTYPE html>
-              <html>
-                <head>
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <title>Wellkitt - Recomendación</title>
-                  <style>
-                    body {
-                      margin: 0;
-                      padding: 0;
-                      background: #f3f4f6;
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                      justify-content: center;
-                      min-height: 100vh;
-                      font-family: system-ui, -apple-system, sans-serif;
-                    }
-                    .container {
-                      text-align: center;
-                      padding: 20px;
-                      max-width: 100%;
-                    }
-                    img {
-                      max-width: 100%;
-                      height: auto;
-                      border-radius: 12px;
-                      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-                      margin-bottom: 20px;
-                    }
-                    .instructions {
-                      background: white;
-                      padding: 15px;
-                      border-radius: 8px;
-                      margin-top: 15px;
-                      color: #374151;
-                      font-size: 14px;
-                      line-height: 1.6;
-                    }
-                    .title {
-                      color: #059669;
-                      font-weight: bold;
-                      margin-bottom: 10px;
-                    }
-                  </style>
-                </head>
-                <body>
-                  <div class="container">
-                    <img src="${imgData}" alt="Wellkitt Recomendación">
-                    <div class="instructions">
-                      <div class="title">📸 Para guardar la imagen:</div>
-                      <p><strong>iOS:</strong> Mantén presionada la imagen y selecciona "Guardar imagen"</p>
-                      <p><strong>Android:</strong> Mantén presionada la imagen y selecciona "Descargar imagen"</p>
-                    </div>
-                  </div>
-                </body>
-              </html>
-            `);
-            newWindow.document.close();
-            alert('📱 Imagen abierta en nueva pestaña.\n\nMantén presionada la imagen para guardarla en tu galería.');
-          } else {
-            throw new Error('No se pudo abrir la ventana. Verifica los permisos de pop-ups.');
+        if (isMobile && navigator.share) {
+          // Usar Web Share API en móviles (funciona en iOS Safari y Android Chrome)
+          console.log('📱 Usando Web Share API');
+          
+          // Convertir base64 a Blob
+          const base64Data = imgData.split(',')[1];
+          const byteCharacters = atob(base64Data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
           }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'image/png' });
+          
+          const file = new File([blob], `${fileName}.png`, { type: 'image/png' });
+          
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'Wellkitt - Tu Recomendación Personalizada',
+              text: 'Mi recomendación personalizada de Wellkitt'
+            });
+            console.log('✅ Compartido exitosamente');
+          } catch (shareError: any) {
+            if (shareError.name === 'AbortError') {
+              console.log('ℹ️ Usuario canceló compartir');
+            } else {
+              console.log('⚠️ Error al compartir, intentando método alternativo');
+              // Método alternativo: descargar directamente
+              const link = document.createElement('a');
+              link.href = imgData;
+              link.download = `${fileName}.png`;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          }
+        } else if (isMobile) {
+          // Fallback para móviles sin Web Share API
+          console.log('📱 Fallback móvil: Descarga directa');
+          const link = document.createElement('a');
+          link.href = imgData;
+          link.download = `${fileName}.png`;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          
+          document.body.appendChild(link);
+          link.click();
+          
+          setTimeout(() => {
+            document.body.removeChild(link);
+          }, 100);
+          
+          alert('📱 Imagen descargada.\n\nRevisa tu carpeta de Descargas o Galería.');
         } else {
           // En desktop, descarga directa
           console.log('💻 Modo desktop: Descarga directa');
@@ -296,19 +282,32 @@ ${recommendation.reasoning}
           'FAST'
         );
         
-        if (isMobile) {
-          // En móviles, abrir el PDF en una nueva pestaña
-          console.log('📱 Modo móvil: Abriendo PDF en nueva pestaña');
+        if (isMobile && navigator.share) {
+          // Usar Web Share API en móviles
+          console.log('📱 Usando Web Share API para PDF');
           const pdfBlob = pdf.output('blob');
-          const pdfUrl = URL.createObjectURL(pdfBlob);
-          const newWindow = window.open(pdfUrl, '_blank');
-          if (newWindow) {
-            alert('📱 PDF abierto en nueva pestaña.\n\nUsa el botón de compartir para guardar o enviar el PDF.');
-          } else {
-            throw new Error('No se pudo abrir el PDF. Verifica los permisos de pop-ups.');
+          const pdfFile = new File([pdfBlob], `${fileName}.pdf`, { type: 'application/pdf' });
+          
+          try {
+            await navigator.share({
+              files: [pdfFile],
+              title: 'Wellkitt - Tu Recomendación Personalizada',
+              text: 'Mi recomendación personalizada de Wellkitt en PDF'
+            });
+            console.log('✅ PDF compartido exitosamente');
+          } catch (shareError: any) {
+            if (shareError.name === 'AbortError') {
+              console.log('ℹ️ Usuario canceló compartir');
+            } else {
+              console.log('⚠️ Error al compartir PDF, descargando directamente');
+              pdf.save(`${fileName}.pdf`);
+            }
           }
-          // Limpiar el URL después de un tiempo
-          setTimeout(() => URL.revokeObjectURL(pdfUrl), 10000);
+        } else if (isMobile) {
+          // Fallback para móviles sin Web Share API
+          console.log('📱 Fallback móvil: Descarga directa de PDF');
+          pdf.save(`${fileName}.pdf`);
+          alert('📱 PDF descargado.\n\nRevisa tu carpeta de Descargas.');
         } else {
           // En desktop, descarga directa
           pdf.save(`${fileName}.pdf`);
@@ -400,10 +399,10 @@ ${recommendation.reasoning}
       <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-brand-green-200 flex flex-col items-center justify-center gap-3 md:gap-4">
         <div className="text-center">
           <h4 className="font-semibold text-brand-green-800 text-sm md:text-base">
-            {isMobileDevice ? '📱 Guardar en tu dispositivo' : '💾 Guardar o compartir'}
+            {isMobileDevice ? '📱 Compartir o guardar' : '💾 Guardar o compartir'}
           </h4>
           {isMobileDevice && (
-            <p className="text-xs text-slate-600 mt-1">Se abrirá en nueva pestaña para guardar</p>
+            <p className="text-xs text-slate-600 mt-1">Usa el menú de compartir de tu dispositivo</p>
           )}
         </div>
         <div className="flex gap-3 md:gap-4">
@@ -426,7 +425,7 @@ ${recommendation.reasoning}
                 <FileImage className="w-4 h-4 md:w-5 md:h-5" />
             )}
             <span>
-              {isExporting === 'image' ? 'Exportando...' : (isMobileDevice ? 'Guardar Imagen' : 'Imagen')}
+              {isExporting === 'image' ? 'Exportando...' : (isMobileDevice ? 'Compartir Imagen' : 'Imagen')}
             </span>
           </motion.button>
            <motion.button
@@ -443,7 +442,7 @@ ${recommendation.reasoning}
                 <FileText className="w-4 h-4 md:w-5 md:h-5" />
             )}
             <span>
-              {isExporting === 'pdf' ? 'Exportando...' : (isMobileDevice ? 'Guardar PDF' : 'PDF')}
+              {isExporting === 'pdf' ? 'Exportando...' : (isMobileDevice ? 'Compartir PDF' : 'PDF')}
             </span>
           </motion.button>
         </div>
