@@ -36,7 +36,7 @@
       "especialidad": "Fitoterapia científica, oligoelementos, nutrición celular",
       "certificaciones": ["ISO", "GMP"],
       "lineasProducto": ["Diatonatos", "Oligonatos", "Fostprint", "Vitaminas", "Extractos"],
-      "presentaciones": ["Cápsulas", "Tablets", "Soluciones (ampollas bebibles)", "Emulsiones", "Viales", "Polvos"],
+      "presentaciones": ["Cápsulas", "Tablets", "Comprimidos", "Frascos ámbar 60ml (Diatonatos/Oligonatos)", "Viales bebibles (Fostprint)", "Emulsiones", "Polvos"],
       "destacados": ["Coenzima Q10", "Fostprint MAX", "Oligosor", "Resverasor"]
     },
     {
@@ -69,6 +69,7 @@
           "productos": [
             {"id": "SN01", "nombre": "Calciflavón", "marca": "Soria Natural", "formato": "Tablets"},
             {"id": "SN12", "nombre": "Inulac", "marca": "Soria Natural", "formato": "Tablets masticables"},
+            {"id": "SN15", "nombre": "Minesor con Selenio", "marca": "Soria Natural", "formato": "Bote 24 comprimidos 200mg"},
             {"id": "BF01", "nombre": "Hepacryl", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
             {"id": "BF04", "nombre": "Colix", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
             {"id": "BF11", "nombre": "Alga Espirulina", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
@@ -116,17 +117,23 @@
         "soluciones": {
           "descripcion": "Mezcla homogénea donde el principio activo está completamente disuelto",
           "ventajas": ["Absorción rápida y uniforme", "Dosificación fácil de ajustar", "Biodisponibilidad óptima"],
-          "lineas": ["Diatonatos", "Oligonatos", "Minesor", "Oligosor"],
+          "lineas": ["Diatonatos", "Oligonatos", "Oligosor"],
           "productos": [
-            {"id": "SN04", "nombre": "Diatonato 1", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
-            {"id": "SN05", "nombre": "Diatonato 2", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
-            {"id": "SN06", "nombre": "Diatonato 3", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
-            {"id": "SN07", "nombre": "Diatonato 5.1", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
-            {"id": "SN08", "nombre": "Diatonato 5.2", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
-            {"id": "SN15", "nombre": "Minesor con Selenio", "marca": "Soria Natural", "formato": "Solución"},
-            {"id": "SN16", "nombre": "Oligonato 1", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
-            {"id": "SN17", "nombre": "Oligonato 2", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
-            {"id": "SN18", "nombre": "Oligosor", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"}
+            {"id": "SN04", "nombre": "Diatonato 1", "marca": "Soria Natural", "formato": "Frasco ámbar 60ml"},
+            {"id": "SN05", "nombre": "Diatonato 2", "marca": "Soria Natural", "formato": "Frasco ámbar 60ml"},
+            {"id": "SN06", "nombre": "Diatonato 3", "marca": "Soria Natural", "formato": "Frasco ámbar 60ml"},
+            {"id": "SN07", "nombre": "Diatonato 5.1", "marca": "Soria Natural", "formato": "Frasco ámbar 60ml"},
+            {"id": "SN08", "nombre": "Diatonato 5.2", "marca": "Soria Natural", "formato": "Frasco ámbar 60ml"},
+            {"id": "SN16", "nombre": "Oligonato 1", "marca": "Soria Natural", "formato": "Frasco ámbar 60ml"},
+            {"id": "SN17", "nombre": "Oligonato 2", "marca": "Soria Natural", "formato": "Frasco ámbar 60ml"},
+            {"id": "SN18", "nombre": "Oligosor", "marca": "Soria Natural", "formato": "Frasco ámbar 60ml"}
+          ]
+        },
+        "tabletsComprimidosEspeciales": {
+          "descripcion": "Comprimidos de oligoelementos con formulación especial",
+          "ventajas": ["Alta concentración de minerales", "Fácil dosificación", "Estables y duraderos"],
+          "productos": [
+            {"id": "SN15", "nombre": "Minesor con Selenio", "marca": "Soria Natural", "formato": "Bote 24 comprimidos 200mg"}
           ]
         },
         "frascoGotero": {
@@ -235,9 +242,12 @@
       "capsulas": "Tomar con agua, preferiblemente con alimentos para mejor absorción",
       "polvos": "Disolver en agua, jugo o licuado. Permite ajustar dosis según necesidad",
       "goteros": "Diluir gotas en agua o tomar directamente. Dosis típica: 20-30 gotas 2-3 veces al día",
+      "frascosAmbar": "Agitar antes de usar. Diluir la dosis indicada en agua o tomar directamente. Diatonatos/Oligonatos: generalmente 1-2ml al día",
       "soluciones": "Tomar ampolla bebible directamente o diluida en agua. Generalmente en ayunas",
       "comprimidos": "Tomar con agua. Pueden masticarse si son masticables (como Inulac)",
+      "comprimidosOligoelementos": "Tomar 1 comprimido al día con agua, preferiblemente en ayunas para mejor absorción de minerales",
       "ampollas": "Abrir y beber directamente o diluir en agua. Generalmente 1 ampolla al día",
+      "vialesBebibles": "Fostprint: Tomar 1 vial al día, preferiblemente en ayunas. Puede tomarse directo o diluir en agua",
       "topicos": "Aplicar sobre piel limpia, masajeando suavemente. 2-3 veces al día"
     }
   },
@@ -285,7 +295,7 @@
         "categoria": "Sistema Inmune",
         "ingredientes": ["Gluconato de manganeso (0.6 mg)"],
         "beneficios": ["Refuerza sistema respiratorio", "Regula funciones alérgicas", "Mejora defensas"],
-        "presentacion": "Solución (ampollas bebibles)",
+        "presentacion": "Frasco ámbar 60ml",
         "sistemas": ["Respiratorio", "Inmune"],
         "indicaciones": ["Alergias", "Problemas respiratorios", "Defensas bajas"]
       },
@@ -296,7 +306,7 @@
         "categoria": "Sistema Inmune",
         "ingredientes": ["Gluconato de manganeso", "Gluconato de cobre"],
         "beneficios": ["Estimula sistema inmunológico y metabólico", "Antioxidante"],
-        "presentacion": "Solución (ampollas bebibles)",
+        "presentacion": "Frasco ámbar 60ml",
         "sistemas": ["Inmune", "Metabólico"],
         "indicaciones": ["Infecciones recurrentes", "Metabolismo lento"]
       },
@@ -307,7 +317,7 @@
         "categoria": "Anti-Estrés y Sueño",
         "ingredientes": ["Gluconato de manganeso", "Gluconato de cobalto"],
         "beneficios": ["Apoyo en fatiga crónica", "Ansiedad", "Trastornos hormonales"],
-        "presentacion": "Solución (ampollas bebibles)",
+        "presentacion": "Frasco ámbar 60ml",
         "sistemas": ["Nervioso", "Hormonal"],
         "indicaciones": ["Fatiga crónica", "Ansiedad", "Desequilibrio hormonal"]
       },
@@ -318,7 +328,7 @@
         "categoria": "Salud Femenina",
         "ingredientes": ["Gluconato de zinc", "Gluconato de cobre"],
         "beneficios": ["Equilibrio hormonal", "Piel", "Inmunidad", "Energía"],
-        "presentacion": "Solución (ampollas bebibles)",
+        "presentacion": "Frasco ámbar 60ml",
         "sistemas": ["Hormonal", "Piel", "Inmune"],
         "indicaciones": ["Desequilibrio hormonal", "Acné", "Defensas bajas"]
       },
@@ -329,7 +339,7 @@
         "categoria": "Metabolismo",
         "ingredientes": ["Gluconato de zinc", "Gluconato de níquel", "Gluconato de cobalto"],
         "beneficios": ["Regulación endocrina", "Metabolismo energético"],
-        "presentacion": "Solución (ampollas bebibles)",
+        "presentacion": "Frasco ámbar 60ml",
         "sistemas": ["Endocrino", "Metabólico"],
         "indicaciones": ["Problemas metabólicos", "Diabetes", "Resistencia a la insulina"]
       },
@@ -406,7 +416,7 @@
         "categoria": "Detox y Antioxidantes",
         "ingredientes": ["Oligoelementos", "Selenio"],
         "beneficios": ["Antioxidante potente", "Salud tiroidea", "Fortalece inmunidad"],
-        "presentacion": "Solución",
+        "presentacion": "Bote 24 comprimidos 200mg",
         "sistemas": ["Endocrino", "Inmune"],
         "indicaciones": ["Tiroides", "Estrés oxidativo", "Defensas bajas"]
       },
@@ -417,7 +427,7 @@
         "categoria": "Oligoelementos",
         "ingredientes": ["Cobre", "Magnesio", "Manganeso", "Potasio", "Cobalto"],
         "beneficios": ["Mejora funciones neuromusculares y cardiovasculares"],
-        "presentacion": "Solución (ampollas bebibles)",
+        "presentacion": "Frasco ámbar 60ml",
         "sistemas": ["Nervioso", "Cardiovascular", "Muscular"],
         "indicaciones": ["Calambres", "Arritmias", "Nerviosismo"]
       },
@@ -428,7 +438,7 @@
         "categoria": "Oligoelementos",
         "ingredientes": ["Fósforo", "Flúor", "Yodo", "Azufre"],
         "beneficios": ["Salud ósea", "Salud dental", "Función hormonal"],
-        "presentacion": "Solución (ampollas bebibles)",
+        "presentacion": "Frasco ámbar 60ml",
         "sistemas": ["Óseo", "Hormonal"],
         "indicaciones": ["Osteoporosis", "Problemas dentales", "Hipotiroidismo"]
       },
@@ -439,7 +449,7 @@
         "categoria": "Oligoelementos completo",
         "ingredientes": ["Azufre", "Cobalto", "Cobre", "Fósforo", "Yodo", "Litio", "Magnesio", "Potasio", "Zinc"],
         "beneficios": ["Remineralización completa", "Modulación neuroendocrina", "Equilibrio emocional"],
-        "presentacion": "Solución (ampollas bebibles)",
+        "presentacion": "Frasco ámbar 60ml",
         "sistemas": ["General", "Nervioso", "Hormonal"],
         "indicaciones": ["Desmineralización", "Depresión", "Ansiedad", "Estados emocionales alterados"]
       },
