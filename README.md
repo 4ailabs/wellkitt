@@ -394,3 +394,29 @@ Este proyecto es privado y propiedad de **Wellkitt**.
 [⬆ Volver arriba](#-wellkitt---tu-navegador-de-salud-natural)
 
 </div>
+
+---
+
+## 🔁 Deploy rápido a Vercel (comandos)
+
+Si prefieres desplegar desde la terminal y ya tienes acceso al repositorio en GitHub y a Vercel, este es el flujo mínimo:
+
+```bash
+# 1) Asegúrate de estar en la rama main y con todos los cambios commiteados
+git checkout main
+git pull origin main
+
+# 2) (Opcional) Instalar Vercel CLI
+npm install -g vercel
+
+# 3) Desplegar en prod (te pedirá organización/nombre si es la primera vez)
+vercel --prod
+
+# 4) Agregar la variable de entorno (si no la has puesto desde la web)
+vercel env add GEMINI_API_KEY production
+```
+
+Notas:
+- `vercel --prod` hará un deploy inmediato y devolverá la URL.
+- No subas tu `.env.local` al repo. Usa las variables de entorno en Vercel.
+
