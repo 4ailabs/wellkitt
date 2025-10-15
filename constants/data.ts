@@ -22,7 +22,7 @@ export const products: Product[] = [
   { id: "SN18", name: "Oligosor", brand: "Soria Natural", ingredients: ["Azufre", "cobalto", "cobre", "fósforo", "iodo", "litio", "magnesio", "potasio", "zinc"], benefits: ["Remineralización", "modulación neuroendocrina"], category: "Detox y Antioxidantes" },
   { id: "SN19", name: "Resverasor", brand: "Soria Natural", ingredients: ["Resveratrol (extracto de uva negra)"], benefits: ["Antioxidante", "salud cardiovascular", "antiinflamatorio", "neuroprotector"], category: "Sistema Inmune" },
   { id: "SN20", name: "Analis L-Triptófano", brand: "Soria Natural", ingredients: ["L-Lisina", "L-Triptófano"], benefits: ["Precursor de serotonina y melatonina", "regula estado de ánimo"], category: "Anti-Estrés y Sueño", presentation: "60 cápsulas de 500 mg" },
-  { id: "SN21", name: "Carnilis", brand: "Soria Natural", ingredients: ["L-Carnitina", "Nitrato de cromo"], benefits: ["Transporte de ácidos grasos", "mejora metabolismo energético", "reduce fatiga"], category: "Energía y Rendimiento", presentation: "60 cápsulas de 500 mg" },
+  { id: "SN21", name: "Carnilis", brand: "Aminas y Derivados", ingredients: ["L-Carnitina"], benefits: ["Transporte de ácidos grasos", "mejora metabolismo energético", "reduce fatiga"], category: "Energía y Rendimiento", presentation: "60 cápsulas de 500 mg" },
 
   // Biofito
   { id: "BF01", name: "Hepacryl", brand: "Biofito", ingredients: ["Cardo mariano", "Alcachofa", "Boldo", "Diente de león", "Cúrcuma"], benefits: ["Protege hígado", "regenera células hepáticas", "desintoxica"], category: "Detox y Antioxidantes", presentation: "Bote 90 comprimidos 750 mg" },

@@ -137,9 +137,10 @@
       {
         "id": "AA007",
         "nombre": "Carnilis",
-        "ingredientes": ["L-Carnitina", "Nitrato de cromo"],
+        "ingredientes": ["L-Carnitina"],
         "presentacion": "60 cápsulas 500mg",
         "categoria": "Aminoácidos especializados",
+        "marca": "Aminas y Derivados",
         "usos": ["Metabolismo energético", "Control de peso", "Rendimiento físico"],
         "beneficios": ["Transporte ácidos grasos a mitocondrias", "Mejora metabolismo energético", "Reduce fatiga muscular", "Control de peso y rendimiento físico"],
         "sistemas": ["metabolico", "muscular"]
