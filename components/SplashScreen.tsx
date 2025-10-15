@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Dna, Droplets, Activity } from 'lucide-react';
+import { Dna, Droplets, Activity } from 'lucide-react';
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -58,8 +58,12 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
         <div className={`transition-all duration-700 ease-out ${
           currentStep >= 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
         }`}>
-          <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-brand-green-500 to-brand-green-600 rounded-3xl flex items-center justify-center shadow-2xl mx-auto mb-6">
-            <Heart className="w-12 h-12 md:w-16 md:h-16 text-white" />
+          <div className="flex justify-center items-center mx-auto mb-6">
+            <img 
+              src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=500w" 
+              alt="Wellkitt Logo" 
+              className="h-24 md:h-32 w-auto drop-shadow-2xl"
+            />
           </div>
         </div>
 

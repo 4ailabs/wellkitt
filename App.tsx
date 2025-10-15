@@ -201,7 +201,11 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 font-sans text-slate-800">
       <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-10 border-b border-gray-100">
         <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-          <h1 className="text-2xl md:text-3xl font-bold text-brand-green-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h1>
+          <img 
+            src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=500w" 
+            alt="Wellkitt Logo" 
+            className="h-8 md:h-10 lg:h-12 w-auto"
+          />
           <p className="hidden md:block text-slate-600 font-light" style={{ fontFamily: 'Inter, sans-serif' }}>Tu Navegador de Salud Natural</p>
         </div>
       </header>
@@ -224,8 +228,12 @@ const App: React.FC = () => {
             {/* Hero Section */}
             <section className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
                 <div className="text-center">
-                    <div className="flex justify-center mb-4 md:mb-6">
-                        <Heart className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-brand-green-600" strokeWidth={1.5} />
+                    <div className="flex justify-center mb-6 md:mb-8">
+                        <img 
+                            src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=500w" 
+                            alt="Wellkitt Logo" 
+                            className="h-16 md:h-24 lg:h-32 w-auto"
+                        />
                     </div>
                     
                     <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 mb-4 md:mb-6 tracking-tight px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
@@ -697,7 +705,13 @@ const App: React.FC = () => {
         <div className="max-w-5xl mx-auto px-4 py-8 md:py-12 lg:py-16">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 text-center md:text-left">
                 <div>
-                    <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>Wellkitt</h3>
+                    <div className="flex items-center gap-3 justify-center md:justify-start mb-3">
+                        <img 
+                            src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=500w" 
+                            alt="Wellkitt Logo" 
+                            className="h-8 md:h-10 w-auto"
+                        />
+                    </div>
                     <p className="text-sm md:text-base text-slate-600 font-light">Tu Navegador de Salud Natural</p>
                     <p className="text-xs md:text-sm text-slate-500 mt-3 md:mt-4">&copy; {new Date().getFullYear()} Wellkitt. Todos los derechos reservados.</p>
                 </div>
