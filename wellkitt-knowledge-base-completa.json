@@ -269,18 +269,6 @@
         "sistemas": ["Cardiovascular", "Nervioso"],
         "indicaciones": ["Antienvejecimiento", "Prevención cardiovascular", "Inflamación crónica"]
       },
-      {
-        "id": "SN20",
-        "nombre": "Analis L-Triptófano",
-        "marca": "Soria Natural",
-        "categoria": "Anti-Estrés y Sueño",
-        "ingredientes": ["L-Lisina", "L-Triptófano"],
-        "beneficios": ["Precursor de serotonina y melatonina", "Regula estado de ánimo", "Mejora sueño"],
-        "presentacion": "60 cápsulas de 500 mg",
-        "sistemas": ["Nervioso"],
-        "indicaciones": ["Insomnio", "Depresión", "Ansiedad", "Mal humor"],
-        "nota": "Distribuido por Soria Natural, contiene aminoácidos"
-      }
     ],
     
     "biofito": [
@@ -606,6 +594,18 @@
         "presentacion": "60 cápsulas 500mg",
         "sistemas": ["Nervioso"],
         "indicaciones": ["Insomnio", "Depresión leve", "Ansiedad", "Mal humor", "Apetito excesivo"]
+      },
+      {
+        "id": "SN20",
+        "nombre": "Analis L-Triptófano",
+        "marca": "Aminas y Derivados",
+        "categoria": "Anti-Estrés y Sueño",
+        "ingredientes": ["L-Lisina", "L-Triptófano"],
+        "beneficios": ["Precursor de serotonina y melatonina", "Regula estado de ánimo", "Mejora sueño"],
+        "presentacion": "60 cápsulas de 500 mg",
+        "sistemas": ["Nervioso"],
+        "indicaciones": ["Insomnio", "Depresión", "Ansiedad", "Mal humor"],
+        "nota": "Mismo producto que AA005, código SN20 usado en algunos kits"
       },
       {
         "id": "AA006",
@@ -975,18 +975,24 @@
   
   "metadatos": {
     "totalProductos": 35,
-    "productosS oriaNatural": 20,
+    "productosSoriaNatural": 19,
     "productosBiofito": 24,
-    "productosAminasYDerivados": 11,
+    "productosAminasYDerivados": 12,
     "totalKits": 8,
     "marcas": 3,
     "categoriasPrincipales": 11,
     "fechaActualizacion": "2025-10-15",
-    "version": "2.0",
+    "version": "2.1",
     "correccionesRealizadas": [
-      "Marca de aminoácidos corregida a 'Aminas y Derivados'",
-      "Carnilis corregido: solo contiene L-Carnitina (sin cromo)",
+      "TODOS los aminoácidos (incluyendo productos con prefijo AA y códigos SN20, SN21) son de 'Aminas y Derivados'",
+      "Carnilis (AA007/SN21) corregido: solo contiene L-Carnitina pura (SIN cromo)",
+      "Analis L-Triptófano (AA005/SN20) es de Aminas y Derivados",
       "Información de marcas ampliada y detallada"
+    ],
+    "aclaraciones": [
+      "Los códigos SN20 y SN21 se usan en la app por compatibilidad, pero estos productos son de Aminas y Derivados",
+      "Todos los productos de la línea 'Analis' son fabricados por Aminas y Derivados",
+      "Soria Natural solo distribuye algunos de estos productos pero NO los fabrica"
     ],
     "generadoPara": "Base de conocimiento Claude AI - Proyecto Wellkitt"
   }

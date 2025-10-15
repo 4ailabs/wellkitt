@@ -21,7 +21,7 @@ export const products: Product[] = [
   { id: "SN17", name: "Oligonato 2", brand: "Soria Natural", ingredients: ["Fósforo", "flúor", "yodo", "azufre"], benefits: ["Salud ósea", "dental", "hormonal"], category: "Control de Peso" },
   { id: "SN18", name: "Oligosor", brand: "Soria Natural", ingredients: ["Azufre", "cobalto", "cobre", "fósforo", "iodo", "litio", "magnesio", "potasio", "zinc"], benefits: ["Remineralización", "modulación neuroendocrina"], category: "Detox y Antioxidantes" },
   { id: "SN19", name: "Resverasor", brand: "Soria Natural", ingredients: ["Resveratrol (extracto de uva negra)"], benefits: ["Antioxidante", "salud cardiovascular", "antiinflamatorio", "neuroprotector"], category: "Sistema Inmune" },
-  { id: "SN20", name: "Analis L-Triptófano", brand: "Soria Natural", ingredients: ["L-Lisina", "L-Triptófano"], benefits: ["Precursor de serotonina y melatonina", "regula estado de ánimo"], category: "Anti-Estrés y Sueño", presentation: "60 cápsulas de 500 mg" },
+  { id: "SN20", name: "Analis L-Triptófano", brand: "Aminas y Derivados", ingredients: ["L-Lisina", "L-Triptófano"], benefits: ["Precursor de serotonina y melatonina", "regula estado de ánimo"], category: "Anti-Estrés y Sueño", presentation: "60 cápsulas de 500 mg" },
   { id: "SN21", name: "Carnilis", brand: "Aminas y Derivados", ingredients: ["L-Carnitina"], benefits: ["Transporte de ácidos grasos", "mejora metabolismo energético", "reduce fatiga"], category: "Energía y Rendimiento", presentation: "60 cápsulas de 500 mg" },
 
   // Biofito
