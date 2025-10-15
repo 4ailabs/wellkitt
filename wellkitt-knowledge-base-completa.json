@@ -36,6 +36,7 @@
       "especialidad": "Fitoterapia científica, oligoelementos, nutrición celular",
       "certificaciones": ["ISO", "GMP"],
       "lineasProducto": ["Diatonatos", "Oligonatos", "Fostprint", "Vitaminas", "Extractos"],
+      "presentaciones": ["Cápsulas", "Tablets", "Soluciones (ampollas bebibles)", "Emulsiones", "Viales", "Polvos"],
       "destacados": ["Coenzima Q10", "Fostprint MAX", "Oligosor", "Resverasor"]
     },
     {
@@ -43,7 +44,7 @@
       "codigo": "BF",
       "origen": "México",
       "especialidad": "Herbolaria tradicional mexicana, extractos naturales",
-      "presentaciones": ["Goteros 50ml", "Comprimidos 750mg/500mg"],
+      "presentaciones": ["Frascos goteros 50ml", "Comprimidos 750mg/500mg", "Bálsamos"],
       "destacados": ["Ner-vit", "Fem-vit", "Immune Herb", "Fat-less", "Colix"]
     },
     {
@@ -51,11 +52,195 @@
       "codigo": "AA",
       "origen": "México",
       "especialidad": "Aminoácidos, neurotransmisores, nutrición avanzada",
-      "presentaciones": ["Cápsulas 500mg", "Polvos 130g/260g/400g"],
+      "presentaciones": ["Cápsulas 500mg (60 unidades)", "Polvos 130g/260g/400g"],
       "lineasProducto": ["Analis (aminoácidos individuales)", "Complejos especializados"],
-      "destacados": ["Carnilis", "Neurotransmisores", "Cronovida", "Glicam"]
+      "destacados": ["Carnilis", "Neurotransmisores", "Cronovida", "Glicam"],
+      "nota": "Fabricante de TODOS los productos con códigos AA* y también SN20, SN21"
     }
   ],
+  
+  "formasFarmaceuticas": {
+    "formasSolidasOrales": {
+      "descripcion": "Presentaciones más comunes por conveniencia, estabilidad y precisión en dosificación",
+      "tipos": {
+        "tabletsYComprimidos": {
+          "descripcion": "Formas farmacéuticas sólidas fabricadas por compresión",
+          "ventajas": ["Larga vida útil", "Dosificación exacta", "Fáciles de transportar", "Convenientes para consumir"],
+          "productos": [
+            {"id": "SN01", "nombre": "Calciflavón", "marca": "Soria Natural", "formato": "Tablets"},
+            {"id": "SN12", "nombre": "Inulac", "marca": "Soria Natural", "formato": "Tablets masticables"},
+            {"id": "BF01", "nombre": "Hepacryl", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
+            {"id": "BF04", "nombre": "Colix", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
+            {"id": "BF11", "nombre": "Alga Espirulina", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
+            {"id": "BF15", "nombre": "Uña de Gato", "marca": "Biofito", "formato": "90 comprimidos 500mg"},
+            {"id": "BF17", "nombre": "Cúrcuma", "marca": "Biofito", "formato": "90 comprimidos"},
+            {"id": "BF20", "nombre": "Equinácea", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
+            {"id": "BF21", "nombre": "Anti-B", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
+            {"id": "BF22", "nombre": "Fat-less", "marca": "Biofito", "formato": "90 comprimidos 750mg"},
+            {"id": "BF13", "nombre": "Barbasco", "marca": "Biofito", "formato": "90 comprimidos 500mg"}
+          ]
+        },
+        "capsulas": {
+          "descripcion": "Cubiertas de gelatina que contienen principio activo en polvo o granulado",
+          "ventajas": ["Enmascaran sabores desagradables", "Protegen ingredientes de luz y aire", "Pueden ser de liberación modificada", "Fáciles de tragar"],
+          "productos": [
+            {"id": "SN02", "nombre": "Coenzima Q10", "marca": "Soria Natural", "formato": "Cápsulas"},
+            {"id": "SN09", "nombre": "Fosfoserina Complex", "marca": "Soria Natural", "formato": "Cápsulas"},
+            {"id": "SN19", "nombre": "Resverasor", "marca": "Soria Natural", "formato": "Cápsulas"},
+            {"id": "SN20", "nombre": "Analis L-Triptófano", "marca": "Aminas y Derivados", "formato": "60 cápsulas 500mg"},
+            {"id": "SN21", "nombre": "Carnilis", "marca": "Aminas y Derivados", "formato": "60 cápsulas 500mg"},
+            {"id": "AA003", "nombre": "L-Arginina", "marca": "Aminas y Derivados", "formato": "60 cápsulas 500mg"},
+            {"id": "AA004", "nombre": "L-Prolina", "marca": "Aminas y Derivados", "formato": "60 cápsulas 500mg"},
+            {"id": "AA005", "nombre": "L-Triptófano", "marca": "Aminas y Derivados", "formato": "60 cápsulas 500mg"},
+            {"id": "AA006", "nombre": "Neurotransmisores", "marca": "Aminas y Derivados", "formato": "60 cápsulas 500mg"},
+            {"id": "AA009", "nombre": "Deprelat", "marca": "Aminas y Derivados", "formato": "60 cápsulas 500mg"}
+          ]
+        },
+        "polvos": {
+          "descripcion": "Forma farmacéutica sólida para disolver en líquidos",
+          "ventajas": ["Dosificación flexible", "Ideal para grandes cantidades", "Rápida absorción una vez disuelto", "Económico para uso prolongado"],
+          "productos": [
+            {"id": "SN14", "nombre": "Mincartil", "marca": "Soria Natural", "formato": "Polvo"},
+            {"id": "AA001", "nombre": "Glicina 130", "marca": "Aminas y Derivados", "formato": "Polvo 130g"},
+            {"id": "AA002", "nombre": "Glicina 400", "marca": "Aminas y Derivados", "formato": "Polvo 400g"},
+            {"id": "AA008", "nombre": "Cronovida", "marca": "Aminas y Derivados", "formato": "Polvo 260g"},
+            {"id": "AA010", "nombre": "Glicam 130", "marca": "Aminas y Derivados", "formato": "Polvo 130g"},
+            {"id": "AA011", "nombre": "Glicam 400", "marca": "Aminas y Derivados", "formato": "Polvo 400g"}
+          ]
+        }
+      }
+    },
+    "formasLiquidasOrales": {
+      "descripcion": "Ideales para personas con dificultades para tragar y absorción rápida",
+      "tipos": {
+        "soluciones": {
+          "descripcion": "Mezcla homogénea donde el principio activo está completamente disuelto",
+          "ventajas": ["Absorción rápida y uniforme", "Dosificación fácil de ajustar", "Biodisponibilidad óptima"],
+          "lineas": ["Diatonatos", "Oligonatos", "Minesor", "Oligosor"],
+          "productos": [
+            {"id": "SN04", "nombre": "Diatonato 1", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
+            {"id": "SN05", "nombre": "Diatonato 2", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
+            {"id": "SN06", "nombre": "Diatonato 3", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
+            {"id": "SN07", "nombre": "Diatonato 5.1", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
+            {"id": "SN08", "nombre": "Diatonato 5.2", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
+            {"id": "SN15", "nombre": "Minesor con Selenio", "marca": "Soria Natural", "formato": "Solución"},
+            {"id": "SN16", "nombre": "Oligonato 1", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
+            {"id": "SN17", "nombre": "Oligonato 2", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"},
+            {"id": "SN18", "nombre": "Oligosor", "marca": "Soria Natural", "formato": "Solución (ampollas bebibles)"}
+          ]
+        },
+        "frascoGotero": {
+          "descripcion": "Extractos líquidos con dosificación precisa en gotas",
+          "ventajas": ["Dosificación muy precisa", "Fácil de administrar", "Alta concentración de principios activos", "Ideal para niños o dificultad al tragar"],
+          "capacidad": "50 ml",
+          "marca": "Biofito (principalmente)",
+          "productos": [
+            {"id": "BF02", "nombre": "Diente de León"},
+            {"id": "BF03", "nombre": "Cola de Caballo"},
+            {"id": "BF05", "nombre": "Jengibre"},
+            {"id": "BF06", "nombre": "Melissa"},
+            {"id": "BF07", "nombre": "Ner-vit"},
+            {"id": "BF08", "nombre": "Valeriana"},
+            {"id": "BF09", "nombre": "Zapote Blanco"},
+            {"id": "BF10", "nombre": "Maca Peruana"},
+            {"id": "BF11", "nombre": "Alga Espirulina (también en comprimidos)"},
+            {"id": "BF12", "nombre": "Fem-vit"},
+            {"id": "BF13", "nombre": "Barbasco (también en comprimidos)"},
+            {"id": "BF14", "nombre": "Milenrama"},
+            {"id": "BF16", "nombre": "Harpagofito"},
+            {"id": "BF17", "nombre": "Cúrcuma (también en comprimidos)"},
+            {"id": "BF19", "nombre": "Immune Herb"},
+            {"id": "BF20", "nombre": "Equinácea (también en comprimidos)"},
+            {"id": "BF23", "nombre": "Té Verde"},
+            {"id": "BF24", "nombre": "Ojo de Gallina"}
+          ]
+        },
+        "ampollas": {
+          "descripcion": "Viales de vidrio con dosis única estéril de preparado líquido",
+          "ventajas": ["Dosis única perfecta", "Estéril y protegido", "Protege de oxidación", "Máxima frescura de ingredientes"],
+          "linea": "Fostprint (Soria Natural)",
+          "productos": [
+            {"id": "SN10", "nombre": "Fostprint Classic", "marca": "Soria Natural", "formato": "Viales bebibles"},
+            {"id": "SN11", "nombre": "Fostprint MAX", "marca": "Soria Natural", "formato": "Viales bebibles"}
+          ]
+        },
+        "suspension": {
+          "descripcion": "Mezcla heterogénea con partículas dispersas en líquido. Agitar antes de usar",
+          "ventajas": ["Adecuada para principios activos no solubles", "Buena estabilidad"],
+          "productos": [
+            {"id": "SN13", "nombre": "Lacticol", "marca": "Soria Natural", "formato": "Suspensión líquida"}
+          ]
+        }
+      }
+    },
+    "formasTopicas": {
+      "descripcion": "Diseñadas para aplicación externa directa en la piel",
+      "tipos": {
+        "emulsion": {
+          "descripcion": "Preparado semilíquido que combina fase acuosa y oleosa para aplicación cutánea",
+          "ventajas": ["Fácil aplicación", "Buena absorción", "Sensación agradable en piel", "Hidratante"],
+          "productos": [
+            {"id": "SN03", "nombre": "Crisálida G", "marca": "Soria Natural", "formato": "Emulsión tónico-renovadora"}
+          ]
+        },
+        "balsamo": {
+          "descripcion": "Preparado semisólido con propiedades calmantes y antiinflamatorias",
+          "ventajas": ["Acción localizada directa", "Efecto prolongado", "Aplicación en zona específica", "No sistémico"],
+          "productos": [
+            {"id": "BF18", "nombre": "Bálsamo 3 Damianas", "marca": "Biofito", "formato": "Bote 120ml (uso tópico)"}
+          ]
+        }
+      }
+    }
+  },
+  
+  "guiaPresentaciones": {
+    "criteriosSeleccion": {
+      "factores": [
+        "Naturaleza del ingrediente (solubilidad, estabilidad)",
+        "Objetivo terapéutico (acción rápida o sostenida, local o sistémica)",
+        "Comodidad del usuario",
+        "Biodisponibilidad deseada",
+        "Cantidad de dosis necesaria"
+      ],
+      "ejemplos": [
+        {
+          "caso": "Oligoelementos (Diatonatos, Oligonatos)",
+          "presentacion": "Soluciones",
+          "razon": "Aseguran biodisponibilidad óptima de minerales"
+        },
+        {
+          "caso": "Extractos herbales (Biofito)",
+          "presentacion": "Frascos goteros",
+          "razon": "Fitoterapia tradicional con dosificación personalizable"
+        },
+        {
+          "caso": "Aminoácidos (Aminas y Derivados)",
+          "presentacion": "Cápsulas o polvos",
+          "razon": "Cápsulas para dosis estándar, polvos para dosis altas o personalizadas"
+        },
+        {
+          "caso": "Energéticos (Fostprint)",
+          "presentacion": "Ampollas bebibles",
+          "razon": "Protección de ingredientes frescos (jalea real, propóleo) y dosis única conveniente"
+        },
+        {
+          "caso": "Dolor muscular/articular",
+          "presentacion": "Bálsamo tópico",
+          "razon": "Acción directa localizada sin efecto sistémico"
+        }
+      ]
+    },
+    "recomendacionesUso": {
+      "capsulas": "Tomar con agua, preferiblemente con alimentos para mejor absorción",
+      "polvos": "Disolver en agua, jugo o licuado. Permite ajustar dosis según necesidad",
+      "goteros": "Diluir gotas en agua o tomar directamente. Dosis típica: 20-30 gotas 2-3 veces al día",
+      "soluciones": "Tomar ampolla bebible directamente o diluida en agua. Generalmente en ayunas",
+      "comprimidos": "Tomar con agua. Pueden masticarse si son masticables (como Inulac)",
+      "ampollas": "Abrir y beber directamente o diluir en agua. Generalmente 1 ampolla al día",
+      "topicos": "Aplicar sobre piel limpia, masajeando suavemente. 2-3 veces al día"
+    }
+  },
   
   "productos": {
     "soriaNatural": [
