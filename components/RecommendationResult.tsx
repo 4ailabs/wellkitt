@@ -1,7 +1,7 @@
 
 import React, { useRef, useState } from 'react';
 import { Recommendation, Product } from '../types';
-import { Sparkles, FileImage, FileText, Loader2, Phone, ShoppingCart, Clock, Zap, CheckCircle, Info } from 'lucide-react';
+import { Sparkles, FileImage, FileText, Loader2, Phone, ShoppingCart, Clock, Zap, CheckCircle, Info, RefreshCw } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { motion } from 'framer-motion';
@@ -11,9 +11,10 @@ import { useCart } from '../contexts/CartContext';
 interface RecommendationResultProps {
   recommendation: Recommendation;
   allProducts: Product[];
+  onNewRecommendation?: () => void;
 }
 
-const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendation, allProducts }) => {
+const RecommendationResult: React.FC<RecommendationResultProps> = ({ recommendation, allProducts, onNewRecommendation }) => {
   const recommendationRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState<null | 'image' | 'pdf'>(null);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
@@ -508,6 +509,19 @@ ${recommendation.reasoning}
             </span>
           </motion.button>
         </div>
+
+        {/* Botón para nueva recomendación */}
+        {onNewRecommendation && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onNewRecommendation}
+            className="mt-4 inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm md:text-base font-semibold py-2.5 md:py-3 px-5 md:px-6 rounded-xl border border-slate-300 transition-all duration-300"
+          >
+            <RefreshCw className="w-4 h-4 md:w-5 md:h-5" />
+            <span>Hacer otra recomendación</span>
+          </motion.button>
+        )}
       </div>
     </div>
   );

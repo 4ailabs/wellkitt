@@ -2,10 +2,29 @@ import React, { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { ShoppingCart, X, Plus, Minus, Trash2, Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollLock } from '../hooks/useScrollLock';
 
-const Cart: React.FC = () => {
+interface CartProps {
+  externalOpen?: boolean;
+  onExternalClose?: () => void;
+}
+
+const Cart: React.FC<CartProps> = ({ externalOpen, onExternalClose }) => {
   const { state, removeItem, updateQuantity, clearCart, sendCartToWhatsApp } = useCart();
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  // Combinar estado externo e interno
+  const isOpen = externalOpen !== undefined ? externalOpen : internalOpen;
+  const setIsOpen = (value: boolean) => {
+    if (externalOpen !== undefined && onExternalClose) {
+      if (!value) onExternalClose();
+    } else {
+      setInternalOpen(value);
+    }
+  };
+
+  // Bloquear scroll cuando el carrito está abierto
+  useScrollLock(isOpen);
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
     if (newQuantity >= 1) {

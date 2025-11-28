@@ -72,27 +72,27 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product, onShowDetail
           </p>
         </div>
 
-        {/* Acciones */}
-        <div className="flex-shrink-0 flex items-center gap-1 md:gap-2">
+        {/* Acciones - Touch targets optimizados (mínimo 44px) */}
+        <div className="flex-shrink-0 flex items-center gap-2">
           <motion.button
             onClick={handleToggleFavorite}
             whileTap={{ scale: 0.9 }}
-            className={`p-2 rounded-full transition-colors ${
+            className={`p-2.5 md:p-2 rounded-full transition-colors min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center ${
               isProductFavorite
                 ? 'text-red-500 bg-red-50'
                 : 'text-gray-300 hover:text-red-400 hover:bg-red-50'
             }`}
           >
-            <Heart className="w-4 h-4" fill={isProductFavorite ? 'currentColor' : 'none'} />
+            <Heart className="w-5 h-5 md:w-4 md:h-4" fill={isProductFavorite ? 'currentColor' : 'none'} />
           </motion.button>
 
           <motion.button
             onClick={handleAddToCart}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="p-2 bg-brand-green-600 text-white rounded-full hover:bg-brand-green-700 transition-colors shadow-sm"
+            className="p-2.5 md:p-2 bg-brand-green-600 text-white rounded-full hover:bg-brand-green-700 transition-colors shadow-sm min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center"
           >
-            <Plus className="w-4 h-4" strokeWidth={2.5} />
+            <Plus className="w-5 h-5 md:w-4 md:h-4" strokeWidth={2.5} />
           </motion.button>
 
           <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-brand-green-500 transition-colors hidden md:block" />

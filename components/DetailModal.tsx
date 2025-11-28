@@ -2,6 +2,7 @@
 import React from 'react';
 import { Kit, Product } from '../types';
 import { X, Tag, List, Leaf, CheckCircle } from 'lucide-react';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface DetailModalProps {
   item: Kit | Product | null;
@@ -15,6 +16,9 @@ const isKit = (item: Kit | Product): item is Kit => {
 };
 
 const DetailModal: React.FC<DetailModalProps> = ({ item, allProducts, onClose }) => {
+  // Bloquear scroll cuando el modal está abierto
+  useScrollLock(!!item);
+
   if (!item) return null;
 
   const renderKitDetails = (kit: Kit) => {

@@ -16,6 +16,7 @@ import Cart from './components/Cart';
 import Favorites from './components/Favorites';
 import Toast from './components/Toast';
 import RecommendationHistory from './components/RecommendationHistory';
+import Navbar from './components/Navbar';
 import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/useRecommendationHistory';
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
@@ -44,6 +45,8 @@ const App: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [selectedHealthAreas, setSelectedHealthAreas] = useState<string[]>([]);
   const [selectedGoal, setSelectedGoal] = useState<string>('');
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
   // Hook para historial de recomendaciones
   const {
@@ -288,17 +291,12 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 font-sans text-slate-800">
-      <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-10 border-b border-gray-100">
-        <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-          <img 
-            src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=500w" 
-            alt="Wellkitt Logo" 
-            className="h-8 md:h-10 lg:h-12 w-auto"
-          />
-          <p className="hidden md:block text-slate-600 font-light" style={{ fontFamily: 'Inter, sans-serif' }}>Tu Navegador de Salud Natural</p>
-        </div>
-      </header>
-      
+      {/* Navbar que aparece al scroll */}
+      <Navbar
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenFavorites={() => setIsFavoritesOpen(true)}
+      />
+
       <main className="container mx-auto px-4 py-8 md:py-12" style={{ fontFamily: 'Inter, sans-serif' }}>
         {showEndotelioTest ? (
           <EndotelioTest 
@@ -315,13 +313,20 @@ const App: React.FC = () => {
         ) : (
           <>
             {/* Hero Section */}
-            <section className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
+            <section id="hero" className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
                 <div className="text-center">
                     <div className="flex justify-center mb-6 md:mb-8">
-                        <img 
-                            src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=500w" 
-                            alt="Wellkitt Logo" 
+                        <img
+                            src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=300w"
+                            srcSet="
+                                https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=100w 100w,
+                                https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=200w 200w,
+                                https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=300w 300w
+                            "
+                            sizes="(max-width: 640px) 64px, (max-width: 768px) 96px, 128px"
+                            alt="Wellkitt Logo"
                             className="h-16 md:h-24 lg:h-32 w-auto"
+                            loading="eager"
                         />
                     </div>
                     
@@ -336,7 +341,7 @@ const App: React.FC = () => {
                     </p>
                     
                     {/* Sistema de Recomendación Mejorado */}
-                    <div className="max-w-3xl mx-auto mb-8">
+                    <div id="recomendador" className="max-w-3xl mx-auto mb-8">
                         {/* Paso 1: Áreas de Salud */}
                         <div className="mb-6">
                             <p className="text-sm md:text-base text-slate-600 mb-3 font-medium">
@@ -466,7 +471,18 @@ const App: React.FC = () => {
                     </div>
 
                     {isLoading && <Spinner />}
-                    {recommendation && <RecommendationResult recommendation={recommendation} allProducts={products} />}
+                    {recommendation && (
+                      <RecommendationResult
+                        recommendation={recommendation}
+                        allProducts={products}
+                        onNewRecommendation={() => {
+                          setRecommendation(null);
+                          setUserInput('');
+                          setSelectedHealthAreas([]);
+                          setSelectedGoal('');
+                        }}
+                      />
+                    )}
                 </div>
             </section>
 
@@ -531,7 +547,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Tests Section - Agrupados */}
-            <section className="max-w-6xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
+            <section id="tests" className="max-w-6xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
                 <div className="text-center mb-8 md:mb-12 lg:mb-16">
                     <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                         Tests de Salud <span className="text-brand-green-600">Personalizados</span>
@@ -703,7 +719,7 @@ const App: React.FC = () => {
             </div>
 
             {/* All Products Section */}
-            <section className="mt-8 md:mt-12" data-section="products">
+            <section id="productos" className="mt-8 md:mt-12" data-section="products">
                 <div className="text-center mb-8 md:mb-12 px-4">
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                         Explora Todos Nuestros Productos
@@ -779,24 +795,34 @@ const App: React.FC = () => {
                         })}
                     </div>
 
-                    {/* Ordenamiento */}
+                    {/* Ordenamiento - Botones touch-friendly en lugar de select */}
                     <div className="flex justify-center mb-6">
-                        <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
-                            <ArrowUpDown className="w-4 h-4 text-gray-500" />
-                            <span className="text-sm text-gray-600 font-medium">Ordenar:</span>
-                            <select
-                                value={sortBy}
-                                onChange={(e) => {
-                                    setSortBy(e.target.value as SortOption);
-                                    setCurrentPage(1);
-                                }}
-                                className="text-sm font-medium text-slate-700 bg-transparent border-none focus:outline-none cursor-pointer"
-                            >
-                                <option value="default">Por defecto</option>
-                                <option value="name-asc">Nombre A-Z</option>
-                                <option value="name-desc">Nombre Z-A</option>
-                                <option value="category">Por categoría</option>
-                            </select>
+                        <div className="flex flex-wrap justify-center items-center gap-2">
+                            <div className="flex items-center gap-1.5 text-slate-500 mr-1">
+                                <ArrowUpDown className="w-4 h-4" />
+                                <span className="text-xs md:text-sm font-medium hidden sm:inline">Ordenar:</span>
+                            </div>
+                            {[
+                                { value: 'default', label: 'Todos' },
+                                { value: 'name-asc', label: 'A-Z' },
+                                { value: 'name-desc', label: 'Z-A' },
+                                { value: 'category', label: 'Categoría' },
+                            ].map((option) => (
+                                <button
+                                    key={option.value}
+                                    onClick={() => {
+                                        setSortBy(option.value as SortOption);
+                                        setCurrentPage(1);
+                                    }}
+                                    className={`px-3 md:px-4 py-2 md:py-2.5 rounded-lg text-xs md:text-sm font-medium transition-all min-h-[40px] ${
+                                        sortBy === option.value
+                                            ? 'bg-slate-800 text-white shadow-md'
+                                            : 'bg-white text-slate-600 border border-gray-200 hover:border-slate-400 hover:bg-slate-50'
+                                    }`}
+                                >
+                                    {option.label}
+                                </button>
+                            ))}
                         </div>
                     </div>
 
@@ -895,48 +921,48 @@ const App: React.FC = () => {
                             </p>
                         </div>
 
-                        {/* Controles de paginación */}
+                        {/* Controles de paginación - Touch optimizado (min 44px) */}
                         {totalPages > 1 && (
-                            <div className="flex flex-wrap justify-center items-center gap-1.5 md:gap-3">
+                            <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3">
                                 {/* Botón Anterior */}
                                 <button
                                     onClick={() => handlePageChange(currentPage - 1)}
                                     disabled={currentPage === 1}
-                                    className={`flex items-center gap-1 px-2.5 md:px-4 py-2 md:py-3 rounded-lg font-semibold transition-all duration-300 text-xs md:text-base ${
+                                    className={`flex items-center justify-center gap-1 min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 text-sm md:text-base ${
                                         currentPage === 1
                                             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                             : 'bg-brand-green-600 text-white hover:bg-brand-green-700 shadow-md hover:shadow-lg active:scale-95'
                                     }`}
                                 >
-                                    <svg className="w-3.5 h-3.5 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                     </svg>
                                     <span className="hidden sm:inline">Anterior</span>
                                 </button>
 
                                 {/* Números de página */}
-                                <div className="flex flex-wrap justify-center gap-1 md:gap-2">
+                                <div className="flex flex-wrap justify-center gap-1.5 md:gap-2">
                                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => {
                                         // Mostrar solo algunas páginas para no saturar en móviles
-                                        const showPage = 
-                                            pageNumber === 1 || 
-                                            pageNumber === totalPages || 
+                                        const showPage =
+                                            pageNumber === 1 ||
+                                            pageNumber === totalPages ||
                                             (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1);
-                                        
+
                                         // Mostrar puntos suspensivos
                                         if (!showPage && (pageNumber === currentPage - 2 || pageNumber === currentPage + 2)) {
-                                            return <span key={pageNumber} className="px-2 text-slate-400">...</span>;
+                                            return <span key={pageNumber} className="px-1.5 text-slate-400 self-center">...</span>;
                                         }
-                                        
+
                                         if (!showPage) return null;
 
                                         return (
                                             <button
                                                 key={pageNumber}
                                                 onClick={() => handlePageChange(pageNumber)}
-                                                className={`min-w-[32px] h-8 md:min-w-[40px] md:h-10 px-2 md:px-3 rounded-lg font-bold transition-all duration-300 text-xs md:text-base active:scale-95 ${
+                                                className={`min-w-[44px] h-[44px] md:min-w-[40px] md:h-10 px-3 md:px-3 rounded-xl font-bold transition-all duration-300 text-sm md:text-base active:scale-95 ${
                                                     currentPage === pageNumber
-                                                        ? 'bg-brand-green-600 text-white shadow-lg scale-105'
+                                                        ? 'bg-brand-green-600 text-white shadow-lg'
                                                         : 'bg-white text-slate-700 border border-gray-300 hover:border-brand-green-500 hover:bg-brand-green-50'
                                                 }`}
                                             >
@@ -950,14 +976,14 @@ const App: React.FC = () => {
                                 <button
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage === totalPages}
-                                    className={`flex items-center gap-1 px-2.5 md:px-4 py-2 md:py-3 rounded-lg font-semibold transition-all duration-300 text-xs md:text-base ${
+                                    className={`flex items-center justify-center gap-1 min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 text-sm md:text-base ${
                                         currentPage === totalPages
                                             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                             : 'bg-brand-green-600 text-white hover:bg-brand-green-700 shadow-md hover:shadow-lg active:scale-95'
                                     }`}
                                 >
                                     <span className="hidden sm:inline">Siguiente</span>
-                                    <svg className="w-3.5 h-3.5 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
                                 </button>
@@ -970,7 +996,7 @@ const App: React.FC = () => {
         )}
       </main>
 
-      <footer className="bg-white/60 backdrop-blur-sm border-t border-gray-200 mt-12 md:mt-20 lg:mt-28">
+      <footer id="contacto" className="bg-white/60 backdrop-blur-sm border-t border-gray-200 mt-12 md:mt-20 lg:mt-28">
         <div className="max-w-5xl mx-auto px-4 py-8 md:py-12 lg:py-16">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 text-center md:text-left">
                 <div>
@@ -1034,8 +1060,16 @@ const App: React.FC = () => {
         onClose={handleCloseDetails}
       />
       
-      <Cart />
-      <Favorites allProducts={products} onShowDetails={handleShowDetails} />
+      <Cart
+        externalOpen={isCartOpen}
+        onExternalClose={() => setIsCartOpen(false)}
+      />
+      <Favorites
+        allProducts={products}
+        onShowDetails={handleShowDetails}
+        externalOpen={isFavoritesOpen}
+        onExternalClose={() => setIsFavoritesOpen(false)}
+      />
       <RecommendationHistory
         history={recommendationHistory}
         onSelectRecommendation={handleSelectFromHistory}

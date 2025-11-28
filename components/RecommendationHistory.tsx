@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { History, X, Trash2, ChevronRight, Clock, Sparkles } from 'lucide-react';
 import { RecommendationHistoryEntry } from '../hooks/useRecommendationHistory';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface RecommendationHistoryProps {
   history: RecommendationHistoryEntry[];
@@ -17,6 +18,9 @@ const RecommendationHistory: React.FC<RecommendationHistoryProps> = ({
   onClearHistory,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Bloquear scroll cuando el historial está abierto
+  useScrollLock(isOpen);
 
   if (history.length === 0) return null;
 

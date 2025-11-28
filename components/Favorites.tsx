@@ -2,18 +2,32 @@ import React, { useState } from 'react';
 import { Heart, X, Share2, Trash2 } from 'lucide-react';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import ProductCard from './ProductCard';
-import KitCard from './KitCard';
 import { Product } from '../types';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 interface FavoritesProps {
   allProducts: Product[];
   onShowDetails: (item: any) => void;
+  externalOpen?: boolean;
+  onExternalClose?: () => void;
 }
 
-const Favorites: React.FC<FavoritesProps> = ({ allProducts, onShowDetails }) => {
+const Favorites: React.FC<FavoritesProps> = ({ allProducts, onShowDetails, externalOpen, onExternalClose }) => {
   const { favorites, clearFavorites, getFavoritesCount } = useFavorites();
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  // Combinar estado externo e interno
+  const isOpen = externalOpen !== undefined ? externalOpen : internalOpen;
+  const setIsOpen = (value: boolean) => {
+    if (externalOpen !== undefined && onExternalClose) {
+      if (!value) onExternalClose();
+    } else {
+      setInternalOpen(value);
+    }
+  };
+
+  // Bloquear scroll cuando favoritos está abierto
+  useScrollLock(isOpen);
 
   const handleShareFavorites = () => {
     const favoriteNames = favorites.map(item => item.name).join('\n• ');
