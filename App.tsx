@@ -21,7 +21,7 @@ import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/us
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import useMobileDetect from './hooks/useMobileDetect';
 import { useDebounce } from './hooks/useDebounce';
@@ -364,10 +364,19 @@ const App: React.FC = () => {
                         <span className="text-slate-900">Ciencia Personalizada</span>
                     </h1>
                     
-                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-600 mb-8 md:mb-12 px-2 md:px-4 max-w-3xl mx-auto leading-relaxed font-light">
-                        Revoluciona tu bienestar con algoritmos especializados. 
-                        Tests genéticos, sueroterapia premium y recomendaciones personalizadas para tu perfil único.
+                    <p className="text-sm sm:text-base md:text-lg text-slate-500 mb-6 md:mb-8 px-2 md:px-4 max-w-2xl mx-auto leading-relaxed font-light italic">
+                        Descubre tu kit de bienestar ideal. Completa el formulario y recibe recomendaciones personalizadas basadas en tus necesidades.
                     </p>
+                    
+                    {/* Separador visual */}
+                    <div className="flex items-center justify-center gap-4 mb-8 md:mb-12 px-4 max-w-3xl mx-auto">
+                        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-slate-300"></div>
+                        <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
+                            <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-brand-green-600" />
+                            <span className="text-xs md:text-sm font-medium text-slate-700">Recomendación Personalizada</span>
+                        </div>
+                        <div className="flex-1 h-px bg-gradient-to-l from-transparent via-slate-300 to-slate-300"></div>
+                    </div>
                     
                     {/* Sistema de Recomendación Mejorado */}
                     <div id="recomendador" className="max-w-3xl mx-auto mb-8">
@@ -514,6 +523,16 @@ const App: React.FC = () => {
                     )}
                 </div>
             </section>
+
+            {/* Separador entre IA y Video */}
+            <div className="flex items-center justify-center gap-4 my-12 md:my-16 px-4 max-w-5xl mx-auto">
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-slate-300"></div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
+                    <Droplets className="w-4 h-4 md:w-5 md:h-5 text-brand-green-600" />
+                    <span className="text-xs md:text-sm font-medium text-slate-700">Contenido Destacado</span>
+                </div>
+                <div className="flex-1 h-px bg-gradient-to-l from-transparent via-slate-300 to-slate-300"></div>
+            </div>
 
             {/* Producto Destacado: Carnilis */}
             <section className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
@@ -666,9 +685,14 @@ const App: React.FC = () => {
                 </div>
             </section>
 
-            {/* Divisor */}
-            <div className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
-                <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+            {/* Separador entre Tests y Kits */}
+            <div className="flex items-center justify-center gap-4 my-12 md:my-16 px-4 max-w-5xl mx-auto">
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-slate-300"></div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
+                    <Package className="w-4 h-4 md:w-5 md:h-5 text-brand-green-600" />
+                    <span className="text-xs md:text-sm font-medium text-slate-700">Kits Estratégicos</span>
+                </div>
+                <div className="flex-1 h-px bg-gradient-to-l from-transparent via-slate-300 to-slate-300"></div>
             </div>
 
             {/* Pre-defined Kits Section */}
@@ -720,7 +744,7 @@ const App: React.FC = () => {
                 <div className={`
                     grid gap-4 md:gap-6
                     ${showAllKits
-                        ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                        ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
                         : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
                     }
                     ${!showAllKits ? 'max-w-6xl mx-auto' : ''}
@@ -1135,7 +1159,7 @@ const App: React.FC = () => {
 
                 {/* Productos */}
                 {viewMode === 'grid' ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5 px-4" data-section="products-grid">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 px-4" data-section="products-grid">
                         {currentProducts.map(product => (
                             <ProductCardPremium
                                 key={product.id}

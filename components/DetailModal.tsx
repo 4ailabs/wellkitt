@@ -42,9 +42,9 @@ const KitDetailContent: React.FC<KitDetailContentProps> = ({
   const allBenefits = [...new Set(kitProducts.flatMap(p => p.benefits))].slice(0, 6);
 
   return (
-    <div className="flex flex-col max-h-[90vh] md:max-h-[85vh]">
+    <div className="flex flex-col max-h-[85vh] md:max-h-[85vh]">
       {/* Header con gradiente */}
-      <div className={`bg-gradient-to-r ${color.gradient} p-6 md:p-8 text-white relative overflow-hidden`}>
+      <div className={`bg-gradient-to-r ${color.gradient} p-4 md:p-8 text-white relative overflow-hidden`}>
         {/* Patrón decorativo */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-white/20"></div>
@@ -52,51 +52,51 @@ const KitDetailContent: React.FC<KitDetailContentProps> = ({
         </div>
 
         <div className="relative z-10">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                <KitIcon className="w-8 h-8" />
+          <div className="flex items-start justify-between mb-3 md:mb-4">
+            <div className="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
+              <div className="p-2 md:p-3 bg-white/20 rounded-lg md:rounded-xl backdrop-blur-sm flex-shrink-0">
+                <KitIcon className="w-6 h-6 md:w-8 md:h-8" />
               </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="bg-white/20 text-white text-xs font-bold px-2.5 py-1 rounded-full backdrop-blur-sm">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5 md:gap-2 mb-1">
+                  <span className="bg-white/20 text-white text-[10px] md:text-xs font-bold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full backdrop-blur-sm">
                     KIT
                   </span>
-                  <span className="bg-white text-slate-800 text-xs font-bold px-2.5 py-1 rounded-full">
+                  <span className="bg-white text-slate-800 text-[10px] md:text-xs font-bold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full">
                     {kit.discount}% OFF
                   </span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  {kit.name}
-                </h3>
+                  <h3 className="text-lg md:text-3xl font-bold line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    {kit.name}
+                  </h3>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0 ml-2">
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={handleToggleFavorite}
-                className={`p-2 rounded-full transition-colors ${
+                className={`p-1.5 md:p-2 rounded-full transition-colors ${
                   isKitFavorite ? 'bg-red-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'
                 }`}
               >
-                <Heart className="w-5 h-5" fill={isKitFavorite ? 'currentColor' : 'none'} />
+                <Heart className="w-4 h-4 md:w-5 md:h-5" fill={isKitFavorite ? 'currentColor' : 'none'} />
               </motion.button>
               <button
                 onClick={onClose}
-                className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
+                className="p-1.5 md:p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4 md:w-5 md:h-5" />
               </button>
             </div>
           </div>
 
-          <p className="text-white/90 text-sm md:text-base mb-4">{kit.benefit}</p>
+          <p className="text-white/90 text-xs md:text-base mb-3 md:mb-4 line-clamp-2 md:line-clamp-none">{kit.benefit}</p>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full text-sm backdrop-blur-sm">
-              <Package className="w-4 h-4" />
+          <div className="flex flex-wrap items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-1.5 md:gap-2 bg-white/20 px-2 md:px-3 py-1 md:py-1.5 rounded-full text-xs md:text-sm backdrop-blur-sm">
+              <Package className="w-3 h-3 md:w-4 md:h-4" />
               <span>{kitProducts.length} productos</span>
             </div>
           </div>
@@ -104,26 +104,26 @@ const KitDetailContent: React.FC<KitDetailContentProps> = ({
       </div>
 
       {/* Contenido scrolleable */}
-      <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
-        {/* Sección: ¿Para quién es? */}
-        <div className={`${color.light} rounded-xl p-4 md:p-5`}>
-          <div className="flex items-center gap-2 mb-3">
-            <Target className={`w-5 h-5 ${color.text}`} />
-            <h4 className="font-bold text-slate-800">¿Para quién es este kit?</h4>
+      <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-4 md:space-y-6">
+          {/* Sección: ¿Para quién es? */}
+          <div className={`${color.light} rounded-xl p-3 md:p-5`}>
+            <div className="flex items-center gap-2 mb-2 md:mb-3">
+              <Target className={`w-4 h-4 md:w-5 md:h-5 ${color.text}`} />
+              <h4 className="font-bold text-slate-800 text-sm md:text-base">¿Para quién es este kit?</h4>
+            </div>
+            <p className="text-slate-700 text-sm md:text-base">{kit.problem}</p>
           </div>
-          <p className="text-slate-700">{kit.problem}</p>
-        </div>
 
-        {/* Sección: Beneficios combinados */}
+          {/* Sección: Beneficios combinados */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className={`w-5 h-5 ${color.text}`} />
-            <h4 className="font-bold text-slate-800">Beneficios que obtendrás</h4>
+          <div className="flex items-center gap-2 mb-3 md:mb-4">
+            <Sparkles className={`w-4 h-4 md:w-5 md:h-5 ${color.text}`} />
+            <h4 className="font-bold text-slate-800 text-sm md:text-base">Beneficios que obtendrás</h4>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {allBenefits.map((benefit, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-sm text-slate-700">
-                <CheckCircle className={`w-4 h-4 ${color.text} flex-shrink-0`} />
+              <div key={idx} className="flex items-center gap-2 text-xs md:text-sm text-slate-700">
+                <CheckCircle className={`w-3 h-3 md:w-4 md:h-4 ${color.text} flex-shrink-0`} />
                 <span>{benefit}</span>
               </div>
             ))}
@@ -132,11 +132,11 @@ const KitDetailContent: React.FC<KitDetailContentProps> = ({
 
         {/* Sección: Productos incluidos (expandibles) */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <List className={`w-5 h-5 ${color.text}`} />
-            <h4 className="font-bold text-slate-800">Productos Incluidos ({kitProducts.length})</h4>
+          <div className="flex items-center gap-2 mb-3 md:mb-4">
+            <List className={`w-4 h-4 md:w-5 md:h-5 ${color.text}`} />
+            <h4 className="font-bold text-slate-800 text-sm md:text-base">Productos Incluidos ({kitProducts.length})</h4>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2 md:space-y-3">
             {kitProducts.map((product, idx) => (
               <motion.div
                 key={product.id}
@@ -145,23 +145,23 @@ const KitDetailContent: React.FC<KitDetailContentProps> = ({
                 transition={{ delay: idx * 0.05 }}
                 className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm"
               >
-                <button
+                  <button
                   onClick={() => setExpandedProduct(expandedProduct === product.id ? null : product.id)}
-                  className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  className="w-full p-3 md:p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full ${color.light} flex items-center justify-center font-bold ${color.text}`}>
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full ${color.light} flex items-center justify-center font-bold text-xs md:text-sm ${color.text}`}>
                       {idx + 1}
                     </div>
-                    <div className="text-left">
-                      <p className="font-semibold text-slate-800">{product.name}</p>
-                      <p className="text-xs text-slate-500">{product.brand} • {product.category}</p>
+                    <div className="text-left flex-1 min-w-0">
+                      <p className="font-semibold text-slate-800 text-sm md:text-base truncate">{product.name}</p>
+                      <p className="text-xs text-slate-500 truncate">{product.brand} • {product.category}</p>
                     </div>
                   </div>
                   {expandedProduct === product.id ? (
-                    <ChevronUp className="w-5 h-5 text-slate-400" />
+                    <ChevronUp className="w-4 h-4 md:w-5 md:h-5 text-slate-400 flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-slate-400" />
+                    <ChevronDown className="w-4 h-4 md:w-5 md:h-5 text-slate-400 flex-shrink-0" />
                   )}
                 </button>
 
@@ -204,26 +204,27 @@ const KitDetailContent: React.FC<KitDetailContentProps> = ({
         </div>
 
         {/* Sección: Cómo usarlo */}
-        <div className="bg-amber-50 rounded-xl p-4 md:p-5 border border-amber-200">
-          <div className="flex items-center gap-2 mb-3">
-            <Clock className="w-5 h-5 text-amber-600" />
-            <h4 className="font-bold text-slate-800">Sugerencia de uso</h4>
+        <div className="bg-amber-50 rounded-xl p-3 md:p-5 border border-amber-200">
+          <div className="flex items-center gap-2 mb-2 md:mb-3">
+            <Clock className="w-4 h-4 md:w-5 md:h-5 text-amber-600" />
+            <h4 className="font-bold text-slate-800 text-sm md:text-base">Sugerencia de uso</h4>
           </div>
-          <p className="text-slate-700 text-sm">{usageSuggestion}</p>
+          <p className="text-slate-700 text-xs md:text-sm">{usageSuggestion}</p>
         </div>
       </div>
 
       {/* Footer con acciones */}
-      <div className="border-t border-gray-200 p-4 md:p-6 bg-white">
+      <div className="border-t border-gray-200 p-3 md:p-6 bg-white">
         <div className="flex flex-col sm:flex-row gap-3">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleAddKitToCart}
-            className={`flex-1 bg-gradient-to-r ${color.gradient} text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg`}
+            className={`flex-1 bg-gradient-to-r ${color.gradient} text-white font-semibold py-2.5 md:py-3 px-4 md:px-6 rounded-lg md:rounded-xl flex items-center justify-center gap-2 shadow-lg text-sm md:text-base`}
           >
-            <ShoppingCart className="w-5 h-5" />
-            Agregar Kit al Carrito
+            <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
+            <span className="hidden sm:inline">Agregar Kit al Carrito</span>
+            <span className="sm:hidden">Agregar al Carrito</span>
           </motion.button>
 
           {(() => {
@@ -236,12 +237,13 @@ const KitDetailContent: React.FC<KitDetailContentProps> = ({
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition-colors"
+                className="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-2.5 md:py-3 px-4 md:px-6 rounded-lg md:rounded-xl flex items-center justify-center gap-2 transition-colors text-sm md:text-base"
               >
-                <svg className="w-5 h-5" viewBox="0 0 32 32" fill="currentColor">
+                <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 32 32" fill="currentColor">
                   <path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.236 6.393L4 29l7.824-2.05A12.94 12.94 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22.917c-2.13 0-4.21-.624-5.96-1.8l-.426-.27-4.65 1.22 1.24-4.53-.277-.44A9.93 9.93 0 0 1 6.083 15c0-5.478 4.44-9.917 9.917-9.917S25.917 9.522 25.917 15 21.478 25.917 16 25.917zm5.44-7.26c-.297-.148-1.76-.867-2.033-.967-.273-.099-.472-.148-.67.15-.198.297-.767.967-.94 1.165-.173.198-.347.223-.644.074-.297-.148-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.058-.173-.297-.018-.457.13-.604.134-.133.298-.347.446-.52.149-.174.198-.298.298-.496.099-.198.05-.372-.025-.52-.074-.148-.669-1.612-.916-2.21-.242-.58-.487-.502-.669-.511-.173-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.48 0 1.463 1.065 2.877 1.213 3.075.148.198 2.099 3.205 5.086 4.37.712.307 1.267.49 1.7.627.714.227 1.364.195 1.877.118.573-.085 1.76-.719 2.008-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347z"/>
                 </svg>
-                Consultar por WhatsApp
+                <span className="hidden sm:inline">Consultar por WhatsApp</span>
+                <span className="sm:hidden">WhatsApp</span>
               </motion.a>
             );
           })()}
@@ -318,7 +320,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ item, allProducts, onClose })
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className={`bg-slate-50 rounded-2xl shadow-2xl w-full ${isKit(item) ? 'max-w-3xl' : 'max-w-2xl'} overflow-hidden`}
+        className={`bg-slate-50 rounded-xl md:rounded-2xl shadow-2xl w-full max-h-[90vh] md:max-h-none ${isKit(item) ? 'max-w-3xl' : 'max-w-2xl'} overflow-hidden flex flex-col`}
         onClick={e => e.stopPropagation()}
       >
         {isKit(item) ? (
