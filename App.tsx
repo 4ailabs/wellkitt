@@ -39,6 +39,7 @@ const App: React.FC = () => {
   const [showNutrigenomicaTest, setShowNutrigenomicaTest] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const [showAllKits, setShowAllKits] = useState(false);
+  const [activeKitFilter, setActiveKitFilter] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('default');
@@ -652,50 +653,156 @@ const App: React.FC = () => {
                         Soluciones expertas diseñadas para los objetivos de salud más comunes.
                     </p>
                 </div>
-                
+
+                {/* Filtros por categoría/objetivo */}
+                <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 max-w-4xl mx-auto">
+                    {[
+                        { id: 'all', label: 'Todos', icon: '✨' },
+                        { id: 'detox', label: 'Detox', icon: '🌿', keywords: ['detox', 'desintox'] },
+                        { id: 'digestivo', label: 'Digestión', icon: '🍃', keywords: ['digestiv', 'flora', 'intestin'] },
+                        { id: 'estres', label: 'Estrés & Sueño', icon: '😴', keywords: ['estrés', 'sueño', 'ansiedad', 'relaj'] },
+                        { id: 'energia', label: 'Energía', icon: '⚡', keywords: ['energía', 'fatiga', 'rendimiento'] },
+                        { id: 'hormonal', label: 'Hormonal', icon: '💗', keywords: ['hormonal', 'femenin', 'menopaus'] },
+                        { id: 'articular', label: 'Articulaciones', icon: '🦴', keywords: ['articulacion', 'dolor', 'movilidad', 'inflam'] },
+                        { id: 'inmunidad', label: 'Inmunidad', icon: '🛡️', keywords: ['inmun', 'defensa', 'resfri'] },
+                        { id: 'peso', label: 'Control de Peso', icon: '⚖️', keywords: ['peso', 'metabolismo', 'grasa'] },
+                    ].map(filter => (
+                        <button
+                            key={filter.id}
+                            onClick={() => {
+                                setActiveKitFilter(filter.id);
+                                if (filter.id !== 'all') setShowAllKits(true);
+                            }}
+                            className={`
+                                flex items-center gap-1.5 px-3 md:px-4 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium
+                                transition-all duration-300 border-2
+                                ${activeKitFilter === filter.id
+                                    ? 'bg-brand-green-600 text-white border-brand-green-600 shadow-lg scale-105'
+                                    : 'bg-white text-slate-700 border-slate-200 hover:border-brand-green-400 hover:bg-brand-green-50'
+                                }
+                            `}
+                        >
+                            <span>{filter.icon}</span>
+                            <span>{filter.label}</span>
+                        </button>
+                    ))}
+                </div>
+
                 {/* Grid centrado con justificación mejorada */}
                 <div className={`
-                    grid gap-4 md:gap-6 
-                    ${showAllKits 
-                        ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+                    grid gap-4 md:gap-6
+                    ${showAllKits
+                        ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
                         : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
                     }
                     ${!showAllKits ? 'max-w-6xl mx-auto' : ''}
                 `}>
-                    {(showAllKits ? kits : kits.slice(0, 3)).map(kit => (
-                        <KitCard 
-                            key={kit.id} 
-                            kit={kit} 
-                            allProducts={products} 
-                            onShowDetails={() => handleShowDetails(kit)}
-                        />
-                    ))}
+                    {(() => {
+                        const filterConfig = [
+                            { id: 'all', keywords: [] },
+                            { id: 'detox', keywords: ['detox', 'desintox'] },
+                            { id: 'digestivo', keywords: ['digestiv', 'flora', 'intestin'] },
+                            { id: 'estres', keywords: ['estrés', 'sueño', 'ansiedad', 'relaj'] },
+                            { id: 'energia', keywords: ['energía', 'fatiga', 'rendimiento'] },
+                            { id: 'hormonal', keywords: ['hormonal', 'femenin', 'menopaus'] },
+                            { id: 'articular', keywords: ['articulacion', 'dolor', 'movilidad', 'inflam'] },
+                            { id: 'inmunidad', keywords: ['inmun', 'defensa', 'resfri'] },
+                            { id: 'peso', keywords: ['peso', 'metabolismo', 'grasa'] },
+                        ];
+
+                        const currentFilter = filterConfig.find(f => f.id === activeKitFilter);
+                        const keywords = currentFilter?.keywords || [];
+
+                        const filteredKits = activeKitFilter === 'all'
+                            ? kits
+                            : kits.filter(kit =>
+                                keywords.some(keyword =>
+                                    kit.name.toLowerCase().includes(keyword) ||
+                                    kit.problem.toLowerCase().includes(keyword) ||
+                                    kit.benefit.toLowerCase().includes(keyword)
+                                )
+                            );
+
+                        const kitsToShow = showAllKits ? filteredKits : filteredKits.slice(0, 3);
+
+                        if (kitsToShow.length === 0) {
+                            return (
+                                <div className="col-span-full text-center py-12">
+                                    <p className="text-slate-500 text-lg">No hay kits en esta categoría</p>
+                                    <button
+                                        onClick={() => setActiveKitFilter('all')}
+                                        className="mt-4 text-brand-green-600 hover:text-brand-green-700 font-medium"
+                                    >
+                                        Ver todos los kits
+                                    </button>
+                                </div>
+                            );
+                        }
+
+                        return kitsToShow.map(kit => (
+                            <KitCard
+                                key={kit.id}
+                                kit={kit}
+                                allProducts={products}
+                                onShowDetails={() => handleShowDetails(kit)}
+                            />
+                        ));
+                    })()}
                 </div>
-                
+
                 {/* Botón Ver Más/Menos Kits */}
-                {kits.length > 3 && (
-                    <div className="flex justify-center mt-8 md:mt-10">
-                        <button
-                            onClick={() => setShowAllKits(!showAllKits)}
-                            className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-brand-green-600 to-brand-green-700 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:from-brand-green-700 hover:to-brand-green-800 focus:outline-none focus:ring-4 focus:ring-brand-green-300 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
-                        >
-                            <span className="relative z-10">
-                                {showAllKits ? 'Ver Menos Kits' : `Ver Todos los Kits (${kits.length})`}
-                            </span>
-                            <svg 
-                                className={`w-5 h-5 transition-transform duration-300 ${showAllKits ? 'rotate-180' : ''}`} 
-                                fill="none" 
-                                stroke="currentColor" 
-                                viewBox="0 0 24 24"
+                {(() => {
+                    const filterConfig = [
+                        { id: 'all', keywords: [] },
+                        { id: 'detox', keywords: ['detox', 'desintox'] },
+                        { id: 'digestivo', keywords: ['digestiv', 'flora', 'intestin'] },
+                        { id: 'estres', keywords: ['estrés', 'sueño', 'ansiedad', 'relaj'] },
+                        { id: 'energia', keywords: ['energía', 'fatiga', 'rendimiento'] },
+                        { id: 'hormonal', keywords: ['hormonal', 'femenin', 'menopaus'] },
+                        { id: 'articular', keywords: ['articulacion', 'dolor', 'movilidad', 'inflam'] },
+                        { id: 'inmunidad', keywords: ['inmun', 'defensa', 'resfri'] },
+                        { id: 'peso', keywords: ['peso', 'metabolismo', 'grasa'] },
+                    ];
+
+                    const currentFilter = filterConfig.find(f => f.id === activeKitFilter);
+                    const keywords = currentFilter?.keywords || [];
+
+                    const filteredKits = activeKitFilter === 'all'
+                        ? kits
+                        : kits.filter(kit =>
+                            keywords.some(keyword =>
+                                kit.name.toLowerCase().includes(keyword) ||
+                                kit.problem.toLowerCase().includes(keyword) ||
+                                kit.benefit.toLowerCase().includes(keyword)
+                            )
+                        );
+
+                    if (filteredKits.length <= 3) return null;
+
+                    return (
+                        <div className="flex justify-center mt-8 md:mt-10">
+                            <button
+                                onClick={() => setShowAllKits(!showAllKits)}
+                                className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-brand-green-600 to-brand-green-700 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:from-brand-green-700 hover:to-brand-green-800 focus:outline-none focus:ring-4 focus:ring-brand-green-300 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                            
-                            {/* Efecto de brillo al hacer hover */}
-                            <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                        </button>
-                    </div>
-                )}
+                                <span className="relative z-10">
+                                    {showAllKits ? 'Ver Menos Kits' : `Ver Todos los Kits (${filteredKits.length})`}
+                                </span>
+                                <svg
+                                    className={`w-5 h-5 transition-transform duration-300 ${showAllKits ? 'rotate-180' : ''}`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+
+                                {/* Efecto de brillo al hacer hover */}
+                                <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                            </button>
+                        </div>
+                    );
+                })()}
             </section>
 
             {/* Separador Visual entre Kits y Productos */}

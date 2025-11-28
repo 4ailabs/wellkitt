@@ -1,8 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Kit, Product } from '../types';
-import { ShieldCheck, Soup, Moon, Zap, HeartPulse, Bone, Shield, Gauge, ShoppingCart, Heart } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ShieldCheck, Soup, Moon, Zap, HeartPulse, Bone, Shield, Gauge, ShoppingCart, Heart, Package, Eye } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../contexts/CartContext';
 import { useFavorites } from '../contexts/FavoritesContext';
 
@@ -24,26 +24,28 @@ const kitIcons: { [key: string]: React.ReactNode } = {
 };
 
 // Paleta de colores para cada kit
-const kitColors: { [key: string]: { bg: string; icon: string; border: string; accent: string } } = {
-  K01: { bg: 'bg-green-50', icon: 'text-green-600', border: 'border-t-green-500', accent: 'bg-green-100' },
-  K02: { bg: 'bg-blue-50', icon: 'text-blue-600', border: 'border-t-blue-500', accent: 'bg-blue-100' },
-  K03: { bg: 'bg-purple-50', icon: 'text-purple-600', border: 'border-t-purple-500', accent: 'bg-purple-100' },
-  K04: { bg: 'bg-yellow-50', icon: 'text-yellow-600', border: 'border-t-yellow-500', accent: 'bg-yellow-100' },
-  K05: { bg: 'bg-pink-50', icon: 'text-pink-600', border: 'border-t-pink-500', accent: 'bg-pink-100' },
-  K06: { bg: 'bg-orange-50', icon: 'text-orange-600', border: 'border-t-orange-500', accent: 'bg-orange-100' },
-  K07: { bg: 'bg-teal-50', icon: 'text-teal-600', border: 'border-t-teal-500', accent: 'bg-teal-100' },
-  K08: { bg: 'bg-lime-50', icon: 'text-lime-600', border: 'border-t-lime-500', accent: 'bg-lime-100' },
+const kitColors: { [key: string]: { bg: string; icon: string; border: string; accent: string; iconBg: string } } = {
+  K01: { bg: 'bg-green-50', icon: 'text-green-600', border: 'border-t-green-500', accent: 'bg-green-100', iconBg: 'bg-green-200' },
+  K02: { bg: 'bg-blue-50', icon: 'text-blue-600', border: 'border-t-blue-500', accent: 'bg-blue-100', iconBg: 'bg-blue-200' },
+  K03: { bg: 'bg-purple-50', icon: 'text-purple-600', border: 'border-t-purple-500', accent: 'bg-purple-100', iconBg: 'bg-purple-200' },
+  K04: { bg: 'bg-yellow-50', icon: 'text-yellow-600', border: 'border-t-yellow-500', accent: 'bg-yellow-100', iconBg: 'bg-yellow-200' },
+  K05: { bg: 'bg-pink-50', icon: 'text-pink-600', border: 'border-t-pink-500', accent: 'bg-pink-100', iconBg: 'bg-pink-200' },
+  K06: { bg: 'bg-orange-50', icon: 'text-orange-600', border: 'border-t-orange-500', accent: 'bg-orange-100', iconBg: 'bg-orange-200' },
+  K07: { bg: 'bg-teal-50', icon: 'text-teal-600', border: 'border-t-teal-500', accent: 'bg-teal-100', iconBg: 'bg-teal-200' },
+  K08: { bg: 'bg-lime-50', icon: 'text-lime-600', border: 'border-t-lime-500', accent: 'bg-lime-100', iconBg: 'bg-lime-200' },
 };
 
 
 const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) => {
+  const [isHovered, setIsHovered] = useState(false);
   const kitProducts = kit.productIds.map(id => allProducts.find(p => p.id === id)).filter(Boolean) as Product[];
-  const color = kitColors[kit.id] || { bg: 'bg-white', icon: 'text-brand-green-600', border: 'border-t-gray-300', accent: 'bg-gray-100' };
+  const color = kitColors[kit.id] || { bg: 'bg-white', icon: 'text-brand-green-600', border: 'border-t-gray-300', accent: 'bg-gray-100', iconBg: 'bg-gray-200' };
   const { addItem } = useCart();
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
   const isKitFavorite = isFavorite(kit.id);
 
-  const handleAddKitToCart = () => {
+  const handleAddKitToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
     kitProducts.forEach(product => {
       addItem(product);
     });
@@ -60,12 +62,74 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
 
   return (
     <motion.div
-      className={`${color.bg} border border-gray-200 ${color.border} border-t-4 rounded-lg md:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col h-full min-h-[340px] md:min-h-[480px]`}
+      className={`${color.bg} border border-gray-200 ${color.border} border-t-4 rounded-lg md:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col h-full min-h-[340px] md:min-h-[480px] relative group`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.03, boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}
       transition={{ type: 'spring', stiffness: 120, damping: 18 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Quick-view overlay en hover */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-slate-900/90 backdrop-blur-sm z-10 p-4 md:p-5 flex flex-col justify-between cursor-pointer hidden md:flex"
+            onClick={onShowDetails}
+          >
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <Eye className="w-4 h-4 text-white/70" />
+                <span className="text-white/70 text-xs uppercase tracking-wider">Vista rápida</span>
+              </div>
+              <h3 className="text-lg md:text-xl font-bold text-white mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                {kit.name}
+              </h3>
+              <p className="text-white/80 text-sm mb-4">{kit.problem}</p>
+
+              {/* Lista completa de productos */}
+              <div className="space-y-2">
+                <span className="text-white/60 text-xs uppercase tracking-wider">Todos los productos:</span>
+                <div className="space-y-1.5 max-h-[180px] overflow-y-auto">
+                  {kitProducts.map((product, idx) => (
+                    <div key={product.id} className="flex items-center gap-2 text-white/90">
+                      <span className={`w-5 h-5 rounded-full ${color.iconBg} flex items-center justify-center text-xs font-bold ${color.icon}`}>
+                        {idx + 1}
+                      </span>
+                      <span className="text-sm truncate">{product.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-2 mt-4">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onShowDetails}
+                className="flex-1 bg-white text-slate-900 font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-center gap-2"
+              >
+                <Package className="w-4 h-4" />
+                Ver Detalles
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleAddKitToCart}
+                className="bg-brand-green-500 text-white font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-center"
+              >
+                <ShoppingCart className="w-4 h-4" />
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="p-3 md:p-6 flex-grow">
         <div className="flex items-start justify-between mb-2 md:mb-4">
             <div className={`p-1.5 md:p-3 bg-white rounded-full shadow-md`}>
@@ -85,14 +149,14 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     className={`p-2 rounded-full transition-colors ${
-                        isKitFavorite 
-                            ? 'bg-red-100 text-red-600' 
+                        isKitFavorite
+                            ? 'bg-red-100 text-red-600'
                             : 'bg-white text-gray-400 hover:bg-red-50 hover:text-red-500'
                     }`}
                     title={isKitFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
                 >
-                    <Heart 
-                        className="w-4 h-4 md:w-5 md:h-5" 
+                    <Heart
+                        className="w-4 h-4 md:w-5 md:h-5"
                         fill={isKitFavorite ? 'currentColor' : 'none'}
                         strokeWidth={2}
                     />
@@ -101,17 +165,46 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
         </div>
         <h3 className="text-lg md:text-2xl font-extrabold text-slate-900 mb-2 md:mb-4 tracking-tight leading-tight md:leading-snug line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{kit.name}</h3>
         <p className="text-sm md:text-base text-slate-700 mb-3 md:mb-6 line-clamp-3 md:line-clamp-2 leading-snug md:leading-relaxed">{kit.benefit}</p>
-        
-        <div className="space-y-1 md:space-y-3 mt-2 md:mt-4">
-            <h4 className="text-xs md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-1">Incluye:</h4>
-            <ul className="text-sm md:text-base text-slate-800 space-y-1 md:space-y-2">
-                {kitProducts.slice(0, 3).map(product => (
-                    <li key={product.id} className="truncate">
-                        <span className="font-medium">{product.name}</span>
-                        <span className="text-slate-500 hidden md:inline"> ({product.brand})</span>
+
+        {/* Visualización mejorada de productos incluidos */}
+        <div className="space-y-2 md:space-y-3 mt-2 md:mt-4">
+            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Incluye {kitProducts.length} productos:</h4>
+
+            {/* Mini avatares de productos */}
+            <div className="flex items-center gap-1">
+              {kitProducts.slice(0, 5).map((product, idx) => (
+                <div
+                  key={product.id}
+                  className={`w-8 h-8 md:w-10 md:h-10 rounded-full ${color.iconBg} flex items-center justify-center text-xs md:text-sm font-bold ${color.icon} border-2 border-white shadow-sm`}
+                  style={{ marginLeft: idx > 0 ? '-8px' : '0', zIndex: 5 - idx }}
+                  title={product.name}
+                >
+                  {product.name.charAt(0)}
+                </div>
+              ))}
+              {kitProducts.length > 5 && (
+                <div
+                  className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600 border-2 border-white shadow-sm"
+                  style={{ marginLeft: '-8px', zIndex: 0 }}
+                >
+                  +{kitProducts.length - 5}
+                </div>
+              )}
+            </div>
+
+            {/* Lista de productos principales */}
+            <ul className="text-xs md:text-sm text-slate-700 space-y-1">
+                {kitProducts.slice(0, 2).map(product => (
+                    <li key={product.id} className="flex items-center gap-1.5">
+                        <span className={`w-1.5 h-1.5 rounded-full ${color.accent}`}></span>
+                        <span className="truncate">{product.name}</span>
                     </li>
                 ))}
-                {kitProducts.length > 3 && <li className="text-slate-500 font-medium text-xs md:text-xs">y {kitProducts.length - 3} más...</li>}
+                {kitProducts.length > 2 && (
+                  <li className="text-slate-500 text-xs">
+                    y {kitProducts.length - 2} productos más...
+                  </li>
+                )}
             </ul>
         </div>
       </div>

@@ -343,7 +343,7 @@ function getProductosBase(nivel: string) {
       { id: 'SN19', nombre: 'Resverasor', prioridad: 1 },
       { id: 'SN02', nombre: 'Coenzima Q10', prioridad: 1 },
       { id: 'BF17', nombre: 'Cúrcuma', prioridad: 2 },
-      { id: 'SN22', nombre: 'Totalvid 4', prioridad: 3 }
+      { id: 'SN32', nombre: 'Totalvid 4', prioridad: 3 }
     ]
   };
   
@@ -369,7 +369,7 @@ function getProductosCategoria(categoria: string, nivel: string) {
       { id: 'BF08', nombre: 'Valeriana', prioridad: 2 }
     ],
     'estiloVida': [
-      { id: 'SN22', nombre: 'Totalvid 4', prioridad: 1 },
+      { id: 'SN32', nombre: 'Totalvid 4', prioridad: 1 },
       { id: 'BF11', nombre: 'Alga Espirulina', prioridad: 2 }
     ],
     'factoresRiesgo': [

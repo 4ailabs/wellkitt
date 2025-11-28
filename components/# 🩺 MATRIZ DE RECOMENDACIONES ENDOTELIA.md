@@ -54,7 +54,7 @@
 - **🟡 APOYO:**
   - `AA006` - **Analis Neurotransmisores** (Equilibrio emocional)
   - `SN19` - **Resverasor** (Neuroprotector)
-  - `SN22` - **Totalvid 4** (Complejo vitamínico neurológico)
+  - `SN32` - **Totalvid 4** (Complejo vitamínico neurológico)
 
 #### **Puntuación 6-10 puntos (MODERADO)**
 **Protocolo Cognitivo de Apoyo:**
@@ -67,7 +67,7 @@
 **Protocolo Preventivo Cognitivo:**
 - `SN09` - **Fosfoserina Complex**
 - **Omega-3** (Mantenimiento cerebral)
-- `SN22` - **Totalvid 4**
+- `SN32` - **Totalvid 4**
 
 ---
 
@@ -105,7 +105,7 @@
 #### **Puntuación 0-8 puntos (CRÍTICO)**
 **Protocolo de Soporte Nutricional Completo:**
 - **🔴 PRIMARIOS:**
-  - `SN22` - **Totalvid 4** (Multivitamínico completo)
+  - `SN32` - **Totalvid 4** (Multivitamínico completo)
   - `BF01` - **Hepacryl** (Detox hepático)
   - `SN18` - **Oligosor** (Remineralización)
   - `BF11` - **Alga Espirulina** (Superalimento)
@@ -116,14 +116,14 @@
 
 #### **Puntuación 9-14 puntos (MODERADO)**
 **Protocolo de Optimización:**
-- `SN22` - **Totalvid 4**
+- `SN32` - **Totalvid 4**
 - `BF11` - **Alga Espirulina**
 - `SN15` - **Minesor con Selenio**
 
 #### **Puntuación 15-20 puntos (MANTENIMIENTO)**
 **Protocolo Preventivo:**
 - `BF11` - **Alga Espirulina**
-- `SN22` - **Totalvid 4**
+- `SN32` - **Totalvid 4**
 
 ---
 
@@ -214,7 +214,7 @@
 - `SN19` - Resverasor (Antioxidante máximo)
 - `AA008` - Cronovida (Regulación neuroendocrina)
 - `BF17` - Cúrcuma (Antiinflamatorio)
-- `SN22` - Totalvid 4 (Soporte vitamínico)
+- `SN32` - Totalvid 4 (Soporte vitamínico)
 - **Descuento:** 25%
 - **Bonus:** Consulta virtual gratuita
 

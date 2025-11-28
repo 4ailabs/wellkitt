@@ -370,7 +370,7 @@ function getProductosBase(nivel) {
       { id: "SN19", prioridad: 2 },  // Resverasor
       { id: "AA008", prioridad: 2 }, // Cronovida
       { id: "BF17", prioridad: 3 },  // Cúrcuma
-      { id: "SN22", prioridad: 3 }   // Totalvid 4
+      { id: "SN32", prioridad: 3 }   // Totalvid 4
     ]
   };
   
@@ -407,7 +407,7 @@ function getProductosCategoria(categoria, nivel) {
       { id: "BF08", prioridad: 3 }   // Valeriana
     ],
     "estiloVida": [
-      { id: "SN22", prioridad: 1 },  // Totalvid 4
+      { id: "SN32", prioridad: 1 },  // Totalvid 4
       { id: "BF11", prioridad: 2 },  // Espirulina
       { id: "SN15", prioridad: 3 }   // Minesor
     ],
