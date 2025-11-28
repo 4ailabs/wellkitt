@@ -21,7 +21,7 @@ import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/us
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import useMobileDetect from './hooks/useMobileDetect';
 import { useDebounce } from './hooks/useDebounce';
@@ -29,6 +29,130 @@ import { normalizeText, isFuzzyMatch, calculateRelevanceScore, getSearchSuggesti
 
 type SortOption = 'default' | 'name-asc' | 'name-desc' | 'category';
 type ViewMode = 'grid' | 'list';
+
+// Componente Carrusel de Productos
+interface ProductCarouselProps {
+  products: Product[];
+  onShowDetails: (product: Product) => void;
+}
+
+const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, onShowDetails }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { isMobile } = useMobileDetect();
+
+  // Productos visibles por vez según dispositivo
+  const itemsPerView = isMobile ? 1 : 3;
+  const maxIndex = Math.max(0, products.length - itemsPerView);
+
+  const scrollToIndex = (index: number) => {
+    const clampedIndex = Math.max(0, Math.min(index, maxIndex));
+    setCurrentIndex(clampedIndex);
+    
+    if (scrollContainerRef.current) {
+      const cardWidth = scrollContainerRef.current.children[0]?.clientWidth || 0;
+      const gap = 16; // gap-4 = 16px
+      const scrollPosition = clampedIndex * (cardWidth + gap);
+      scrollContainerRef.current.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handlePrev = () => {
+    scrollToIndex(currentIndex - 1);
+  };
+
+  const handleNext = () => {
+    scrollToIndex(currentIndex + 1);
+  };
+
+  return (
+    <div className="relative">
+      {/* Contenedor del carrusel */}
+      <div className="relative overflow-hidden">
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+          onScroll={(e) => {
+            const container = e.currentTarget;
+            const cardWidth = container.children[0]?.clientWidth || 0;
+            const gap = 16;
+            const newIndex = Math.round(container.scrollLeft / (cardWidth + gap));
+            setCurrentIndex(newIndex);
+          }}
+        >
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="flex-shrink-0 w-full md:w-[calc(33.333%-0.75rem)]"
+            >
+              <ProductCardPremium
+                product={product}
+                onShowDetails={() => onShowDetails(product)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Botones de navegación - Solo mostrar si hay más productos que los visibles */}
+      {products.length > itemsPerView && (
+        <>
+          <button
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-10 bg-white rounded-full p-2 md:p-3 shadow-lg border border-gray-200 hover:bg-brand-green-50 hover:border-brand-green-300 transition-all ${
+              currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+            }`}
+            aria-label="Producto anterior"
+          >
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-slate-700" />
+          </button>
+          <button
+            onClick={handleNext}
+            disabled={currentIndex >= maxIndex}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 z-10 bg-white rounded-full p-2 md:p-3 shadow-lg border border-gray-200 hover:bg-brand-green-50 hover:border-brand-green-300 transition-all ${
+              currentIndex >= maxIndex ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+            }`}
+            aria-label="Siguiente producto"
+          >
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-slate-700" />
+          </button>
+        </>
+      )}
+
+      {/* Indicadores de posición - Solo en móvil */}
+      {isMobile && products.length > 1 && (
+        <div className="flex justify-center gap-2 mt-4">
+          {products.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToIndex(index)}
+              className={`h-2 rounded-full transition-all ${
+                index === currentIndex
+                  ? 'w-8 bg-brand-green-600'
+                  : 'w-2 bg-gray-300 hover:bg-gray-400'
+              }`}
+              aria-label={`Ir al producto ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
+
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
+    </div>
+  );
+};
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState('');
@@ -368,6 +492,72 @@ const App: React.FC = () => {
                         Descubre tu kit de bienestar ideal. Completa el formulario y recibe recomendaciones personalizadas basadas en tus necesidades.
                     </p>
                     
+                    {/* Buscador Superior */}
+                    <div className="max-w-2xl mx-auto mb-8 md:mb-12 px-4">
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <Search className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />
+                            </div>
+                            <input
+                                ref={searchInputRef}
+                                type="text"
+                                placeholder="¿Qué estás buscando?"
+                                value={searchQuery}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value);
+                                    setShowSuggestions(true);
+                                }}
+                                onFocus={() => {
+                                    if (searchQuery.length >= 2) {
+                                        setShowSuggestions(true);
+                                    }
+                                }}
+                                className="w-full pl-12 pr-12 py-4 md:py-5 text-base md:text-lg border-2 border-slate-200 rounded-xl md:rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-green-500 focus:border-brand-green-500 bg-white shadow-lg placeholder:text-slate-400"
+                            />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => {
+                                        setSearchQuery('');
+                                        setShowSuggestions(false);
+                                        searchInputRef.current?.focus();
+                                    }}
+                                    className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                                >
+                                    <X className="w-5 h-5 md:w-6 md:h-6 text-slate-400 hover:text-slate-600 transition-colors" />
+                                </button>
+                            )}
+                        </div>
+                        
+                        {/* Sugerencias de búsqueda */}
+                        {showSuggestions && searchSuggestions.length > 0 && searchQuery.length >= 2 && (
+                            <div className="absolute z-50 w-full max-w-2xl mt-2 bg-white border border-slate-200 rounded-xl shadow-2xl max-h-60 overflow-y-auto">
+                                {searchSuggestions.map((suggestion, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => {
+                                            setSearchQuery(suggestion);
+                                            setShowSuggestions(false);
+                                            // Scroll a la sección de productos
+                                            document.querySelector('[data-section="products-grid"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                        }}
+                                        className="w-full px-4 py-3 text-left hover:bg-brand-green-50 transition-colors flex items-center gap-3 border-b border-slate-100 last:border-b-0"
+                                    >
+                                        <Search className="w-4 h-4 text-gray-300" />
+                                        <span className="text-sm md:text-base text-slate-700">
+                                            {suggestion.split(new RegExp(`(${normalizeText(searchQuery).split(/\s+/).join('|')})`, 'gi')).map((part, i) => 
+                                                normalizeText(part).toLowerCase() === normalizeText(searchQuery).toLowerCase() ? (
+                                                    <span key={i} className="font-semibold text-brand-green-600">{part}</span>
+                                                ) : (
+                                                    <span key={i}>{part}</span>
+                                                )
+                                            )}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    
                     {/* Separador visual */}
                     <div className="flex items-center justify-center gap-4 mb-8 md:mb-12 px-4 max-w-3xl mx-auto">
                         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-slate-300"></div>
@@ -587,6 +777,23 @@ const App: React.FC = () => {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Carrusel de Productos Destacados */}
+            <section className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
+                <div className="mb-6 md:mb-8 text-center">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                        Productos <span className="text-brand-green-600">Destacados</span>
+                    </h2>
+                    <p className="text-sm md:text-base text-slate-600 max-w-2xl mx-auto">
+                        Descubre nuestros productos más populares y recomendados
+                    </p>
+                </div>
+                
+                <ProductCarousel 
+                    products={products.slice(0, 12)} 
+                    onShowDetails={handleShowDetails}
+                />
             </section>
 
             {/* Divisor */}
@@ -1300,9 +1507,9 @@ const App: React.FC = () => {
                     <h4 className="font-semibold text-slate-900 text-base md:text-lg mb-3 md:mb-4">Ubicación</h4>
                     <ul className="space-y-2 md:space-y-3">
                         <li>
-                            <a href="https://maps.google.com/?q=Acapulco%2036%20Roma%20Nte.,%20Cuauhtémoc,%2006700%20Ciudad%20de%20México,%20CDMX" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start justify-center md:justify-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors text-sm md:text-base">
+                            <a href="https://maps.google.com/?q=Acapulco%2036%20piso%208,%20Roma%20Nte.,%20Cuauhtémoc,%2006700%20Ciudad%20de%20México,%20CDMX" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start justify-center md:justify-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors text-sm md:text-base">
                                 <MapPin className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0 mt-0.5" />
-                                <span className="text-center md:text-left">Acapulco 36, Roma Nte., CDMX</span>
+                                <span className="text-center md:text-left">Acapulco 36 piso 8, Roma Nte., CDMX</span>
                             </a>
                         </li>
                     </ul>
