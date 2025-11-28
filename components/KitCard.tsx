@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Kit, Product } from '../types';
-import { ShieldCheck, Soup, Moon, Zap, HeartPulse, Bone, Shield, Gauge, ShoppingCart, Heart, Package, Eye } from 'lucide-react';
+import { ShoppingCart, Heart, Package, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCart } from '../contexts/CartContext';
-import { useFavorites } from '../contexts/FavoritesContext';
+import { useKitActions } from '../hooks/useProductActions';
+import { getKitCardColors, getKitIcon } from './kit-config';
 
 interface KitCardProps {
   kit: Kit;
@@ -12,53 +11,13 @@ interface KitCardProps {
   onShowDetails: () => void;
 }
 
-const kitIcons: { [key: string]: React.ReactNode } = {
-  K01: <ShieldCheck className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
-  K02: <Soup className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
-  K03: <Moon className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
-  K04: <Zap className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
-  K05: <HeartPulse className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
-  K06: <Bone className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
-  K07: <Shield className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
-  K08: <Gauge className="w-5 h-5 md:w-8 md:h-8 text-brand-green-600" />,
-};
-
-// Paleta de colores para cada kit
-const kitColors: { [key: string]: { bg: string; icon: string; border: string; accent: string; iconBg: string } } = {
-  K01: { bg: 'bg-green-50', icon: 'text-green-600', border: 'border-t-green-500', accent: 'bg-green-100', iconBg: 'bg-green-200' },
-  K02: { bg: 'bg-blue-50', icon: 'text-blue-600', border: 'border-t-blue-500', accent: 'bg-blue-100', iconBg: 'bg-blue-200' },
-  K03: { bg: 'bg-purple-50', icon: 'text-purple-600', border: 'border-t-purple-500', accent: 'bg-purple-100', iconBg: 'bg-purple-200' },
-  K04: { bg: 'bg-yellow-50', icon: 'text-yellow-600', border: 'border-t-yellow-500', accent: 'bg-yellow-100', iconBg: 'bg-yellow-200' },
-  K05: { bg: 'bg-pink-50', icon: 'text-pink-600', border: 'border-t-pink-500', accent: 'bg-pink-100', iconBg: 'bg-pink-200' },
-  K06: { bg: 'bg-orange-50', icon: 'text-orange-600', border: 'border-t-orange-500', accent: 'bg-orange-100', iconBg: 'bg-orange-200' },
-  K07: { bg: 'bg-teal-50', icon: 'text-teal-600', border: 'border-t-teal-500', accent: 'bg-teal-100', iconBg: 'bg-teal-200' },
-  K08: { bg: 'bg-lime-50', icon: 'text-lime-600', border: 'border-t-lime-500', accent: 'bg-lime-100', iconBg: 'bg-lime-200' },
-};
-
-
 const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) => {
   const [isHovered, setIsHovered] = useState(false);
   const kitProducts = kit.productIds.map(id => allProducts.find(p => p.id === id)).filter(Boolean) as Product[];
-  const color = kitColors[kit.id] || { bg: 'bg-white', icon: 'text-brand-green-600', border: 'border-t-gray-300', accent: 'bg-gray-100', iconBg: 'bg-gray-200' };
-  const { addItem } = useCart();
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
-  const isKitFavorite = isFavorite(kit.id);
+  const color = getKitCardColors(kit.id);
+  const KitIcon = getKitIcon(kit.id);
 
-  const handleAddKitToCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    kitProducts.forEach(product => {
-      addItem(product);
-    });
-  };
-
-  const handleToggleFavorite = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (isKitFavorite) {
-      removeFavorite(kit.id);
-    } else {
-      addFavorite(kit);
-    }
-  };
+  const { handleAddKitToCart, handleToggleFavorite, isFavorite: isKitFavorite } = useKitActions(kit, kitProducts);
 
   return (
     <motion.div
@@ -133,7 +92,7 @@ const KitCard: React.FC<KitCardProps> = ({ kit, allProducts, onShowDetails }) =>
       <div className="p-3 md:p-6 flex-grow">
         <div className="flex items-start justify-between mb-2 md:mb-4">
             <div className={`p-1.5 md:p-3 bg-white rounded-full shadow-md`}>
-                {kitIcons[kit.id] || <div className="w-5 h-5 md:w-8 md:h-8"></div>}
+                <KitIcon className={`w-5 h-5 md:w-8 md:h-8 ${color.icon}`} />
             </div>
             <div className="flex items-start gap-2">
                 <div className="flex flex-col gap-1.5 items-end">

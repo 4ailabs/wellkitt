@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { Kit, Product } from '../types';
-import { X, List, Leaf, CheckCircle, ShoppingCart, Package, Target, Sparkles, Clock, ChevronDown, ChevronUp, Heart, ShieldCheck, Soup, Moon, Zap, HeartPulse, Bone, Shield, Gauge } from 'lucide-react';
+import { X, List, Leaf, CheckCircle, ShoppingCart, Package, Target, Sparkles, Clock, ChevronDown, ChevronUp, Heart } from 'lucide-react';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCart } from '../contexts/CartContext';
-import { useFavorites } from '../contexts/FavoritesContext';
+import { useKitActions } from '../hooks/useProductActions';
+import { getKitModalColors, getKitIcon, getKitUsageSuggestion } from './kit-config';
 
 interface DetailModalProps {
   item: Kit | Product | null;
@@ -18,45 +17,8 @@ const isKit = (item: Kit | Product): item is Kit => {
   return (item as Kit).productIds !== undefined;
 };
 
-// Iconos y colores por kit
-const kitIcons: { [key: string]: React.ReactNode } = {
-  K01: <ShieldCheck className="w-8 h-8" />,
-  K02: <Soup className="w-8 h-8" />,
-  K03: <Moon className="w-8 h-8" />,
-  K04: <Zap className="w-8 h-8" />,
-  K05: <HeartPulse className="w-8 h-8" />,
-  K06: <Bone className="w-8 h-8" />,
-  K07: <Shield className="w-8 h-8" />,
-  K08: <Gauge className="w-8 h-8" />,
-};
-
-const kitColors: { [key: string]: { bg: string; text: string; light: string; gradient: string } } = {
-  K01: { bg: 'bg-green-500', text: 'text-green-600', light: 'bg-green-50', gradient: 'from-green-500 to-green-600' },
-  K02: { bg: 'bg-blue-500', text: 'text-blue-600', light: 'bg-blue-50', gradient: 'from-blue-500 to-blue-600' },
-  K03: { bg: 'bg-purple-500', text: 'text-purple-600', light: 'bg-purple-50', gradient: 'from-purple-500 to-purple-600' },
-  K04: { bg: 'bg-yellow-500', text: 'text-yellow-600', light: 'bg-yellow-50', gradient: 'from-yellow-500 to-yellow-600' },
-  K05: { bg: 'bg-pink-500', text: 'text-pink-600', light: 'bg-pink-50', gradient: 'from-pink-500 to-pink-600' },
-  K06: { bg: 'bg-orange-500', text: 'text-orange-600', light: 'bg-orange-50', gradient: 'from-orange-500 to-orange-600' },
-  K07: { bg: 'bg-teal-500', text: 'text-teal-600', light: 'bg-teal-50', gradient: 'from-teal-500 to-teal-600' },
-  K08: { bg: 'bg-lime-500', text: 'text-lime-600', light: 'bg-lime-50', gradient: 'from-lime-500 to-lime-600' },
-};
-
-// Sugerencias de uso por kit
-const kitUsageSuggestions: { [key: string]: string } = {
-  K01: "Toma los productos detox por la mañana en ayunas para mejor absorción. El drenaje linfático puede tomarse antes de dormir.",
-  K02: "Toma los enzimas digestivos con las comidas principales. Los probióticos preferentemente en ayunas.",
-  K03: "Toma los relajantes 30 minutos antes de dormir. La valeriana puede complementarse durante el día si hay ansiedad.",
-  K04: "Toma los energizantes por la mañana y después del almuerzo. Evita tomarlos después de las 4pm.",
-  K05: "Toma los suplementos hormonales con el desayuno. Puede llevar 2-4 semanas notar beneficios.",
-  K06: "Toma los antiinflamatorios con las comidas para mejor tolerancia. La glucosamina funciona mejor con uso continuo.",
-  K07: "Toma los inmunomoduladores por la mañana. Durante infecciones activas, puede aumentarse la dosis.",
-  K08: "Toma los termogénicos por la mañana. El control de apetito 30 min antes de las comidas principales.",
-};
-
 const DetailModal: React.FC<DetailModalProps> = ({ item, allProducts, onClose }) => {
   const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
-  const { addItem } = useCart();
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
   // Bloquear scroll cuando el modal está abierto
   useScrollLock(!!item);
@@ -65,22 +27,12 @@ const DetailModal: React.FC<DetailModalProps> = ({ item, allProducts, onClose })
 
   const renderKitDetails = (kit: Kit) => {
     const kitProducts = kit.productIds.map(id => allProducts.find(p => p.id === id)).filter(Boolean) as Product[];
-    const color = kitColors[kit.id] || { bg: 'bg-brand-green-500', text: 'text-brand-green-600', light: 'bg-brand-green-50', gradient: 'from-brand-green-500 to-brand-green-600' };
-    const icon = kitIcons[kit.id] || <Package className="w-8 h-8" />;
-    const usageSuggestion = kitUsageSuggestions[kit.id] || "Sigue las instrucciones de cada producto individual.";
-    const isKitFavorite = isFavorite(kit.id);
+    const color = getKitModalColors(kit.id);
+    const KitIcon = getKitIcon(kit.id);
+    const usageSuggestion = getKitUsageSuggestion(kit.id);
 
-    const handleAddAllToCart = () => {
-      kitProducts.forEach(product => addItem(product));
-    };
-
-    const handleToggleFavorite = () => {
-      if (isKitFavorite) {
-        removeFavorite(kit.id);
-      } else {
-        addFavorite(kit);
-      }
-    };
+    // Usar el hook para acciones del kit (definido dentro del render para acceder a kitProducts)
+    const { handleAddKitToCart, handleToggleFavorite, isFavorite: isKitFavorite } = useKitActions(kit, kitProducts);
 
     // Obtener todos los beneficios únicos de los productos
     const allBenefits = [...new Set(kitProducts.flatMap(p => p.benefits))].slice(0, 6);
@@ -99,7 +51,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ item, allProducts, onClose })
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                  {icon}
+                  <KitIcon className="w-8 h-8" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -263,7 +215,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ item, allProducts, onClose })
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={handleAddAllToCart}
+              onClick={handleAddKitToCart}
               className={`flex-1 bg-gradient-to-r ${color.gradient} text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg`}
             >
               <ShoppingCart className="w-5 h-5" />

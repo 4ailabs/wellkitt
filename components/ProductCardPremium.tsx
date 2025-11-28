@@ -2,8 +2,7 @@ import React from 'react';
 import { Product } from '../types';
 import { categoryConfig } from './category-config';
 import { motion } from 'framer-motion';
-import { useCart } from '../contexts/CartContext';
-import { useFavorites } from '../contexts/FavoritesContext';
+import { useProductActions } from '../hooks/useProductActions';
 import { ShoppingCart, Heart, Package } from 'lucide-react';
 
 interface ProductCardPremiumProps {
@@ -14,23 +13,7 @@ interface ProductCardPremiumProps {
 const ProductCardPremium: React.FC<ProductCardPremiumProps> = ({ product, onShowDetails }) => {
   const config = categoryConfig[product.category];
   const Icon = config?.icon;
-  const { addItem } = useCart();
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
-  const isProductFavorite = isFavorite(product.id);
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    addItem(product);
-  };
-
-  const handleToggleFavorite = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (isProductFavorite) {
-      removeFavorite(product.id);
-    } else {
-      addFavorite(product);
-    }
-  };
+  const { handleAddToCart, handleToggleFavorite, isFavorite: isProductFavorite } = useProductActions(product);
 
   // Obtener el beneficio principal
   const mainBenefit = product.benefits[0] || '';
