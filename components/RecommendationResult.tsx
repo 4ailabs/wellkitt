@@ -1,7 +1,7 @@
 
 import React, { useRef, useState } from 'react';
 import { Recommendation, Product } from '../types';
-import { Sparkles, FileImage, FileText, Loader2, Phone, ShoppingCart } from 'lucide-react';
+import { Sparkles, FileImage, FileText, Loader2, Phone, ShoppingCart, Clock, Zap, CheckCircle, Info } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { motion } from 'framer-motion';
@@ -346,24 +346,86 @@ ${recommendation.reasoning}
             <p className="text-sm md:text-base text-slate-700 mb-4 md:mb-6 border-l-4 border-brand-green-400 pl-3 md:pl-4 italic">"{recommendation.reasoning}"</p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-              {recommendedProducts.map(product => (
-                <div key={product.id} className="bg-white p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-2">
-                    <p className="font-bold text-slate-800 text-sm md:text-base">{product.name}</p>
-                    <span className="text-xs text-brand-green-700 bg-brand-green-100 px-2 py-1 rounded-full whitespace-nowrap">{product.category}</span>
-                  </div>
-                  <p className="text-xs md:text-sm text-slate-500">{product.brand}</p>
-                  {product.benefits && product.benefits.length > 0 && (
-                    <p className="text-xs text-slate-600 mt-2 overflow-hidden" style={{ 
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      textOverflow: 'ellipsis'
-                    }}>{product.benefits.slice(0, 2).join(', ')}</p>
-                  )}
-                </div>
-              ))}
+              {recommendedProducts.map(product => {
+                const productReason = recommendation.product_reasons?.find(pr => pr.product_id === product.id);
+                return (
+                  <motion.div
+                    key={product.id}
+                    className="bg-white p-3 md:p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <p className="font-bold text-slate-800 text-sm md:text-base">{product.name}</p>
+                      <span className="text-xs text-brand-green-700 bg-brand-green-100 px-2 py-1 rounded-full whitespace-nowrap">{product.category}</span>
+                    </div>
+                    <p className="text-xs md:text-sm text-slate-500 mb-2">{product.brand}</p>
+
+                    {/* Beneficio clave personalizado */}
+                    {productReason?.key_benefit && (
+                      <div className="flex items-start gap-2 mb-2 p-2 bg-brand-green-50 rounded-lg">
+                        <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-brand-green-800 font-medium">{productReason.key_benefit}</p>
+                      </div>
+                    )}
+
+                    {/* Razón de selección */}
+                    {productReason?.reason && (
+                      <div className="flex items-start gap-2 text-xs text-slate-600">
+                        <Info className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+                        <p className="italic">{productReason.reason}</p>
+                      </div>
+                    )}
+
+                    {/* Fallback a beneficios genéricos si no hay razón personalizada */}
+                    {!productReason && product.benefits && product.benefits.length > 0 && (
+                      <p className="text-xs text-slate-600 mt-2 overflow-hidden" style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        textOverflow: 'ellipsis'
+                      }}>{product.benefits.slice(0, 2).join(', ')}</p>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
+
+            {/* Sección de Sinergia */}
+            {recommendation.synergy_explanation && (
+              <div className="mt-4 md:mt-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <Zap className="w-5 h-5 text-purple-600" />
+                  <h4 className="font-bold text-purple-900 text-sm md:text-base">Efecto Sinérgico</h4>
+                </div>
+                <p className="text-sm text-purple-800">{recommendation.synergy_explanation}</p>
+              </div>
+            )}
+
+            {/* Sugerencia de Uso y Timeline */}
+            {(recommendation.usage_suggestion || recommendation.expected_timeline) && (
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                {recommendation.usage_suggestion && (
+                  <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Clock className="w-4 h-4 text-blue-600" />
+                      <span className="text-xs font-bold text-blue-800">Cómo tomarlo</span>
+                    </div>
+                    <p className="text-xs text-blue-700">{recommendation.usage_suggestion}</p>
+                  </div>
+                )}
+                {recommendation.expected_timeline && (
+                  <div className="p-3 bg-amber-50 rounded-lg border border-amber-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Sparkles className="w-4 h-4 text-amber-600" />
+                      <span className="text-xs font-bold text-amber-800">Resultados esperados</span>
+                    </div>
+                    <p className="text-xs text-amber-700">{recommendation.expected_timeline}</p>
+                  </div>
+                )}
+              </div>
+            )}
             
             <div className="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-brand-green-200 text-center">
                 <p className="text-xs md:text-sm text-slate-600 mb-3">¿Tienes dudas o quieres realizar tu pedido?</p>

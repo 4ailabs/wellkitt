@@ -31,11 +31,11 @@ const responseSchema = {
     },
     custom_kit_name: {
       type: Type.STRING,
-      description: "A suitable name for the custom kit, if one is created."
+      description: "A suitable name for the custom kit, if one is created. Make it catchy and descriptive in Spanish."
     },
     custom_kit_description: {
       type: Type.STRING,
-      description: "A brief, compelling description for the custom kit."
+      description: "A brief, compelling description for the custom kit in Spanish."
     },
     product_ids: {
       type: Type.ARRAY,
@@ -44,10 +44,34 @@ const responseSchema = {
     },
     reasoning: {
       type: Type.STRING,
-      description: "A clear, concise explanation for why this recommendation is suitable for the user."
+      description: "A clear, concise explanation in Spanish for why this recommendation is suitable for the user."
     },
+    product_reasons: {
+      type: Type.ARRAY,
+      description: "Individual reasoning for each product selected, explaining how it helps the user's specific goals.",
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          product_id: { type: Type.STRING },
+          reason: { type: Type.STRING, description: "Brief explanation in Spanish of why this product was selected." },
+          key_benefit: { type: Type.STRING, description: "The main benefit of this product for the user's goal in Spanish." }
+        }
+      }
+    },
+    synergy_explanation: {
+      type: Type.STRING,
+      description: "Explanation in Spanish of how the selected products work together synergistically."
+    },
+    usage_suggestion: {
+      type: Type.STRING,
+      description: "Suggested usage timing in Spanish (e.g., 'Tomar X por la mañana, Y con las comidas')."
+    },
+    expected_timeline: {
+      type: Type.STRING,
+      description: "Expected timeline for results in Spanish (e.g., 'Resultados notables en 2-4 semanas')."
+    }
   },
-  required: ["recommendation_type", "product_ids", "reasoning"]
+  required: ["recommendation_type", "product_ids", "reasoning", "product_reasons", "synergy_explanation"]
 };
 
 export default async function handler(req: any, res: any) {
@@ -94,23 +118,52 @@ export default async function handler(req: any, res: any) {
     const model = "gemini-2.5-flash";
 
     const prompt = `
-      System Instruction: You are an expert naturopath and product recommender for Wellkitt, a natural health supplement company. Your goal is to help users find the perfect products for their health goals. You are given a user's health concern, a list of available products, and a list of pre-defined kits. Based on this information, you must recommend either one of the pre-defined kits if it's a good match, or create a new custom kit by selecting 2 to 5 relevant products. Your response MUST be in JSON format conforming to the provided schema. Provide clear reasoning for your recommendation.
+      System Instruction: Eres un experto naturópata y asesor de productos para Wellkitt, una empresa mexicana de suplementos naturales de alta calidad. Tu misión es ayudar a los usuarios a encontrar los productos perfectos para sus objetivos de salud.
 
-      User's Health Goal:
+      IMPORTANTE:
+      - Todas tus respuestas DEBEN estar en español.
+      - Sé empático y cercano, pero profesional.
+      - Considera las sinergias entre productos (cómo trabajan mejor juntos).
+      - Prioriza productos que ataquen la causa raíz, no solo los síntomas.
+      - Ten en cuenta que los usuarios buscan soluciones naturales y efectivas.
+
+      Objetivo de Salud del Usuario:
       "${userInput}"
 
-      Available Products (JSON):
+      Productos Disponibles (JSON):
       ${JSON.stringify(products.map(({ id, name, benefits, category }: Product) => ({ id, name, benefits, category })))}
 
-      Pre-defined Kits (JSON):
+      Kits Predefinidos (JSON):
       ${JSON.stringify(kits.map(({ id, name, problem, benefit }: Kit) => ({ id, name, problem, benefit })))}
 
-      Instructions:
-      1.  Analyze the user's goal.
-      2.  If a pre-defined kit (from the "Pre-defined Kits" list) perfectly addresses the goal, recommend it. Set "recommendation_type" to "predefined_kit", provide the "kit_id", and list the kit's product_ids.
-      3.  If no pre-defined kit is a perfect match, create a custom kit. Set "recommendation_type" to "custom_kit", create a "custom_kit_name" and "custom_kit_description", and select 2-5 relevant product_ids from the "Available Products" list.
-      4.  Always provide a concise "reasoning" for your choice, explaining how the selected products or kit will help the user achieve their goal.
-      5.  Base your selection on the product benefits and categories.
+      INSTRUCCIONES DETALLADAS:
+
+      1. ANÁLISIS: Analiza cuidadosamente el objetivo del usuario. Identifica:
+         - El problema principal
+         - Posibles causas subyacentes
+         - Áreas de salud relacionadas
+
+      2. SELECCIÓN DE PRODUCTOS:
+         - Si un kit predefinido encaja perfectamente (>80% match), recomiéndalo con "recommendation_type": "predefined_kit"
+         - Si no, crea un kit personalizado con 2-5 productos que:
+           * Se complementen entre sí (sinergia)
+           * Ataquen el problema desde diferentes ángulos
+           * Sean específicos para las necesidades del usuario
+
+      3. EXPLICACIONES REQUERIDAS:
+         - "reasoning": Explicación general de por qué esta combinación es ideal (2-3 oraciones)
+         - "product_reasons": Para CADA producto, explica:
+           * "reason": Por qué fue seleccionado específicamente
+           * "key_benefit": El beneficio principal para este usuario
+         - "synergy_explanation": Cómo trabajan los productos juntos (efecto sinérgico)
+         - "usage_suggestion": Cuándo y cómo tomar cada producto (ej: "Producto X por la mañana, Producto Y con las comidas")
+         - "expected_timeline": Tiempo estimado para ver resultados (ej: "Mejoras notables en 2-4 semanas")
+
+      4. NOMBRES CREATIVOS:
+         - Si creas un kit personalizado, dale un nombre atractivo y descriptivo en español
+         - Ejemplos: "Kit Energía Total", "Protocolo Digestivo", "Escudo Inmunológico"
+
+      Responde ÚNICAMENTE con el JSON estructurado según el schema proporcionado.
     `;
 
     const response = await ai.models.generateContent({

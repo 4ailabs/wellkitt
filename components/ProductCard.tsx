@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Product } from '../types';
 import { categoryConfig } from './category-config';
 import { motion } from 'framer-motion';
 import { useCart } from '../contexts/CartContext';
 import { useFavorites } from '../contexts/FavoritesContext';
-import { ShoppingCart, Heart } from 'lucide-react';
+import { ShoppingCart, Heart, Sparkles, Package } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -33,138 +32,129 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
     }
   };
 
-  // Extraer el color principal de la categoría para el borde
-  const getBorderColor = () => {
-    if (config?.colorClass) {
-      // Convertir la clase de color a un color de borde
-      const colorMap: { [key: string]: string } = {
-        'text-pink-500': 'border-t-pink-500',
-        'text-yellow-500': 'border-t-yellow-500',
-        'text-green-500': 'border-t-green-500',
-        'text-blue-500': 'border-t-blue-500',
-        'text-indigo-500': 'border-t-indigo-500',
-        'text-orange-500': 'border-t-orange-500',
-        'text-purple-500': 'border-t-purple-500',
-        'text-teal-500': 'border-t-teal-500',
-        'text-red-500': 'border-t-red-500',
-        'text-cyan-500': 'border-t-cyan-500',
-        'text-amber-500': 'border-t-amber-500',
-        'text-amber-700': 'border-t-amber-700',
-        'text-lime-700': 'border-t-lime-700',
-        'text-yellow-700': 'border-t-yellow-700',
-        'text-blue-700': 'border-t-blue-700',
-        'text-pink-700': 'border-t-pink-700',
-        'text-gray-700': 'border-t-gray-700',
-        'text-purple-700': 'border-t-purple-700',
-        'text-indigo-700': 'border-t-indigo-700',
-        'text-indigo-900': 'border-t-indigo-900',
-        'text-green-700': 'border-t-green-700',
-        'text-green-900': 'border-t-green-900',
-        'text-orange-700': 'border-t-orange-700',
-        'text-orange-900': 'border-t-orange-900',
-        'text-cyan-700': 'border-t-cyan-700',
-      };
-      return colorMap[config.colorClass] || 'border-t-gray-300';
-    }
-    return 'border-t-gray-300';
-  };
-
   return (
     <motion.div
-      className={`relative bg-white border border-gray-100 ${getBorderColor()} border-t-4 rounded-lg md:rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full min-h-[280px] md:min-h-[420px] overflow-hidden`}
-      initial={{ opacity: 0, y: 30 }}
+      className="group relative bg-white rounded-2xl md:rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full overflow-hidden border border-gray-100"
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.03, boxShadow: '0 12px 40px rgba(0,0,0,0.12)' }}
-      transition={{ type: 'spring', stiffness: 120, damping: 18 }}
+      whileHover={{ y: -4 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
     >
-      {/* Gradiente sutil de fondo */}
-      <div className={`absolute inset-0 opacity-[0.03] ${config?.bgClass || 'bg-gray-100'} pointer-events-none rounded-lg md:rounded-2xl`}></div>
-      
-      <div className="p-3 md:p-7 flex-grow flex flex-col relative z-10">
-        <div className="flex items-start justify-between mb-2 md:mb-4">
-            <div className={`p-1.5 md:p-3 ${config?.bgClass || 'bg-gray-100'} rounded-full shadow-sm`}>
-                {Icon ? <Icon className={`w-5 h-5 md:w-7 md:h-7 ${config.colorClass}`} /> : <div className="w-5 h-5 md:w-7 md:h-7"></div>}
-            </div>
-            <div className="flex items-start gap-2">
-                <div className="flex flex-col gap-1 items-end">
-                    <div className="bg-slate-100 text-slate-600 text-xs md:text-xs font-bold px-2 md:px-3 py-1 md:py-1 rounded-full">
-                        {product.brand}
-                    </div>
-                    {product.category && (
-                        <div className={`${config?.bgClass || 'bg-gray-100'} ${config?.colorClass || 'text-gray-600'} text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full`}>
-                            {product.category}
-                        </div>
-                    )}
-                </div>
-                <motion.button
-                    onClick={handleToggleFavorite}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className={`p-2 rounded-full transition-colors ${
-                        isProductFavorite 
-                            ? 'bg-red-100 text-red-600' 
-                            : 'bg-gray-100 text-gray-400 hover:bg-red-50 hover:text-red-500'
-                    }`}
-                    title={isProductFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                >
-                    <Heart 
-                        className="w-4 h-4 md:w-5 md:h-5" 
-                        fill={isProductFavorite ? 'currentColor' : 'none'}
-                        strokeWidth={2}
-                    />
-                </motion.button>
-            </div>
+      {/* Header con icono prominente */}
+      <div className={`relative h-28 md:h-36 ${config?.bgClass || 'bg-gradient-to-br from-gray-100 to-gray-50'} flex items-center justify-center overflow-hidden`}>
+        {/* Patrón decorativo */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-2 right-2 w-20 h-20 rounded-full bg-white/50"></div>
+          <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-white/30 -translate-x-1/2 translate-y-1/2"></div>
         </div>
-        <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 md:mb-2 line-clamp-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>{product.name}</h3>
-        
-        {product.presentation && (
-          <div className="mb-2 md:mb-4">
-            <h4 className="text-xs md:text-xs font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Presentación:</h4>
-            <p className="text-sm md:text-sm text-slate-700 line-clamp-1">{product.presentation}</p>
+
+        {/* Icono central */}
+        <motion.div
+          className="relative z-10"
+          whileHover={{ scale: 1.1, rotate: 5 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+        >
+          <div className={`p-4 md:p-5 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg`}>
+            {Icon ? (
+              <Icon className={`w-8 h-8 md:w-10 md:h-10 ${config.colorClass}`} strokeWidth={1.5} />
+            ) : (
+              <Package className="w-8 h-8 md:w-10 md:h-10 text-gray-400" strokeWidth={1.5} />
+            )}
           </div>
+        </motion.div>
+
+        {/* Botón de favoritos */}
+        <motion.button
+          onClick={handleToggleFavorite}
+          whileHover={{ scale: 1.15 }}
+          whileTap={{ scale: 0.9 }}
+          className={`absolute top-3 right-3 p-2 rounded-full shadow-md transition-all duration-300 ${
+            isProductFavorite
+              ? 'bg-red-500 text-white'
+              : 'bg-white/90 backdrop-blur-sm text-gray-400 hover:text-red-500'
+          }`}
+        >
+          <Heart
+            className="w-4 h-4"
+            fill={isProductFavorite ? 'currentColor' : 'none'}
+            strokeWidth={2}
+          />
+        </motion.button>
+
+        {/* Badge de marca */}
+        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-slate-700 text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
+          {product.brand}
+        </div>
+      </div>
+
+      {/* Contenido */}
+      <div className="p-4 md:p-5 flex-grow flex flex-col">
+        {/* Categoría */}
+        <div className="mb-2">
+          <span className={`inline-flex items-center gap-1 ${config?.colorClass || 'text-gray-600'} text-[10px] md:text-xs font-semibold`}>
+            <Sparkles className="w-3 h-3" />
+            {product.category}
+          </span>
+        </div>
+
+        {/* Nombre del producto */}
+        <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 line-clamp-2 group-hover:text-brand-green-600 transition-colors" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+          {product.name}
+        </h3>
+
+        {/* Presentación */}
+        {product.presentation && (
+          <p className="text-xs text-slate-500 mb-3 flex items-center gap-1">
+            <Package className="w-3 h-3" />
+            {product.presentation}
+          </p>
         )}
 
-        <div className="space-y-1 md:space-y-2 mb-2 md:mb-4">
-            <h4 className="text-xs md:text-xs font-semibold text-slate-500 uppercase tracking-wider">Beneficios:</h4>
-            <ul className="text-sm md:text-sm text-slate-700 list-disc list-inside space-y-0.5">
-                {product.benefits.slice(0, 2).map((benefit, index) => (
-                    <li key={index} className="line-clamp-1">
-                        {benefit}
-                    </li>
-                ))}
-                {product.benefits.length > 2 && (
-                    <li className="text-slate-500 text-xs md:text-xs">+{product.benefits.length - 2} más</li>
-                )}
-            </ul>
-        </div>
+        {/* Beneficios con nuevo diseño */}
+        <div className="flex-grow">
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {product.benefits.slice(0, 2).map((benefit, index) => (
+              <span
+                key={index}
+                className="inline-block bg-brand-green-50 text-brand-green-700 text-[10px] md:text-xs px-2 py-1 rounded-md font-medium"
+              >
+                {benefit.length > 25 ? benefit.substring(0, 25) + '...' : benefit}
+              </span>
+            ))}
+            {product.benefits.length > 2 && (
+              <span className="inline-block bg-gray-100 text-gray-500 text-[10px] md:text-xs px-2 py-1 rounded-md">
+                +{product.benefits.length - 2}
+              </span>
+            )}
+          </div>
 
-        <div className="space-y-1 md:space-y-1 mb-auto">
-            <h4 className="text-xs md:text-xs font-semibold text-slate-500 uppercase tracking-wider">Ingredientes:</h4>
-            <p className="text-sm md:text-sm text-slate-600 line-clamp-2">
-                {product.ingredients.slice(0, 3).join(', ')}{product.ingredients.length > 3 ? '...' : ''}
-            </p>
+          {/* Ingredientes principales */}
+          <p className="text-xs text-slate-500 line-clamp-1">
+            <span className="font-medium text-slate-600">Ingredientes: </span>
+            {product.ingredients.slice(0, 2).join(', ')}{product.ingredients.length > 2 ? '...' : ''}
+          </p>
         </div>
-
       </div>
-       <div className="p-3 md:p-6 bg-slate-50/70 border-t border-gray-100 mt-auto">
-        <div className="flex gap-2 md:gap-2">
+
+      {/* Footer con botones */}
+      <div className="p-4 md:p-5 pt-0">
+        <div className="flex gap-2">
           <motion.button
-              onClick={onShowDetails}
-              whileHover={{ scale: 1.03, backgroundColor: '#1e293b', color: '#fff', borderColor: '#1e293b' }}
-              whileTap={{ scale: 0.98 }}
-              className="flex-1 bg-white text-slate-800 border border-slate-300 text-sm md:text-base font-medium py-2.5 md:py-2.5 px-3 md:px-4 rounded-lg md:rounded-lg shadow-sm hover:bg-slate-800 hover:text-white hover:border-slate-800 transition-all duration-200"
-              style={{ fontFamily: 'Inter, sans-serif' }}
-            >
-            Ver Detalles
+            onClick={onShowDetails}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="flex-1 bg-slate-100 text-slate-700 text-sm font-semibold py-2.5 md:py-3 px-4 rounded-xl hover:bg-slate-800 hover:text-white transition-all duration-300"
+          >
+            Ver más
           </motion.button>
           <motion.button
-              onClick={handleAddToCart}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-brand-green-600 text-white border border-brand-green-600 text-sm md:text-base font-medium py-2.5 md:py-2.5 px-3 md:px-4 rounded-lg md:rounded-lg shadow-sm hover:bg-brand-green-700 hover:border-brand-green-700 transition-all duration-200 flex items-center justify-center"
-              style={{ fontFamily: 'Inter, sans-serif' }}
-            >
-            <ShoppingCart className="w-4 h-4 md:w-4 md:h-4" />
+            onClick={handleAddToCart}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-brand-green-600 text-white text-sm font-semibold py-2.5 md:py-3 px-4 rounded-xl hover:bg-brand-green-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-brand-green-600/25"
+          >
+            <ShoppingCart className="w-4 h-4" />
+            <span className="hidden md:inline">Agregar</span>
           </motion.button>
         </div>
       </div>

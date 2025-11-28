@@ -7,6 +7,7 @@ export interface Product {
   benefits: string[];
   presentation?: string;
   category: string;
+  image?: string;
 }
 
 export interface Kit {
@@ -18,6 +19,12 @@ export interface Kit {
   discount: number;
 }
 
+export interface ProductReason {
+  product_id: string;
+  reason: string;
+  key_benefit: string;
+}
+
 export interface Recommendation {
   recommendation_type: 'predefined_kit' | 'custom_kit';
   kit_id?: string;
@@ -25,6 +32,10 @@ export interface Recommendation {
   custom_kit_description?: string;
   product_ids: string[];
   reasoning: string;
+  product_reasons?: ProductReason[];
+  synergy_explanation?: string;
+  usage_suggestion?: string;
+  expected_timeline?: string;
 }
 
 // Tipos para el Test de Endotelio
@@ -123,4 +134,12 @@ export interface NutrigenomicaPregunta {
     valor: number;
     texto: string;
   }>;
+}
+
+// Tipos para el Historial de Tests
+export interface TestHistoryEntry {
+  id: string;
+  testType: 'endotelio' | 'nutrigenomica';
+  fecha: string;
+  resultado: EndotelioResultado | NutrigenomicaResultado;
 }

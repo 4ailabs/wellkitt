@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useState } from 'react';
 import { Product } from '../types';
 
 interface CartItem {
@@ -18,14 +18,18 @@ type CartAction =
   | { type: 'CLEAR_CART' }
   | { type: 'LOAD_CART'; payload: CartItem[] };
 
-const CartContext = createContext<{
+interface CartContextType {
   state: CartState;
   addItem: (product: Product) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   sendCartToWhatsApp: () => void;
-} | null>(null);
+  lastAddedProduct: Product | null;
+  clearLastAdded: () => void;
+}
+
+const CartContext = createContext<CartContextType | null>(null);
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
@@ -107,6 +111,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     items: [],
     totalItems: 0
   });
+  const [lastAddedProduct, setLastAddedProduct] = useState<Product | null>(null);
 
   // Cargar carrito desde localStorage al inicializar
   useEffect(() => {
@@ -128,6 +133,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const addItem = (product: Product) => {
     dispatch({ type: 'ADD_ITEM', payload: product });
+    setLastAddedProduct(product);
+  };
+
+  const clearLastAdded = () => {
+    setLastAddedProduct(null);
   };
 
   const removeItem = (productId: string) => {
@@ -180,7 +190,9 @@ ${state.items.map((item, index) =>
       removeItem,
       updateQuantity,
       clearCart,
-      sendCartToWhatsApp
+      sendCartToWhatsApp,
+      lastAddedProduct,
+      clearLastAdded
     }}>
       {children}
     </CartContext.Provider>

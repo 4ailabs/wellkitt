@@ -16,6 +16,12 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
   const [resultado, setResultado] = useState<NutrigenomicaResultado | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleRestart = () => {
+    setCurrentStep(0);
+    setRespuestas({});
+    setResultado(null);
+  };
+
   const totalSteps = nutrigenomicaPreguntas.length;
   const currentQuestion = nutrigenomicaPreguntas[currentStep];
   const progress = ((currentStep + 1) / totalSteps) * 100;
@@ -279,11 +285,11 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
 
           {/* Recomendación de Consulta */}
           {resultado.recomendacionConsulta && (
-            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-4 sm:p-6 text-center">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-4 sm:p-6 text-center mb-6 sm:mb-8">
               <Dna className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mx-auto mb-3" />
               <h4 className="text-base sm:text-lg font-bold text-purple-800 mb-2">Consulta Nutrigenómica Personalizada</h4>
               <p className="text-purple-700 mb-4 text-sm sm:text-base">
-                Optimiza aún más tu alimentación con una consulta especializada. Nuestros expertos te ayudarán 
+                Optimiza aún más tu alimentación con una consulta especializada. Nuestros expertos te ayudarán
                 a crear un plan nutricional específico según tu perfil genético y necesidades individuales.
               </p>
               <a
@@ -298,6 +304,16 @@ const NutrigenomicaTest: React.FC<NutrigenomicaTestProps> = ({ allProducts, onSh
               </a>
             </div>
           )}
+
+          {/* Botón Realizar Test Nuevamente */}
+          <div className="text-center">
+            <button
+              onClick={handleRestart}
+              className="bg-slate-800 text-white font-bold py-2 sm:py-3 px-6 sm:px-8 rounded-xl hover:bg-slate-700 transition-colors text-sm sm:text-base"
+            >
+              Realizar Test Nuevamente
+            </button>
+          </div>
         </div>
       </div>
     );

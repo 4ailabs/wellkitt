@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { products as baseProducts, kits } from './constants/data';
 import productosJsonRaw from './constants/Productos.json';
 import { Product, Kit, Recommendation } from './types';
@@ -7,18 +7,25 @@ import KitCard from './components/KitCard';
 import RecommendationResult from './components/RecommendationResult';
 import Spinner from './components/Spinner';
 import { getKitRecommendation } from './services/geminiService';
-import ProductCard from './components/ProductCard';
+import ProductCardPremium from './components/ProductCardPremium';
+import ProductListItem from './components/ProductListItem';
 import DetailModal from './components/DetailModal';
 import EndotelioTest from './components/EndotelioTest';
 import NutrigenomicaTest from './components/NutrigenomicaTest';
 import Cart from './components/Cart';
 import Favorites from './components/Favorites';
-import { CartProvider } from './contexts/CartContext';
+import Toast from './components/Toast';
+import RecommendationHistory from './components/RecommendationHistory';
+import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/useRecommendationHistory';
+import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
-import { mainCategories, getSubcategories } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X } from 'lucide-react';
+import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import useMobileDetect from './hooks/useMobileDetect';
+
+type SortOption = 'default' | 'name-asc' | 'name-desc' | 'category';
+type ViewMode = 'grid' | 'list';
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState('');
@@ -33,12 +40,26 @@ const App: React.FC = () => {
   const [showAllKits, setShowAllKits] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-  
+  const [sortBy, setSortBy] = useState<SortOption>('default');
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [selectedHealthAreas, setSelectedHealthAreas] = useState<string[]>([]);
+  const [selectedGoal, setSelectedGoal] = useState<string>('');
+
+  // Hook para historial de recomendaciones
+  const {
+    history: recommendationHistory,
+    addRecommendation,
+    deleteRecommendation,
+    clearHistory,
+  } = useRecommendationHistory();
+
   // Detectar dispositivo móvil
   const { isMobile } = useMobileDetect();
   
-  // Productos por página según dispositivo
-  const productsPerPage = isMobile ? 4 : 12; // Móvil: 4 productos (1 columna), Desktop: 12 productos (3x4)
+  // Productos por página según dispositivo y vista
+  const productsPerPage = viewMode === 'list'
+    ? (isMobile ? 8 : 12)  // Lista: más productos porque ocupan menos espacio
+    : (isMobile ? 6 : 12); // Grid: tarjetas premium más grandes
 
   const handleBackToMain = () => {
     setShowEndotelioTest(false);
@@ -93,9 +114,41 @@ const App: React.FC = () => {
     setRecommendation(null);
 
     try {
-      const result = await getKitRecommendation(userInput, products, kits);
+      // Construir contexto enriquecido con las selecciones del usuario
+      const healthAreasMap: Record<string, string> = {
+        energia: 'energía y vitalidad',
+        digestion: 'salud digestiva',
+        inmunidad: 'sistema inmunológico',
+        sueno: 'calidad del sueño',
+        estres: 'manejo del estrés',
+        cardiovascular: 'salud cardiovascular',
+        cognitivo: 'función cognitiva y memoria',
+        articular: 'salud articular y ósea',
+      };
+
+      const goalsMap: Record<string, string> = {
+        inmediato: 'busco alivio rápido de síntomas',
+        largo: 'busco mejora sostenida a largo plazo',
+        preventivo: 'quiero prevenir problemas futuros',
+        optimizar: 'quiero optimizar mi rendimiento actual',
+      };
+
+      let enrichedInput = userInput;
+
+      if (selectedHealthAreas.length > 0) {
+        const areasText = selectedHealthAreas.map(a => healthAreasMap[a]).join(', ');
+        enrichedInput = `Áreas de interés: ${areasText}. ${enrichedInput}`;
+      }
+
+      if (selectedGoal) {
+        enrichedInput = `${enrichedInput} (${goalsMap[selectedGoal]})`;
+      }
+
+      const result = await getKitRecommendation(enrichedInput, products, kits);
       if (result) {
         setRecommendation(result);
+        // Guardar en historial
+        addRecommendation(userInput, selectedHealthAreas, selectedGoal, result);
       } else {
         setError("No pudimos generar una recomendación. Inténtalo de nuevo.");
       }
@@ -105,10 +158,17 @@ const App: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [userInput, products, kits]);
+  }, [userInput, products, kits, selectedHealthAreas, selectedGoal]);
 
   const handleShowDetails = (item: Kit | Product) => {
     setSelectedItem(item);
+  };
+
+  const handleSelectFromHistory = (entry: RecommendationHistoryEntry) => {
+    setUserInput(entry.userInput);
+    setSelectedHealthAreas(entry.healthAreas);
+    setSelectedGoal(entry.goal);
+    setRecommendation(entry.recommendation);
   };
 
   const handleCloseDetails = () => {
@@ -150,28 +210,57 @@ const App: React.FC = () => {
   const filteredProducts = products.filter(p => {
     // Filtro por categoría
     const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
-    
+
     // Filtro por búsqueda
     if (!searchQuery.trim()) {
       return matchesCategory;
     }
-    
+
     const query = searchQuery.toLowerCase();
-    const matchesSearch = 
+    const matchesSearch =
       p.name.toLowerCase().includes(query) ||
       p.brand.toLowerCase().includes(query) ||
       p.ingredients.some((ing: string) => ing.toLowerCase().includes(query)) ||
       p.benefits.some((ben: string) => ben.toLowerCase().includes(query)) ||
       p.category.toLowerCase().includes(query);
-    
+
     return matchesCategory && matchesSearch;
   });
 
+  // Ordenamiento de productos
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sortBy) {
+      case 'name-asc':
+        return a.name.localeCompare(b.name);
+      case 'name-desc':
+        return b.name.localeCompare(a.name);
+      case 'category':
+        return a.category.localeCompare(b.category);
+      default:
+        return 0;
+    }
+  });
+
+  // Contador de productos por categoría
+  const getProductCountByCategory = (category: string): number => {
+    if (category === 'All') return products.length;
+
+    // Si es una categoría principal, contar todas las subcategorías
+    const mainCat = mainCategories.find(cat => cat.name === category);
+    if (mainCat) {
+      const subcats = getSubcategories(category);
+      return products.filter(p => subcats.includes(p.category)).length;
+    }
+
+    // Si es una subcategoría específica
+    return products.filter(p => p.category === category).length;
+  };
+
   // Paginación de productos
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -246,36 +335,135 @@ const App: React.FC = () => {
                         Tests genéticos, sueroterapia premium y recomendaciones personalizadas para tu perfil único.
                     </p>
                     
-                    {/* Formulario de IA */}
-                    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto mb-8">
-                        <div className="flex flex-col gap-4 mb-6">
-                            <textarea
-                                value={userInput}
-                                onChange={handleInputChange}
-                                placeholder="Describe tu objetivo de salud, síntomas o lo que quieres mejorar..."
-                                className="w-full p-4 md:p-5 border-2 border-gray-200 rounded-2xl focus:border-brand-green-500 focus:outline-none resize-none text-base md:text-lg text-slate-700 bg-white shadow-sm"
-                                rows={3}
-                            />
+                    {/* Sistema de Recomendación Mejorado */}
+                    <div className="max-w-3xl mx-auto mb-8">
+                        {/* Paso 1: Áreas de Salud */}
+                        <div className="mb-6">
+                            <p className="text-sm md:text-base text-slate-600 mb-3 font-medium">
+                                1. ¿Qué áreas de salud te interesan? (opcional)
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-2">
+                                {[
+                                    { id: 'energia', label: 'Energía', icon: '⚡' },
+                                    { id: 'digestion', label: 'Digestión', icon: '🌿' },
+                                    { id: 'inmunidad', label: 'Inmunidad', icon: '🛡️' },
+                                    { id: 'sueno', label: 'Sueño', icon: '😴' },
+                                    { id: 'estres', label: 'Estrés', icon: '🧘' },
+                                    { id: 'cardiovascular', label: 'Corazón', icon: '❤️' },
+                                    { id: 'cognitivo', label: 'Mente', icon: '🧠' },
+                                    { id: 'articular', label: 'Articulaciones', icon: '🦴' },
+                                ].map((area) => (
+                                    <button
+                                        key={area.id}
+                                        type="button"
+                                        onClick={() => {
+                                            setSelectedHealthAreas(prev =>
+                                                prev.includes(area.id)
+                                                    ? prev.filter(a => a !== area.id)
+                                                    : [...prev, area.id]
+                                            );
+                                        }}
+                                        className={`px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 ${
+                                            selectedHealthAreas.includes(area.id)
+                                                ? 'bg-brand-green-600 text-white border-brand-green-600'
+                                                : 'bg-white text-slate-600 border-gray-200 hover:border-brand-green-400'
+                                        }`}
+                                    >
+                                        <span className="mr-1">{area.icon}</span>
+                                        {area.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Paso 2: Objetivo */}
+                        <div className="mb-6">
+                            <p className="text-sm md:text-base text-slate-600 mb-3 font-medium">
+                                2. ¿Qué resultado esperas? (opcional)
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-2">
+                                {[
+                                    { id: 'inmediato', label: 'Alivio rápido' },
+                                    { id: 'largo', label: 'Mejora a largo plazo' },
+                                    { id: 'preventivo', label: 'Prevención' },
+                                    { id: 'optimizar', label: 'Optimizar rendimiento' },
+                                ].map((goal) => (
+                                    <button
+                                        key={goal.id}
+                                        type="button"
+                                        onClick={() => setSelectedGoal(prev => prev === goal.id ? '' : goal.id)}
+                                        className={`px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 ${
+                                            selectedGoal === goal.id
+                                                ? 'bg-slate-800 text-white border-slate-800'
+                                                : 'bg-white text-slate-600 border-gray-200 hover:border-slate-400'
+                                        }`}
+                                    >
+                                        {goal.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Paso 3: Descripción libre */}
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-4">
+                                <p className="text-sm md:text-base text-slate-600 mb-3 font-medium">
+                                    3. Cuéntanos más sobre tu situación:
+                                </p>
+                                <textarea
+                                    value={userInput}
+                                    onChange={handleInputChange}
+                                    placeholder="Describe tu objetivo de salud, síntomas o lo que quieres mejorar..."
+                                    className="w-full p-4 md:p-5 border-2 border-gray-200 rounded-2xl focus:border-brand-green-500 focus:outline-none resize-none text-base md:text-lg text-slate-700 bg-white shadow-sm"
+                                    rows={3}
+                                />
+                            </div>
+
+                            {/* Sugerencias de ejemplo */}
+                            <div className="mb-6">
+                                <p className="text-xs md:text-sm text-slate-500 mb-2">
+                                    Prueba con alguno de estos ejemplos:
+                                </p>
+                                <div className="flex flex-wrap justify-center gap-2">
+                                    {[
+                                        'Quiero más energía durante el día',
+                                        'Mejorar mi digestión',
+                                        'Fortalecer mi sistema inmune',
+                                        'Reducir el estrés y dormir mejor',
+                                        'Mejorar mi concentración',
+                                    ].map((suggestion) => (
+                                        <button
+                                            key={suggestion}
+                                            type="button"
+                                            onClick={() => setUserInput(suggestion)}
+                                            className="text-xs md:text-sm px-3 py-1.5 bg-gray-100 text-slate-600 rounded-lg hover:bg-brand-green-50 hover:text-brand-green-700 transition-colors"
+                                        >
+                                            "{suggestion}"
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
                             <button
                                 type="submit"
-                                disabled={isLoading}
+                                disabled={isLoading || !userInput.trim()}
                                 className="group inline-flex items-center justify-center gap-3 text-brand-green-600 text-lg md:text-xl font-semibold hover:gap-4 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                <span>{isLoading ? 'Analizando...' : 'Obtener Recomendación'}</span>
+                                <span>{isLoading ? 'Analizando tu perfil...' : 'Obtener Recomendación Personalizada'}</span>
                                 {!isLoading && (
                                     <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                     </svg>
                                 )}
                             </button>
-                        </div>
-                        
-                        {error && (
-                            <div className="mt-6 p-4 bg-red-50 border-l-4 border-red-500 rounded">
-                                <p className="text-red-600 text-center font-medium">{error}</p>
-                            </div>
-                        )}
-                    </form>
+
+                            {error && (
+                                <div className="mt-6 p-4 bg-red-50 border-l-4 border-red-500 rounded">
+                                    <p className="text-red-600 text-center font-medium">{error}</p>
+                                </div>
+                            )}
+                        </form>
+                    </div>
 
                     {isLoading && <Spinner />}
                     {recommendation && <RecommendationResult recommendation={recommendation} allProducts={products} />}
@@ -567,7 +755,8 @@ const App: React.FC = () => {
                             const isActive = activeCategory === category;
                             const mainCat = mainCategories.find(cat => cat.name === category);
                             const Icon = category === 'All' ? List : mainCat?.icon;
-                            
+                            const count = getProductCountByCategory(category);
+
                             return (
                                 <button
                                     key={category}
@@ -580,9 +769,35 @@ const App: React.FC = () => {
                                 >
                                     {Icon && <Icon className="w-4 h-4 md:w-5 md:h-5" />}
                                     <span>{category === 'All' ? 'Todos' : category}</span>
+                                    <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                                        isActive ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
+                                    }`}>
+                                        {count}
+                                    </span>
                                 </button>
                             );
                         })}
+                    </div>
+
+                    {/* Ordenamiento */}
+                    <div className="flex justify-center mb-6">
+                        <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
+                            <ArrowUpDown className="w-4 h-4 text-gray-500" />
+                            <span className="text-sm text-gray-600 font-medium">Ordenar:</span>
+                            <select
+                                value={sortBy}
+                                onChange={(e) => {
+                                    setSortBy(e.target.value as SortOption);
+                                    setCurrentPage(1);
+                                }}
+                                className="text-sm font-medium text-slate-700 bg-transparent border-none focus:outline-none cursor-pointer"
+                            >
+                                <option value="default">Por defecto</option>
+                                <option value="name-asc">Nombre A-Z</option>
+                                <option value="name-desc">Nombre Z-A</option>
+                                <option value="category">Por categoría</option>
+                            </select>
+                        </div>
                     </div>
 
                     {/* Subcategorías Específicas - Solo se muestran cuando se selecciona una categoría principal */}
@@ -592,29 +807,83 @@ const App: React.FC = () => {
                                 Filtros Específicos de {activeCategory}
                             </h3>
                             <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-                                {getSubcategoriesForMainCategory(activeCategory).map(subcategory => (
-                                    <button
-                                        key={subcategory}
-                                        onClick={() => handleSubcategoryChange(subcategory)}
-                                        className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium rounded-full bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all duration-200"
-                                    >
-                                        {subcategory}
-                                    </button>
-                                ))}
+                                {getSubcategoriesForMainCategory(activeCategory).map(subcategory => {
+                                    const subCount = getProductCountByCategory(subcategory);
+                                    const subConfig = categoryConfig[subcategory];
+                                    const SubIcon = subConfig?.icon;
+
+                                    return (
+                                        <button
+                                            key={subcategory}
+                                            onClick={() => handleSubcategoryChange(subcategory)}
+                                            className={`flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-medium rounded-full bg-white border transition-all duration-200 ${
+                                                activeCategory === subcategory
+                                                    ? `${subConfig?.bgClass || 'bg-gray-100'} border-gray-400`
+                                                    : 'text-gray-700 border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                                            }`}
+                                        >
+                                            {SubIcon && <SubIcon className={`w-3.5 h-3.5 ${subConfig?.colorClass || 'text-gray-500'}`} />}
+                                            <span>{subcategory}</span>
+                                            <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">
+                                                {subCount}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
                     )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-4" data-section="products-grid">
-                    {currentProducts.map(product => (
-                        <ProductCard 
-                            key={product.id} 
-                            product={product} 
-                            onShowDetails={() => handleShowDetails(product)}
-                        />
-                    ))}
+                {/* Toggle Vista Grid/Lista */}
+                <div className="flex justify-end items-center gap-2 px-4 mb-4">
+                    <span className="text-xs text-slate-500 mr-1">Vista:</span>
+                    <button
+                        onClick={() => setViewMode('grid')}
+                        className={`p-2 rounded-lg transition-all ${
+                            viewMode === 'grid'
+                                ? 'bg-slate-800 text-white'
+                                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                        }`}
+                        title="Vista cuadrícula"
+                    >
+                        <LayoutGrid className="w-4 h-4" />
+                    </button>
+                    <button
+                        onClick={() => setViewMode('list')}
+                        className={`p-2 rounded-lg transition-all ${
+                            viewMode === 'list'
+                                ? 'bg-slate-800 text-white'
+                                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                        }`}
+                        title="Vista lista"
+                    >
+                        <LayoutList className="w-4 h-4" />
+                    </button>
                 </div>
+
+                {/* Productos */}
+                {viewMode === 'grid' ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5 px-4" data-section="products-grid">
+                        {currentProducts.map(product => (
+                            <ProductCardPremium
+                                key={product.id}
+                                product={product}
+                                onShowDetails={() => handleShowDetails(product)}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="flex flex-col gap-2 md:gap-3 px-4 max-w-4xl mx-auto" data-section="products-grid">
+                        {currentProducts.map(product => (
+                            <ProductListItem
+                                key={product.id}
+                                product={product}
+                                onShowDetails={() => handleShowDetails(product)}
+                            />
+                        ))}
+                    </div>
+                )}
 
                 {/* Información de productos y paginación */}
                 {filteredProducts.length > 0 && (
@@ -767,7 +1036,37 @@ const App: React.FC = () => {
       
       <Cart />
       <Favorites allProducts={products} onShowDetails={handleShowDetails} />
+      <RecommendationHistory
+        history={recommendationHistory}
+        onSelectRecommendation={handleSelectFromHistory}
+        onDeleteRecommendation={deleteRecommendation}
+        onClearHistory={clearHistory}
+      />
     </div>
+  );
+};
+
+// Componente que maneja el Toast del carrito
+const CartToastHandler: React.FC = () => {
+  const { lastAddedProduct, clearLastAdded } = useCart();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  useEffect(() => {
+    if (lastAddedProduct) {
+      setToastMessage(`✓ ${lastAddedProduct.name} agregado al carrito`);
+      setShowToast(true);
+      clearLastAdded();
+    }
+  }, [lastAddedProduct, clearLastAdded]);
+
+  return (
+    <Toast
+      message={toastMessage}
+      isVisible={showToast}
+      onClose={() => setShowToast(false)}
+      type="success"
+    />
   );
 };
 
@@ -776,6 +1075,7 @@ const AppWithCart: React.FC = () => {
     <FavoritesProvider>
       <CartProvider>
         <App />
+        <CartToastHandler />
       </CartProvider>
     </FavoritesProvider>
   );
