@@ -233,15 +233,15 @@
 | Categoría | Color Sugerido | Cantidad |
 |-----------|----------------|----------|
 | Detox y Antioxidantes | Verde | 12 |
-| Salud Digestiva | Azul | 16 |
-| Anti-Estrés y Sueño | Morado | 14 |
+| Salud Digestiva | Azul | 17 |
+| Anti-Estrés y Sueño | Morado | 12 |
 | Energía y Rendimiento | Amarillo/Naranja | 8 |
-| Salud Femenina | Rosa | 7 |
-| Articulaciones y Movilidad | Naranja | 13 |
+| Salud Femenina | Rosa | 6 |
+| Articulaciones y Movilidad | Naranja | 12 |
 | Sistema Inmune | Teal/Verde azulado | 11 |
 | Control de Peso | Lima/Verde claro | 5 |
 | Piel y Belleza | Coral | 1 |
-| Metabolismo | Gris | 5 |
+| Metabolismo | Gris | 4 |
 | Salud Cerebral | Azul oscuro | 3 |
 | Vitaminas | Amarillo | 8 |
 | Aminoácidos | Púrpura | 13 |
@@ -250,7 +250,7 @@
 | Salud Masculina | Azul marino | 1 |
 | Salud Urinaria | Turquesa | 6 |
 | Salud Respiratoria | Celeste | 3 |
-| Suplementos Naturales | Verde olivo | 12 |
+| Suplementos Naturales | Verde olivo | 11 |
 
 ---
 

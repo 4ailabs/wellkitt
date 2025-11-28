@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { products as baseProducts, kits } from './constants/data';
 import productosJsonRaw from './constants/Productos.json';
 import { Product, Kit, Recommendation } from './types';
@@ -21,9 +21,11 @@ import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/us
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import useMobileDetect from './hooks/useMobileDetect';
+import { useDebounce } from './hooks/useDebounce';
+import { normalizeText, isFuzzyMatch, calculateRelevanceScore, getSearchSuggestions } from './utils/searchUtils';
 
 type SortOption = 'default' | 'name-asc' | 'name-desc' | 'category';
 type ViewMode = 'grid' | 'list';
@@ -42,6 +44,9 @@ const App: React.FC = () => {
   const [activeKitFilter, setActiveKitFilter] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [sortBy, setSortBy] = useState<SortOption>('default');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [selectedHealthAreas, setSelectedHealthAreas] = useState<string[]>([]);
@@ -210,40 +215,63 @@ const App: React.FC = () => {
     }, 200);
   };
 
-  // Filtrado inteligente de productos con búsqueda
-  const filteredProducts = products.filter(p => {
-    // Filtro por categoría
-    const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
+  // Sugerencias de búsqueda
+  const searchSuggestions = useMemo(() => {
+    return getSearchSuggestions(debouncedSearchQuery, products);
+  }, [debouncedSearchQuery, products]);
 
-    // Filtro por búsqueda
-    if (!searchQuery.trim()) {
-      return matchesCategory;
+  // Filtrado inteligente de productos con búsqueda fuzzy
+  const filteredProducts = useMemo(() => {
+    return products.filter(p => {
+      // Filtro por categoría
+      const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
+
+      // Filtro por búsqueda con debounce
+      if (!debouncedSearchQuery.trim()) {
+        return matchesCategory;
+      }
+
+      const query = debouncedSearchQuery;
+
+      // Búsqueda fuzzy tolerante a errores tipográficos
+      const matchesSearch =
+        isFuzzyMatch(query, p.name) ||
+        isFuzzyMatch(query, p.brand) ||
+        isFuzzyMatch(query, p.category) ||
+        p.ingredients.some((ing: string) => isFuzzyMatch(query, ing)) ||
+        p.benefits.some((ben: string) => isFuzzyMatch(query, ben));
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [products, activeCategory, debouncedSearchQuery]);
+
+  // Ordenamiento de productos (con relevancia cuando hay búsqueda)
+  const sortedProducts = useMemo(() => {
+    const sorted = [...filteredProducts];
+
+    // Si hay búsqueda activa y ordenamiento por defecto, ordenar por relevancia
+    if (debouncedSearchQuery.trim() && sortBy === 'default') {
+      return sorted.sort((a, b) => {
+        const scoreA = calculateRelevanceScore(debouncedSearchQuery, a);
+        const scoreB = calculateRelevanceScore(debouncedSearchQuery, b);
+        return scoreB - scoreA; // Mayor relevancia primero
+      });
     }
 
-    const query = searchQuery.toLowerCase();
-    const matchesSearch =
-      p.name.toLowerCase().includes(query) ||
-      p.brand.toLowerCase().includes(query) ||
-      p.ingredients.some((ing: string) => ing.toLowerCase().includes(query)) ||
-      p.benefits.some((ben: string) => ben.toLowerCase().includes(query)) ||
-      p.category.toLowerCase().includes(query);
-
-    return matchesCategory && matchesSearch;
-  });
-
-  // Ordenamiento de productos
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case 'name-asc':
-        return a.name.localeCompare(b.name);
-      case 'name-desc':
-        return b.name.localeCompare(a.name);
-      case 'category':
-        return a.category.localeCompare(b.category);
-      default:
-        return 0;
-    }
-  });
+    // Ordenamiento manual seleccionado
+    return sorted.sort((a, b) => {
+      switch (sortBy) {
+        case 'name-asc':
+          return a.name.localeCompare(b.name);
+        case 'name-desc':
+          return b.name.localeCompare(a.name);
+        case 'category':
+          return a.category.localeCompare(b.category);
+        default:
+          return 0;
+      }
+    });
+  }, [filteredProducts, sortBy, debouncedSearchQuery]);
 
   // Contador de productos por categoría
   const getProductCountByCategory = (category: string): number => {
@@ -827,53 +855,146 @@ const App: React.FC = () => {
 
             {/* All Products Section */}
             <section id="productos" className="mt-8 md:mt-12" data-section="products">
-                <div className="text-center mb-8 md:mb-12 px-4">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                        Explora Todos Nuestros Productos
+                <div className="text-center mb-10 md:mb-14 px-4">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-brand-green-50 text-brand-green-700 rounded-full text-sm font-medium mb-4">
+                        <Sparkles className="w-4 h-4" />
+                        <span>Catálogo Completo</span>
+                    </div>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                        Nuestros <span className="text-brand-green-600">Productos</span>
                     </h2>
-                    <p className="text-sm md:text-base text-slate-600 max-w-2xl mx-auto">
-                        Encuentra el suplemento individual perfecto para tus necesidades específicas de nuestra completa selección.
+                    <p className="text-base md:text-lg text-slate-500 max-w-2xl mx-auto font-light">
+                        Encuentra el suplemento perfecto para tus necesidades
                     </p>
                 </div>
 
-                {/* Barra de Búsqueda */}
-                <div className="mb-6 md:mb-8 px-4 max-w-3xl mx-auto">
-                    <div className="relative">
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => {
-                                setSearchQuery(e.target.value);
-                                setCurrentPage(1);
-                            }}
-                            placeholder="Buscar por nombre, ingrediente, beneficio o marca..."
-                            className="w-full px-4 md:px-5 py-3 md:py-4 pl-12 md:pl-14 pr-10 border-2 border-gray-200 rounded-xl md:rounded-2xl focus:border-brand-green-500 focus:outline-none text-sm md:text-base text-slate-700 bg-white shadow-sm"
-                        />
-                        <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        {searchQuery && (
-                            <button
-                                onClick={() => {
-                                    setSearchQuery('');
+                {/* Barra de Búsqueda Premium */}
+                <div className="mb-8 md:mb-10 px-4 max-w-2xl mx-auto">
+                    <div className="relative group">
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-green-400 to-teal-400 rounded-2xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
+                        <div className="relative">
+                            <input
+                                ref={searchInputRef}
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value);
                                     setCurrentPage(1);
+                                    setShowSuggestions(true);
                                 }}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition-colors"
-                            >
-                                <X className="w-4 h-4 md:w-5 md:h-5 text-gray-500" />
-                            </button>
-                        )}
+                                onFocus={() => setShowSuggestions(true)}
+                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                                placeholder="¿Qué producto buscas?"
+                                className="w-full px-5 py-4 md:py-5 pl-14 pr-12 border-0 rounded-2xl focus:ring-2 focus:ring-brand-green-500 focus:outline-none text-base md:text-lg text-slate-700 bg-white shadow-lg transition-all duration-300 placeholder:text-slate-400"
+                            />
+                            <div className="absolute left-5 top-1/2 -translate-y-1/2 w-8 h-8 bg-brand-green-100 rounded-lg flex items-center justify-center">
+                                <Search className="w-4 h-4 text-brand-green-600" />
+                            </div>
+
+                            {/* Indicador de búsqueda activa */}
+                            {searchQuery && searchQuery !== debouncedSearchQuery && (
+                                <div className="absolute right-14 top-1/2 -translate-y-1/2">
+                                    <div className="w-5 h-5 border-2 border-brand-green-500 border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                            )}
+
+                            {searchQuery && (
+                                <button
+                                    onClick={() => {
+                                        setSearchQuery('');
+                                        setCurrentPage(1);
+                                        setShowSuggestions(false);
+                                        searchInputRef.current?.focus();
+                                    }}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                >
+                                    <X className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                                </button>
+                            )}
+
+                            {/* Dropdown de sugerencias */}
+                            {showSuggestions && searchSuggestions.length > 0 && searchQuery.length >= 2 && (
+                                <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-xl shadow-2xl z-50 overflow-hidden border border-gray-100">
+                                    <div className="px-4 py-2.5 bg-gradient-to-r from-brand-green-50 to-teal-50 border-b border-gray-100">
+                                        <p className="text-xs text-brand-green-700 font-medium flex items-center gap-1.5">
+                                            <Sparkles className="w-3.5 h-3.5" />
+                                            Sugerencias
+                                        </p>
+                                    </div>
+                                    <ul className="max-h-64 overflow-y-auto py-1">
+                                        {searchSuggestions.map((suggestion, index) => (
+                                            <li key={index}>
+                                                <button
+                                                    onMouseDown={(e) => {
+                                                        e.preventDefault();
+                                                        setSearchQuery(suggestion);
+                                                        setShowSuggestions(false);
+                                                        setCurrentPage(1);
+                                                    }}
+                                                    className="w-full px-4 py-3 text-left text-sm text-slate-700 hover:bg-brand-green-50 transition-colors flex items-center gap-3"
+                                                >
+                                                    <Search className="w-4 h-4 text-gray-300" />
+                                                    <span
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: suggestion.replace(
+                                                                new RegExp(`(${normalizeText(searchQuery).split(/\s+/).join('|')})`, 'gi'),
+                                                                '<strong class="text-brand-green-600">$1</strong>'
+                                                            )
+                                                        }}
+                                                    />
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                    {searchQuery && (
-                        <p className="mt-2 text-sm text-slate-600 text-center">
-                            {filteredProducts.length} {filteredProducts.length === 1 ? 'resultado' : 'resultados'} encontrados
-                        </p>
+
+                    {/* Resultado de búsqueda con mejor feedback */}
+                    {debouncedSearchQuery && (
+                        <div className="mt-3 text-center">
+                            {filteredProducts.length > 0 ? (
+                                <p className="text-sm text-slate-600">
+                                    <span className="font-semibold text-brand-green-600">{filteredProducts.length}</span>
+                                    {' '}{filteredProducts.length === 1 ? 'resultado' : 'resultados'} para
+                                    {' '}<span className="font-medium">"{debouncedSearchQuery}"</span>
+                                    {debouncedSearchQuery.trim() && sortBy === 'default' && (
+                                        <span className="text-xs text-gray-500 ml-2">(ordenados por relevancia)</span>
+                                    )}
+                                </p>
+                            ) : (
+                                <div className="py-4">
+                                    <p className="text-slate-600 mb-2">
+                                        No encontramos resultados para <span className="font-medium">"{debouncedSearchQuery}"</span>
+                                    </p>
+                                    <p className="text-sm text-gray-500 mb-3">
+                                        Intenta con términos similares o revisa la ortografía
+                                    </p>
+                                    <div className="flex flex-wrap justify-center gap-2">
+                                        {['vitamina', 'energia', 'digestion', 'inmunidad'].map((term) => (
+                                            <button
+                                                key={term}
+                                                onClick={() => {
+                                                    setSearchQuery(term);
+                                                    setCurrentPage(1);
+                                                }}
+                                                className="px-3 py-1.5 text-xs bg-gray-100 text-slate-600 rounded-full hover:bg-brand-green-50 hover:text-brand-green-700 transition-colors"
+                                            >
+                                                {term}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     )}
                 </div>
 
-                {/* Categorías Principales - Navegación por Pestañas */}
-                <div className="mb-8 md:mb-12 px-4">
-                    <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6">
+                {/* Categorías Principales - Cards elegantes */}
+                <div className="mb-8 md:mb-12 px-4 max-w-5xl mx-auto">
+                    {/* Categorías como cards horizontales */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 mb-8">
                         {['All', ...mainCategories.map(cat => cat.name)].map(category => {
                             const isActive = activeCategory === category;
                             const mainCat = mainCategories.find(cat => cat.name === category);
@@ -884,16 +1005,26 @@ const App: React.FC = () => {
                                 <button
                                     key={category}
                                     onClick={() => handleCategoryChange(category)}
-                                    className={`flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 border-2 ${
+                                    className={`group relative flex flex-col items-center p-4 md:p-5 rounded-2xl transition-all duration-300 ${
                                         isActive
-                                            ? 'bg-slate-800 text-white border-slate-800 shadow-md'
-                                            : 'bg-white text-slate-700 border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                                            ? 'bg-gradient-to-br from-brand-green-500 to-brand-green-600 text-white shadow-lg shadow-brand-green-500/25 scale-[1.02]'
+                                            : 'bg-white hover:bg-gray-50 text-slate-700 shadow-sm hover:shadow-md border border-gray-100'
                                     }`}
                                 >
-                                    {Icon && <Icon className="w-4 h-4 md:w-5 md:h-5" />}
-                                    <span>{category === 'All' ? 'Todos' : category}</span>
-                                    <span className={`text-xs px-1.5 py-0.5 rounded-full ${
-                                        isActive ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
+                                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-2 transition-colors ${
+                                        isActive
+                                            ? 'bg-white/20'
+                                            : 'bg-gray-100 group-hover:bg-brand-green-100'
+                                    }`}>
+                                        {Icon && <Icon className={`w-5 h-5 md:w-6 md:h-6 ${isActive ? 'text-white' : 'text-brand-green-600'}`} />}
+                                    </div>
+                                    <span className="text-xs md:text-sm font-semibold text-center leading-tight">
+                                        {category === 'All' ? 'Todos' : category}
+                                    </span>
+                                    <span className={`mt-1.5 text-[10px] md:text-xs font-medium px-2 py-0.5 rounded-full ${
+                                        isActive
+                                            ? 'bg-white/20 text-white'
+                                            : 'bg-gray-100 text-gray-500'
                                     }`}>
                                         {count}
                                     </span>
@@ -902,62 +1033,96 @@ const App: React.FC = () => {
                         })}
                     </div>
 
-                    {/* Ordenamiento - Botones touch-friendly en lugar de select */}
-                    <div className="flex justify-center mb-6">
-                        <div className="flex flex-wrap justify-center items-center gap-2">
-                            <div className="flex items-center gap-1.5 text-slate-500 mr-1">
+                    {/* Controles de ordenamiento y vista en línea */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 py-4 px-4 md:px-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                        {/* Ordenamiento */}
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs md:text-sm text-slate-500 font-medium flex items-center gap-1.5">
                                 <ArrowUpDown className="w-4 h-4" />
-                                <span className="text-xs md:text-sm font-medium hidden sm:inline">Ordenar:</span>
+                                <span className="hidden sm:inline">Ordenar:</span>
+                            </span>
+                            <div className="flex gap-1">
+                                {[
+                                    { value: 'default', label: 'Relevancia' },
+                                    { value: 'name-asc', label: 'A-Z' },
+                                    { value: 'name-desc', label: 'Z-A' },
+                                ].map((option) => (
+                                    <button
+                                        key={option.value}
+                                        onClick={() => {
+                                            setSortBy(option.value as SortOption);
+                                            setCurrentPage(1);
+                                        }}
+                                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                                            sortBy === option.value
+                                                ? 'bg-brand-green-600 text-white'
+                                                : 'text-slate-600 hover:bg-gray-100'
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
                             </div>
-                            {[
-                                { value: 'default', label: 'Todos' },
-                                { value: 'name-asc', label: 'A-Z' },
-                                { value: 'name-desc', label: 'Z-A' },
-                                { value: 'category', label: 'Categoría' },
-                            ].map((option) => (
+                        </div>
+
+                        {/* Vista */}
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs text-slate-500 hidden sm:inline">Vista:</span>
+                            <div className="flex bg-gray-100 rounded-lg p-1">
                                 <button
-                                    key={option.value}
-                                    onClick={() => {
-                                        setSortBy(option.value as SortOption);
-                                        setCurrentPage(1);
-                                    }}
-                                    className={`px-3 md:px-4 py-2 md:py-2.5 rounded-lg text-xs md:text-sm font-medium transition-all min-h-[40px] ${
-                                        sortBy === option.value
-                                            ? 'bg-slate-800 text-white shadow-md'
-                                            : 'bg-white text-slate-600 border border-gray-200 hover:border-slate-400 hover:bg-slate-50'
+                                    onClick={() => setViewMode('grid')}
+                                    className={`p-2 rounded-md transition-all ${
+                                        viewMode === 'grid'
+                                            ? 'bg-white text-brand-green-600 shadow-sm'
+                                            : 'text-gray-400 hover:text-gray-600'
                                     }`}
+                                    title="Vista cuadrícula"
                                 >
-                                    {option.label}
+                                    <LayoutGrid className="w-4 h-4" />
                                 </button>
-                            ))}
+                                <button
+                                    onClick={() => setViewMode('list')}
+                                    className={`p-2 rounded-md transition-all ${
+                                        viewMode === 'list'
+                                            ? 'bg-white text-brand-green-600 shadow-sm'
+                                            : 'text-gray-400 hover:text-gray-600'
+                                    }`}
+                                    title="Vista lista"
+                                >
+                                    <LayoutList className="w-4 h-4" />
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Subcategorías Específicas - Solo se muestran cuando se selecciona una categoría principal */}
+                    {/* Subcategorías - Chips modernos */}
                     {activeCategory !== 'All' && mainCategories.some(cat => cat.name === activeCategory) && (
-                        <div className="bg-gray-50 rounded-xl p-4 md:p-6 border border-gray-200">
-                            <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 text-center">
-                                Filtros Específicos de {activeCategory}
-                            </h3>
-                            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+                        <div className="mt-6 p-4 md:p-5 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-100">
+                            <p className="text-xs text-slate-500 mb-3 font-medium uppercase tracking-wide">
+                                Filtrar por subcategoría
+                            </p>
+                            <div className="flex flex-wrap gap-2">
                                 {getSubcategoriesForMainCategory(activeCategory).map(subcategory => {
                                     const subCount = getProductCountByCategory(subcategory);
                                     const subConfig = categoryConfig[subcategory];
                                     const SubIcon = subConfig?.icon;
+                                    const isSubActive = activeCategory === subcategory;
 
                                     return (
                                         <button
                                             key={subcategory}
                                             onClick={() => handleSubcategoryChange(subcategory)}
-                                            className={`flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-medium rounded-full bg-white border transition-all duration-200 ${
-                                                activeCategory === subcategory
-                                                    ? `${subConfig?.bgClass || 'bg-gray-100'} border-gray-400`
-                                                    : 'text-gray-700 border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                                            className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm font-medium rounded-full transition-all duration-200 ${
+                                                isSubActive
+                                                    ? `${subConfig?.bgClass || 'bg-brand-green-100'} ${subConfig?.colorClass || 'text-brand-green-700'} ring-2 ring-offset-1 ring-brand-green-300`
+                                                    : 'bg-white text-slate-600 border border-gray-200 hover:border-brand-green-300 hover:bg-brand-green-50'
                                             }`}
                                         >
-                                            {SubIcon && <SubIcon className={`w-3.5 h-3.5 ${subConfig?.colorClass || 'text-gray-500'}`} />}
+                                            {SubIcon && <SubIcon className={`w-3.5 h-3.5 ${isSubActive ? subConfig?.colorClass : 'text-gray-400'}`} />}
                                             <span>{subcategory}</span>
-                                            <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">
+                                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                                                isSubActive ? 'bg-white/50' : 'bg-gray-100 text-gray-500'
+                                            }`}>
                                                 {subCount}
                                             </span>
                                         </button>
@@ -966,33 +1131,6 @@ const App: React.FC = () => {
                             </div>
                         </div>
                     )}
-                </div>
-
-                {/* Toggle Vista Grid/Lista */}
-                <div className="flex justify-end items-center gap-2 px-4 mb-4">
-                    <span className="text-xs text-slate-500 mr-1">Vista:</span>
-                    <button
-                        onClick={() => setViewMode('grid')}
-                        className={`p-2 rounded-lg transition-all ${
-                            viewMode === 'grid'
-                                ? 'bg-slate-800 text-white'
-                                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                        }`}
-                        title="Vista cuadrícula"
-                    >
-                        <LayoutGrid className="w-4 h-4" />
-                    </button>
-                    <button
-                        onClick={() => setViewMode('list')}
-                        className={`p-2 rounded-lg transition-all ${
-                            viewMode === 'list'
-                                ? 'bg-slate-800 text-white'
-                                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                        }`}
-                        title="Vista lista"
-                    >
-                        <LayoutList className="w-4 h-4" />
-                    </button>
                 </div>
 
                 {/* Productos */}

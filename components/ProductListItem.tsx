@@ -72,6 +72,16 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product, onShowDetail
           </p>
         </div>
 
+        {/* Precio */}
+        {product.price && (
+          <div className="flex-shrink-0 text-right mr-2">
+            <span className="text-base md:text-lg font-bold text-brand-green-600">
+              ${product.price.toLocaleString('es-MX')}
+            </span>
+            <span className="text-[10px] md:text-xs text-slate-400 ml-0.5">MXN</span>
+          </div>
+        )}
+
         {/* Acciones - Touch targets optimizados (mínimo 44px) */}
         <div className="flex-shrink-0 flex items-center gap-2">
           <motion.button

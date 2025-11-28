@@ -119,6 +119,16 @@ const ProductCardPremium: React.FC<ProductCardPremiumProps> = ({ product, onShow
             {mainBenefit.length > 60 ? mainBenefit.substring(0, 60) + '...' : mainBenefit}
           </p>
         </div>
+
+        {/* Precio */}
+        {product.price && (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <span className="text-lg font-bold text-brand-green-600">
+              ${product.price.toLocaleString('es-MX')}
+            </span>
+            <span className="text-xs text-slate-400 ml-1">MXN</span>
+          </div>
+        )}
       </div>
 
       {/* Footer con botón de compra */}

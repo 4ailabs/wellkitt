@@ -1,4 +1,4 @@
-import { HeartPulse, Zap, Leaf, Shield, Moon, Gauge, BrainCircuit, Soup, Bone, ShieldCheck, FlaskConical, Smile, Star, Gem, Pill, PlusCircle, UserCog, Sparkles, Activity } from 'lucide-react';
+import { HeartPulse, Zap, Leaf, Shield, Moon, Gauge, BrainCircuit, Soup, Bone, ShieldCheck, Sparkles, Activity, Droplets, Flower2, FlaskConical } from 'lucide-react';
 import { ComponentType } from 'react';
 
 export interface CategoryConfig {
@@ -39,6 +39,12 @@ export const mainCategories: MainCategory[] = [
     icon: Activity,
     colorClass: "text-orange-600",
     description: "Oligoelementos y minerales esenciales"
+  },
+  {
+    name: "Terapias Alternativas",
+    icon: Flower2,
+    colorClass: "text-violet-600",
+    description: "Homeopatía, Flores de Bach y Sales de Schüssler"
   }
 ];
 
@@ -56,28 +62,41 @@ export const categoryConfig: { [key: string]: CategoryConfig } = {
   "Detox y Antioxidantes": { icon: ShieldCheck, colorClass: "text-cyan-500", bgClass: "bg-cyan-100", mainCategory: "Salud General" },
   "Control de Peso": { icon: Gauge, colorClass: "text-amber-500", bgClass: "bg-amber-100", mainCategory: "Salud General" },
   
-  // Aminoácidos
-  "Aminoácidos colágeno": { icon: Bone, colorClass: "text-amber-700", bgClass: "bg-amber-100", mainCategory: "Aminoácidos" },
-  "Aminoácidos detox": { icon: FlaskConical, colorClass: "text-lime-700", bgClass: "bg-lime-100", mainCategory: "Aminoácidos" },
-  "Aminoácidos esenciales": { icon: Star, colorClass: "text-yellow-700", bgClass: "bg-yellow-100", mainCategory: "Aminoácidos" },
-  "Aminoácidos especializados": { icon: UserCog, colorClass: "text-blue-700", bgClass: "bg-blue-100", mainCategory: "Aminoácidos" },
-  "Aminoácidos estado de ánimo": { icon: Smile, colorClass: "text-pink-700", bgClass: "bg-pink-100", mainCategory: "Aminoácidos" },
-  "Aminoácidos no esenciales": { icon: PlusCircle, colorClass: "text-gray-700", bgClass: "bg-gray-100", mainCategory: "Aminoácidos" },
-  "Aminoácidos semi-esenciales": { icon: Gem, colorClass: "text-purple-700", bgClass: "bg-purple-100", mainCategory: "Aminoácidos" },
-  "Complejo aminoácidos": { icon: Pill, colorClass: "text-indigo-700", bgClass: "bg-indigo-100", mainCategory: "Aminoácidos" },
-  "Complejo aminoácidos avanzado": { icon: Pill, colorClass: "text-indigo-900", bgClass: "bg-indigo-100", mainCategory: "Aminoácidos" },
-  
-  // Vitaminas
-  "Complejo vitamínico": { icon: PlusCircle, colorClass: "text-green-700", bgClass: "bg-green-100", mainCategory: "Vitaminas" },
-  "Multivitamínico completo": { icon: PlusCircle, colorClass: "text-green-900", bgClass: "bg-green-100", mainCategory: "Vitaminas" },
-  
-  // Minerales
+  // Aminoácidos (categoría directa de data.ts)
+  "Aminoácidos": { icon: Zap, colorClass: "text-yellow-700", bgClass: "bg-yellow-100", mainCategory: "Aminoácidos" },
+
+  // Vitaminas (categoría directa de data.ts)
+  "Vitaminas": { icon: Shield, colorClass: "text-blue-700", bgClass: "bg-blue-100", mainCategory: "Vitaminas" },
+
+  // Circulación (categoría directa de data.ts)
+  "Circulación": { icon: HeartPulse, colorClass: "text-red-700", bgClass: "bg-red-100", mainCategory: "Salud General" },
+
+  // Regulación Hormonal
+  "Regulación Hormonal": { icon: HeartPulse, colorClass: "text-pink-700", bgClass: "bg-pink-100", mainCategory: "Salud General" },
+
+  // Salud Masculina
+  "Salud Masculina": { icon: Shield, colorClass: "text-blue-800", bgClass: "bg-blue-100", mainCategory: "Salud General" },
+
+  // Salud Urinaria
+  "Salud Urinaria": { icon: Activity, colorClass: "text-cyan-700", bgClass: "bg-cyan-100", mainCategory: "Salud General" },
+
+  // Salud Respiratoria
+  "Salud Respiratoria": { icon: Shield, colorClass: "text-sky-600", bgClass: "bg-sky-100", mainCategory: "Salud General" },
+
+  // Suplementos Naturales
+  "Suplementos Naturales": { icon: Leaf, colorClass: "text-green-700", bgClass: "bg-green-100", mainCategory: "Salud General" },
+
+  // Minerales / Oligoelementos (mantener para compatibilidad)
   "Oligoelementos": { icon: Activity, colorClass: "text-orange-700", bgClass: "bg-orange-100", mainCategory: "Minerales" },
-  "Oligoelementos completo": { icon: Activity, colorClass: "text-orange-900", bgClass: "bg-orange-100", mainCategory: "Minerales" },
   
   // Misceláneos
   "Antioxidante": { icon: Sparkles, colorClass: "text-cyan-700", bgClass: "bg-cyan-100", mainCategory: "Salud General" },
   "Regulación hormonal y glándulas": { icon: HeartPulse, colorClass: "text-pink-700", bgClass: "bg-pink-100", mainCategory: "Salud General" },
+
+  // Terapias Alternativas (excluidas de IA principal)
+  "Homeopatía": { icon: Droplets, colorClass: "text-violet-600", bgClass: "bg-violet-100", mainCategory: "Terapias Alternativas" },
+  "Flores de Bach": { icon: Flower2, colorClass: "text-rose-500", bgClass: "bg-rose-100", mainCategory: "Terapias Alternativas" },
+  "Sales de Schüssler": { icon: FlaskConical, colorClass: "text-slate-600", bgClass: "bg-slate-100", mainCategory: "Terapias Alternativas" },
 };
 
 // Función helper para obtener subcategorías de una categoría principal
