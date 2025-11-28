@@ -1159,7 +1159,7 @@ const App: React.FC = () => {
 
                 {/* Productos */}
                 {viewMode === 'grid' ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 px-4" data-section="products-grid">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 px-4" data-section="products-grid">
                         {currentProducts.map(product => (
                             <ProductCardPremium
                                 key={product.id}
