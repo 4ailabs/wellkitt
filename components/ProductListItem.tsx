@@ -83,7 +83,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product, onShowDetail
             onClick={handleAddToCart}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="p-2.5 md:p-2 bg-brand-green-600 text-white rounded-full hover:bg-brand-green-700 transition-colors shadow-sm min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center"
+            className="p-2.5 md:p-2 bg-white text-brand-green-600 border-2 border-brand-green-600 rounded-full hover:bg-brand-green-600 hover:text-white transition-all duration-200 shadow-sm min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center"
           >
             <Plus className="w-5 h-5 md:w-4 md:h-4" strokeWidth={2.5} />
           </motion.button>

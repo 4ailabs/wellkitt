@@ -120,7 +120,7 @@ const ProductCardPremium: React.FC<ProductCardPremiumProps> = ({ product, onShow
           onClick={handleAddToCart}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full bg-brand-green-600 text-white text-sm font-semibold py-2.5 px-4 rounded-xl hover:bg-brand-green-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-brand-green-600/20"
+          className="w-full bg-white text-brand-green-600 border-2 border-brand-green-600 text-sm font-semibold py-2.5 px-4 rounded-xl hover:bg-brand-green-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
         >
           <ShoppingCart className="w-4 h-4" />
           Agregar

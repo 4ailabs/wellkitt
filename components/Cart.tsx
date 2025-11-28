@@ -44,20 +44,29 @@ const Cart: React.FC<CartProps> = ({ externalOpen, onExternalClose }) => {
   return (
     <>
       {/* Botón del carrito - Abajo */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 bg-brand-green-600 text-white p-3 md:p-4 rounded-full shadow-2xl hover:bg-brand-green-700 active:scale-95 transition-all duration-300 group"
-      >
-        <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
-        {state.totalItems > 0 && (
-          <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-[10px] md:text-xs font-bold rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center">
-            {state.totalItems > 99 ? '99+' : state.totalItems}
-          </span>
-        )}
-        <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-slate-800 text-white text-xs md:text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-          Mi Carrito ({state.totalItems})
-        </div>
-      </button>
+      {!isOpen && (
+        <motion.button
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(true);
+          }}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[100] bg-brand-green-600 text-white p-3 md:p-4 rounded-full shadow-2xl hover:bg-brand-green-700 transition-all duration-300 group"
+        >
+          <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
+          {state.totalItems > 0 && (
+            <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-[10px] md:text-xs font-bold rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center animate-pulse">
+              {state.totalItems > 99 ? '99+' : state.totalItems}
+            </span>
+          )}
+          <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-slate-800 text-white text-xs md:text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+            Mi Carrito ({state.totalItems})
+          </div>
+        </motion.button>
+      )}
 
       {/* Modal del carrito */}
       <AnimatePresence>
@@ -117,9 +126,20 @@ const Cart: React.FC<CartProps> = ({ externalOpen, onExternalClose }) => {
                             <span className="inline-block mt-1 text-xs bg-brand-green-100 text-brand-green-700 px-2 py-1 rounded-full">
                               {item.product.category}
                             </span>
+                            {item.product.price && (
+                              <div className="mt-2">
+                                <span className="text-base md:text-lg font-bold text-brand-green-600">
+                                  ${item.product.price.toLocaleString('es-MX')}
+                                </span>
+                                <span className="text-xs text-slate-400 ml-1">MXN</span>
+                              </div>
+                            )}
                           </div>
                           <button
-                            onClick={() => handleRemoveItem(item.product.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRemoveItem(item.product.id);
+                            }}
                             className="text-red-500 hover:text-red-700 transition-colors ml-2"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -129,7 +149,10 @@ const Cart: React.FC<CartProps> = ({ externalOpen, onExternalClose }) => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <button
-                              onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleQuantityChange(item.product.id, item.quantity - 1);
+                              }}
                               className="w-8 h-8 bg-white border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
                             >
                               <Minus className="w-4 h-4" />
@@ -138,12 +161,23 @@ const Cart: React.FC<CartProps> = ({ externalOpen, onExternalClose }) => {
                               {item.quantity}
                             </span>
                             <button
-                              onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleQuantityChange(item.product.id, item.quantity + 1);
+                              }}
                               className="w-8 h-8 bg-white border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
                             >
                               <Plus className="w-4 h-4" />
                             </button>
                           </div>
+                          {item.product.price && (
+                            <div className="text-right">
+                              <span className="text-sm font-semibold text-slate-600">Subtotal:</span>
+                              <div className="text-base md:text-lg font-bold text-brand-green-600">
+                                ${(item.product.price * item.quantity).toLocaleString('es-MX')}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </motion.div>
                     ))}
@@ -155,9 +189,27 @@ const Cart: React.FC<CartProps> = ({ externalOpen, onExternalClose }) => {
               {state.items.length > 0 && (
                 <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50">
                   <div className="flex items-center justify-between mb-3 md:mb-4">
-                    <span className="text-sm text-gray-600">
-                      Total: {state.totalItems} productos
-                    </span>
+                    <div>
+                      <span className="text-sm text-gray-600 block">
+                        {state.totalItems} {state.totalItems === 1 ? 'producto' : 'productos'}
+                      </span>
+                      {(() => {
+                        const total = state.items.reduce((sum, item) => {
+                          return sum + (item.product.price || 0) * item.quantity;
+                        }, 0);
+                        if (total > 0) {
+                          return (
+                            <div className="mt-1">
+                              <span className="text-lg md:text-xl font-bold text-brand-green-600">
+                                ${total.toLocaleString('es-MX')}
+                              </span>
+                              <span className="text-xs text-slate-400 ml-1">MXN</span>
+                            </div>
+                          );
+                        }
+                        return null;
+                      })()}
+                    </div>
                     <button
                       onClick={clearCart}
                       className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"

@@ -106,7 +106,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenCart, onOpenFavorites }) => {
               {/* Acciones - Carrito y Favoritos */}
               <div className="flex items-center gap-2">
                 <button
-                  onClick={onOpenFavorites}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenFavorites();
+                  }}
                   className="relative p-2 text-slate-600 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
                   title="Favoritos"
                 >
@@ -119,7 +122,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenCart, onOpenFavorites }) => {
                 </button>
 
                 <button
-                  onClick={onOpenCart}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenCart();
+                  }}
                   className="relative p-2 text-slate-600 hover:text-brand-green-600 hover:bg-brand-green-50 rounded-full transition-all"
                   title="Carrito"
                 >
