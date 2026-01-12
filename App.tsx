@@ -472,6 +472,7 @@ const App: React.FC = () => {
               console.log('Ensalada seleccionada:', salad);
             }}
             onBack={handleBackToMain}
+            onShowProductDetails={handleShowDetails}
           />
         ) : (
           <>

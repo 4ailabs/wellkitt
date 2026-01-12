@@ -10,7 +10,7 @@ interface SaladsBankProps {
   onShowProductDetails?: (product: Product) => void;
 }
 
-const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack }) => {
+const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack, onShowProductDetails }) => {
   const [selectedSalad, setSelectedSalad] = useState<SaladRecipe | null>(null);
 
   if (selectedSalad) {
@@ -317,6 +317,12 @@ const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack }) => {
                             ${product.price} <span className="text-sm md:text-base font-normal text-slate-500">MXN</span>
                           </div>
                           <button
+                            onClick={() => {
+                              if (onShowProductDetails) {
+                                onShowProductDetails(product);
+                                setSelectedSalad(null);
+                              }
+                            }}
                             className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-semibold text-xs md:text-sm group/btn"
                           >
                             <span>Ver más</span>
@@ -338,18 +344,24 @@ const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack }) => {
             </div>
           )}
 
-          {/* CTA Buttons */}
+          {/* Call to Action - Educational */}
           <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center">
-              <button
-                onClick={() => {
-                  onSelectSalad(selectedSalad);
-                }}
-                className="group inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-base md:text-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-              >
-                <span>Agregar a Lista de Compras</span>
-                <ChevronRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" />
-              </button>
+            <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-2xl md:rounded-3xl p-6 md:p-10 lg:p-12 border-2 border-green-200 shadow-xl relative overflow-hidden">
+              <div className="absolute -right-12 -bottom-12 opacity-5">
+                <Sparkles className="w-48 h-48 md:w-64 md:h-64" strokeWidth={1} />
+              </div>
+              <div className="relative z-10 text-center">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  🧬 Nutrición <span className="text-green-600">Inteligente</span>
+                </h3>
+                <p className="text-base sm:text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-6 md:mb-8">
+                  Esta receta representa la integración de nutrigenómica aplicada: alimentos + suplementos trabajando sinérgicamente a nivel molecular para optimizar tu salud.
+                </p>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-green-300 shadow-sm">
+                  <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
+                  <span className="text-sm md:text-base font-semibold text-slate-700">Receta guardada en tu memoria 😊</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
