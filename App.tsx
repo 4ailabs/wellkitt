@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { products as baseProducts, kits } from './constants/data';
 import productosJsonRaw from './constants/Productos.json';
-import { Product, Kit, Recommendation } from './types';
+import { Product, Kit, Recommendation, SaladRecipe } from './types';
 import KitCard from './components/KitCard';
 import RecommendationResult from './components/RecommendationResult';
 import Spinner from './components/Spinner';
@@ -17,11 +17,12 @@ import Favorites from './components/Favorites';
 import Toast from './components/Toast';
 import RecommendationHistory from './components/RecommendationHistory';
 import Navbar from './components/Navbar';
+import SaladsBank from './components/SaladsBank';
 import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/useRecommendationHistory';
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight, Salad } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import useMobileDetect from './hooks/useMobileDetect';
 import { useDebounce } from './hooks/useDebounce';
@@ -163,6 +164,7 @@ const App: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [showEndotelioTest, setShowEndotelioTest] = useState(false);
   const [showNutrigenomicaTest, setShowNutrigenomicaTest] = useState(false);
+  const [showSalads, setShowSalads] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const [showAllKits, setShowAllKits] = useState(false);
   const [activeKitFilter, setActiveKitFilter] = useState<string>('all');
@@ -197,6 +199,7 @@ const App: React.FC = () => {
   const handleBackToMain = () => {
     setShowEndotelioTest(false);
     setShowNutrigenomicaTest(false);
+    setShowSalads(false);
   };
 
   const handleSplashFinish = () => {
@@ -452,16 +455,23 @@ const App: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8 md:py-12" style={{ fontFamily: 'Inter, sans-serif' }}>
         {showEndotelioTest ? (
-          <EndotelioTest 
-            allProducts={products} 
+          <EndotelioTest
+            allProducts={products}
             onShowDetails={handleShowDetails}
             onBackToMain={handleBackToMain}
           />
         ) : showNutrigenomicaTest ? (
-          <NutrigenomicaTest 
-            allProducts={products} 
+          <NutrigenomicaTest
+            allProducts={products}
             onShowDetails={handleShowDetails}
             onBackToMain={handleBackToMain}
+          />
+        ) : showSalads ? (
+          <SaladsBank
+            onSelectSalad={(salad: SaladRecipe) => {
+              console.log('Ensalada seleccionada:', salad);
+            }}
+            onBack={handleBackToMain}
           />
         ) : (
           <>
@@ -802,7 +812,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Tests Section - Agrupados */}
-            <section id="tests" className="max-w-6xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
+            <section id="tests" className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
                 <div className="text-center mb-8 md:mb-12 lg:mb-16">
                     <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                         Tests de Salud <span className="text-brand-green-600">Personalizados</span>
@@ -812,7 +822,7 @@ const App: React.FC = () => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     {/* Endotelio Test */}
                     <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
                         <div className="h-full flex flex-col">
@@ -876,7 +886,7 @@ const App: React.FC = () => {
                             <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
                                 Hidratación intravenosa con vitaminas, minerales y antioxidantes. Recupera tu energía inmediatamente.
                             </p>
-                            <a 
+                            <a
                                 href="https://sueroterapia-premiun.vercel.app"
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -887,6 +897,31 @@ const App: React.FC = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
                             </a>
+                        </div>
+                    </div>
+
+                    {/* Banco de Ensaladas */}
+                    <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
+                        <div className="h-full flex flex-col">
+                            <div className="mb-3 md:mb-4">
+                                <Salad className="w-10 h-10 md:w-12 md:h-12 text-green-600 mb-2 md:mb-3" strokeWidth={1.5} />
+                                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                    Banco de Ensaladas
+                                </h3>
+                                <div className="h-0.5 w-12 md:w-16 bg-green-600 mb-3 md:mb-4"></div>
+                            </div>
+                            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
+                                Recetas maestras diseñadas con precisión nutrigenómica para optimizar tu salud molecular.
+                            </p>
+                            <button
+                                onClick={() => setShowSalads(true)}
+                                className="group/btn inline-flex items-center gap-2 text-green-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
+                            >
+                                <span>Explorar Ensaladas</span>
+                                <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>

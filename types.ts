@@ -145,3 +145,56 @@ export interface TestHistoryEntry {
   fecha: string;
   resultado: EndotelioResultado | NutrigenomicaResultado;
 }
+
+// Tipos para Ensaladas
+export interface SaladIngredient {
+  name: string;
+  amount: string;
+  reason: string;
+  power?: string;
+  category: 'base' | 'verdura' | 'proteina' | 'grasa' | 'topping' | 'aderezo';
+}
+
+export interface SaladMolecularMechanism {
+  id: string;
+  name: string;
+  simpleDesc: string;
+  analogy: string;
+  whyItMatters: string[];
+  keyNutrients: { name: string; examples: string }[];
+  blockers: string[];
+  scientificEvidence: string;
+}
+
+export interface SaladSynergy {
+  id: string;
+  title: string;
+  rule: string;
+  evidenceLevel: number;
+  science: string;
+  howToApply: string[];
+  commonMistakes: string[];
+  alternatives: string[];
+}
+
+export interface SaladRecipe {
+  id: string;
+  name: string;
+  target: string;
+  molecularGoalDesc: string;
+  scienceQuick: {
+    mechanism: string;
+    evidence: string;
+    timeToEffect: string;
+  };
+  ingredients: SaladIngredient[];
+  preparation: string[];
+  totalTime: string;
+  secret: string;
+  proOptimization: {
+    whenToEat: string;
+    frequency: string;
+    combinesWith: string;
+  };
+  smartRotation: string;
+}
