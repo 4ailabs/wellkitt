@@ -165,7 +165,34 @@ export const MASTER_SALADS: SaladRecipe[] = [
       frequency: '4-5 veces a la semana para detox óptimo',
       combinesWith: 'Té verde sin azúcar (duplica antioxidantes), evitar café 2 horas después (compite por absorción)'
     },
-    smartRotation: 'Semana 1-2: Lunes, miércoles, viernes. Semana 3: Descansa. Semana 4: Añade brotes de brócoli (2x más sulforafano que flores). Este ciclo mantiene el sistema NRF2 sensible sin tolerancia.'
+    smartRotation: 'Semana 1-2: Lunes, miércoles, viernes. Semana 3: Descansa. Semana 4: Añade brotes de brócoli (2x más sulforafano que flores). Este ciclo mantiene el sistema NRF2 sensible sin tolerancia.',
+    recommendedProducts: [
+      {
+        productId: 'DOZ03',
+        reason: 'Glutatión - Antioxidante maestro que potencia la vía NRF2 activada por el sulforafano de la ensalada',
+        synergy: 'El glutatión trabaja sinérgicamente con la vía NRF2. Mientras el sulforafano ACTIVA los genes, el glutatión EJECUTA la detoxificación. Tomar 30 min antes de la ensalada maximiza la limpieza celular.'
+      },
+      {
+        productId: 'SN28',
+        reason: 'Oligosor Azufre - Cofactor esencial para la Fase II de detoxificación hepática',
+        synergy: 'El azufre es crucial para conjugar toxinas con glutatión. Esta ensalada activa NRF2 pero necesita azufre biodisponible para completar el proceso. Tomar en ayunas antes de la ensalada.'
+      },
+      {
+        productId: 'BF01',
+        reason: 'Hepacryl - Protección hepática con cardo mariano y alcachofa para maximizar detoxificación',
+        synergy: 'El hígado es donde ocurre 80% de la detoxificación. La silimarina del cardo mariano protege hepatocitos mientras procesan las toxinas movilizadas por el sulforafano. Tomar con la ensalada.'
+      },
+      {
+        productId: 'SN15',
+        reason: 'Minesor con Selenio - Oligoelemento clave para glutatión peroxidasa',
+        synergy: 'El selenio es cofactor de la glutatión peroxidasa, enzima que neutraliza peróxidos generados durante detox. Sin selenio, el glutatión no funciona óptimamente. Tomar diario.'
+      },
+      {
+        productId: 'SN35',
+        reason: 'Vitamina C - Regenera glutatión oxidado y potencia absorción de sulforafano',
+        synergy: 'La vitamina C recicla glutatión usado de vuelta a su forma activa. También aumenta absorción intestinal de sulforafano hasta 3x. Tomar 1g con la ensalada.'
+      }
+    ]
   },
   {
     id: 'nfkappab_master_salad',
@@ -211,7 +238,34 @@ export const MASTER_SALADS: SaladRecipe[] = [
       frequency: '5-6 veces a la semana si hay dolor inflamatorio activo',
       combinesWith: 'Jengibre fresco rayado (dobla efecto antiinflamatorio), evitar lácteos 1 hora antes (inhiben absorción de curcumina)'
     },
-    smartRotation: 'Mes 1: 5x/semana. Mes 2: 3x/semana + añade ajo crudo. Mes 3: 2x/semana de mantenimiento. Alterna entre pollo, pavo y huevo cocido para no crear tolerancia.'
+    smartRotation: 'Mes 1: 5x/semana. Mes 2: 3x/semana + añade ajo crudo. Mes 3: 2x/semana de mantenimiento. Alterna entre pollo, pavo y huevo cocido para no crear tolerancia.',
+    recommendedProducts: [
+      {
+        productId: 'BF17',
+        reason: 'Cúrcuma Biofito - Curcumina concentrada para bloqueo sostenido de NF-κB',
+        synergy: 'La curcumina oral mantiene niveles plasmáticos constantes de este inhibidor NF-κB. La ensalada da el golpe agudo, el suplemento da cobertura 24/7. Tomar 2 cápsulas con la ensalada (grasa maximiza absorción).'
+      },
+      {
+        productId: 'DOZ07',
+        reason: 'Omega-3 EPA/DHA - Resolvinas anti-inflamatorias de resolución activa',
+        synergy: 'Los omega-3 se convierten en SPMs (mediadores pro-resolución) que RESUELVEN la inflamación sin suprimirla. Complementa perfectamente la inhibición NF-κB de la curcumina. Tomar 2-3g/día.'
+      },
+      {
+        productId: 'SN19',
+        reason: 'Resverasor - Resveratrol que modula expresión de genes inflamatorios',
+        synergy: 'El resveratrol activa SIRT1 que a su vez DESACTIVA NF-κB a nivel epigenético. Es un regulador upstream. Tomar con la ensalada para máxima biodisponibilidad.'
+      },
+      {
+        productId: 'BF15',
+        reason: 'Uña de Gato - Alcaloides pentacíclicos antiinflamatorios e inmunomoduladores',
+        synergy: 'La uña de gato tiene acción dual: inhibe TNF-α (downstream de NF-κB) Y modula inmunidad. Perfecta para inflamación crónica con componente inmune. Tomar 500mg 2x/día.'
+      },
+      {
+        productId: 'SN26',
+        reason: 'Oligosor Magnesio - Cofactor para más de 300 enzimas antiinflamatorias',
+        synergy: 'El magnesio estabiliza membranas celulares y reduce liberación de citoquinas. La deficiencia de Mg se asocia con inflamación crónica de bajo grado. Tomar en ayunas o antes de dormir.'
+      }
+    ]
   },
   {
     id: 'psychobiotic_master_salad',
@@ -255,7 +309,34 @@ export const MASTER_SALADS: SaladRecipe[] = [
       frequency: '3-4 veces a la semana, especialmente si hay ansiedad o depresión',
       combinesWith: 'Kéfir de cabra después de 30 min (probióticos + prebióticos = eubiosis), meditación 5 min durante/después (vagal tone)'
     },
-    smartRotation: 'Semana 1-2: Todos los ingredientes. Semana 3: Duplica ajo y espárragos (máxima fermentación). Semana 4: Descansa 3 días. Este ciclo evita adaptación del microbiota y mantiene diversidad microbiana.'
+    smartRotation: 'Semana 1-2: Todos los ingredientes. Semana 3: Duplica ajo y espárragos (máxima fermentación). Semana 4: Descansa 3 días. Este ciclo evita adaptación del microbiota y mantiene diversidad microbiana.',
+    recommendedProducts: [
+      {
+        productId: 'DOZ04',
+        reason: 'Innerbiotic - Probióticos multiespecie para recolonización intestinal',
+        synergy: 'Los PREBIÓTICOS de la ensalada alimentan bacterias, pero primero necesitas TENER esas bacterias. Los probióticos introducen cepas beneficiosas que fermentarán la inulina y FOS. Tomar en ayunas 30 min antes de la ensalada.'
+      },
+      {
+        productId: 'SN12',
+        reason: 'Inulac - Inulina concentrada + enzimas digestivas para máxima eubiosis',
+        synergy: 'La ensalada aporta 3-4g de prebióticos, este suplemento añade 5-8g más. Dosis clínica para cambios reales en microbiota: 10-12g/día total. Tomar con la ensalada.'
+      },
+      {
+        productId: 'SN20',
+        reason: 'Analis L-Triptófano - Precursor directo de serotonina (95% producida en intestino)',
+        synergy: 'El eje intestino-cerebro NECESITA triptófano para sintetizar serotonina. Una microbiota sana produce enzimas que convierten triptófano → 5-HTP → serotonina. Sin triptófano, no hay sustrato. Tomar 500mg 2x/día lejos de proteínas.'
+      },
+      {
+        productId: 'SN47',
+        reason: 'Glicam (Glicina + Glutamina) - Reparación de permeabilidad intestinal',
+        synergy: 'La glutamina es el combustible #1 de los enterocitos. Repara tight junctions y reduce permeabilidad ("leaky gut"). Sin pared intestinal íntegra, los psicobióticos no funcionan. Tomar 10g en ayunas.'
+      },
+      {
+        productId: 'SN34',
+        reason: 'Vitamina B12 - Cofactor para síntesis de neurotransmisores y metilación',
+        synergy: 'La B12 es esencial para la conversión de homocisteína → metionina, crítica para producción de SAMe (donador de metilos). SAMe regula serotonina, dopamina y norepinefrina. Deficiencia = depresión. Sublingual 1000mcg/día.'
+      }
+    ]
   },
   {
     id: 'longevity_master_salad',
@@ -301,6 +382,33 @@ export const MASTER_SALADS: SaladRecipe[] = [
       frequency: '2-3 veces a la semana en modo anti-aging, 4-5x si hay historia familiar de enfermedad cardiovascular',
       combinesWith: 'Té blanco sin azúcar 30 min después (duplica polifenoles circulantes). Camina 30 min lentamente después de comer (NAD+ utilization).'
     },
-    smartRotation: 'Mes 1: 2x/semana. Mes 2: 3x/semana. Mes 3: 4x/semana. Ciclo de 12 semanas y vuelve al inicio. Alterna entre salmón, trucha y arenque para máxima variedad de polifenoles.'
+    smartRotation: 'Mes 1: 2x/semana. Mes 2: 3x/semana. Mes 3: 4x/semana. Ciclo de 12 semanas y vuelve al inicio. Alterna entre salmón, trucha y arenque para máxima variedad de polifenoles.',
+    recommendedProducts: [
+      {
+        productId: 'SN19',
+        reason: 'Resverasor - Resveratrol concentrado, activador directo de SIRT1',
+        synergy: 'El resveratrol es el activador de sirtuinas más estudiado. La ensalada aporta ~5-10mg, el suplemento añade 250mg para alcanzar dosis terapéutica (≥150mg/día). Tomar con la ensalada para aprovechar grasa de absorción.'
+      },
+      {
+        productId: 'SN02',
+        reason: 'Coenzima Q10 - Protección mitocondrial y producción de ATP',
+        synergy: 'Las sirtuinas protegen mitocondrias, pero estas necesitan CoQ10 para producir energía. La combinación SIRT + CoQ10 es anti-aging sinérgico: uno repara, el otro energiza. Tomar 100-200mg con grasa.'
+      },
+      {
+        productId: 'SN45',
+        reason: 'Cronovida - Aminoácidos + vitaminas para regeneración celular y telómeros',
+        synergy: 'Los aminoácidos son los bloques de construcción para reparación celular activada por sirtuinas. Cronovida aporta perfil completo para síntesis proteica óptima. Tomar 1 scoop 30 min antes de la ensalada.'
+      },
+      {
+        productId: 'DOZ07',
+        reason: 'Omega-3 EPA/DHA - Fluidez de membrana y reducción de inflamación',
+        synergy: 'Los omega-3 se incorporan a membranas celulares, reduciendo inflamaging (inflamación del envejecimiento). Las sirtuinas trabajan mejor en un ambiente antiinflamatorio. Tomar 2-3g/día.'
+      },
+      {
+        productId: 'SN36',
+        reason: 'Vitamina D3 - Regulación epigenética y salud mitocondrial',
+        synergy: 'La vitamina D modula expresión de genes relacionados con longevidad y función mitocondrial. Complementa la acción epigenética de las sirtuinas. Tomar 5000 UI/día con la ensalada (grasa).'
+      }
+    ]
   }
 ];

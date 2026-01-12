@@ -197,4 +197,9 @@ export interface SaladRecipe {
     combinesWith: string;
   };
   smartRotation: string;
+  recommendedProducts?: Array<{
+    productId: string;
+    reason: string;
+    synergy: string;
+  }>;
 }

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { SaladRecipe } from '../types';
+import { SaladRecipe, Product } from '../types';
 import { MASTER_SALADS } from '../constants/salads';
-import { ChevronRight, ArrowLeft, Clock, Timer, Sparkles, CheckCircle2, Microscope, ChefHat, Lightbulb, Calendar, TrendingUp, Leaf, Salad, Drumstick, Droplet, Stars, Soup } from 'lucide-react';
+import { products } from '../constants/data';
+import { ChevronRight, ArrowLeft, Clock, Timer, Sparkles, CheckCircle2, Microscope, ChefHat, Lightbulb, Calendar, TrendingUp, Leaf, Salad, Drumstick, Droplet, Stars, Soup, Package, ExternalLink } from 'lucide-react';
 
 interface SaladsBankProps {
   onSelectSalad: (salad: SaladRecipe) => void;
   onBack: () => void;
+  onShowProductDetails?: (product: Product) => void;
 }
 
 const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack }) => {
@@ -248,6 +250,93 @@ const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack }) => {
               </div>
             </div>
           </div>
+
+          {/* Recommended Products Section */}
+          {selectedSalad.recommendedProducts && selectedSalad.recommendedProducts.length > 0 && (
+            <div className="max-w-5xl mx-auto mb-8 md:mb-12">
+              <div className="mb-6 md:mb-8 text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full mb-4">
+                  <Package className="w-4 h-4 md:w-5 md:h-5 text-blue-700" />
+                  <span className="text-xs md:text-sm font-bold text-blue-900 uppercase tracking-wider">Sinergia Nutrigenómica</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  Productos <span className="text-blue-600">Recomendados</span>
+                </h2>
+                <p className="text-sm md:text-base text-slate-600 max-w-2xl mx-auto">
+                  Suplementos estratégicamente seleccionados para potenciar los efectos moleculares de esta ensalada
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {selectedSalad.recommendedProducts.map((rec, index) => {
+                  const product = products.find(p => p.id === rec.productId);
+                  if (!product) return null;
+
+                  return (
+                    <div
+                      key={rec.productId}
+                      className="group bg-white rounded-xl md:rounded-2xl p-5 md:p-6 border-2 border-blue-100 hover:border-blue-300 shadow-sm hover:shadow-lg transition-all duration-300"
+                    >
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-md">
+                          {index + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-base md:text-lg font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
+                            {product.name}
+                          </h3>
+                          <p className="text-xs md:text-sm text-slate-500 font-medium">
+                            {product.brand} • {product.presentation || 'Ver detalles'}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3 md:space-y-4">
+                        <div>
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                            <p className="text-xs md:text-sm font-bold text-blue-900 uppercase tracking-wide">Por Qué Funciona</p>
+                          </div>
+                          <p className="text-xs md:text-sm text-slate-700 leading-relaxed pl-3.5">
+                            {rec.reason}
+                          </p>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-3 md:p-4 rounded-lg border border-blue-100">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-600" />
+                            <p className="text-xs md:text-sm font-bold text-blue-900 uppercase tracking-wide">Sinergia Molecular</p>
+                          </div>
+                          <p className="text-xs md:text-sm text-blue-900 leading-relaxed font-medium">
+                            {rec.synergy}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                          <div className="text-lg md:text-xl font-bold text-slate-900">
+                            ${product.price} <span className="text-sm md:text-base font-normal text-slate-500">MXN</span>
+                          </div>
+                          <button
+                            className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-semibold text-xs md:text-sm group/btn"
+                          >
+                            <span>Ver más</span>
+                            <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Clinical Note */}
+              <div className="mt-6 md:mt-8 bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-400 p-4 md:p-6 rounded-lg">
+                <p className="text-xs md:text-sm text-amber-900 leading-relaxed">
+                  <span className="font-bold">Nota Clínica:</span> Estos productos fueron seleccionados por un clínico experto en nutrigenómica para trabajar sinérgicamente con los compuestos bioactivos de la ensalada. La combinación alimento + suplemento optimiza la biodisponibilidad y efectos terapéuticos.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* CTA Buttons */}
           <div className="max-w-5xl mx-auto">
