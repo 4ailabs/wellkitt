@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SaladRecipe, Product } from '../types';
 import { MASTER_SALADS } from '../constants/salads';
 import { products } from '../constants/data';
-import { ChevronRight, ArrowLeft, Clock, Timer, Sparkles, CheckCircle2, Microscope, ChefHat, Lightbulb, Calendar, TrendingUp, Leaf, Salad, Drumstick, Droplet, Stars, Soup, Package, ExternalLink } from 'lucide-react';
+import { ChevronRight, ArrowLeft, Clock, Timer, Sparkles, CheckCircle2, Microscope, ChefHat, Lightbulb, Calendar, TrendingUp, Leaf, Salad, Drumstick, Droplet, Stars, Soup, Package, ExternalLink, ShoppingCart, Download, Printer } from 'lucide-react';
 
 interface SaladsBankProps {
   onSelectSalad: (salad: SaladRecipe) => void;
@@ -12,6 +12,82 @@ interface SaladsBankProps {
 
 const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack, onShowProductDetails }) => {
   const [selectedSalad, setSelectedSalad] = useState<SaladRecipe | null>(null);
+
+  const generateShoppingList = (salad: SaladRecipe) => {
+    const listText = `
+LISTA DE COMPRAS - ${salad.name.toUpperCase()}
+Target: ${salad.target}
+Tiempo de preparación: ${salad.totalTime}
+
+═══════════════════════════════════════════════════
+
+INGREDIENTES NECESARIOS:
+
+${salad.ingredients.map((ing, i) => `${i + 1}. ${ing.name} - ${ing.amount}`).join('\n')}
+
+═══════════════════════════════════════════════════
+
+INSTRUCCIONES DE PREPARACIÓN:
+
+${salad.preparation.map((step, i) => `${i + 1}. ${step}`).join('\n')}
+
+═══════════════════════════════════════════════════
+
+SECRETO: ${salad.secret}
+
+═══════════════════════════════════════════════════
+
+Generado por Wellkitt - Nutrigenómica Aplicada
+www.wellkitt.com
+`.trim();
+    return listText;
+  };
+
+  const downloadShoppingList = (salad: SaladRecipe) => {
+    const text = generateShoppingList(salad);
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `lista-compras-${salad.id}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const printShoppingList = (salad: SaladRecipe) => {
+    const text = generateShoppingList(salad);
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Lista de Compras - ${salad.name}</title>
+            <style>
+              body {
+                font-family: 'Courier New', monospace;
+                padding: 40px;
+                max-width: 800px;
+                margin: 0 auto;
+                line-height: 1.6;
+              }
+              h1 { color: #16a34a; margin-bottom: 30px; }
+              pre { white-space: pre-wrap; }
+              @media print {
+                body { padding: 20px; }
+              }
+            </style>
+          </head>
+          <body>
+            <pre>${text}</pre>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.print();
+    }
+  };
 
   if (selectedSalad) {
     return (
@@ -344,22 +420,45 @@ const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack, onShowPr
             </div>
           )}
 
-          {/* Call to Action - Educational */}
+          {/* Shopping List Section */}
           <div className="max-w-5xl mx-auto">
             <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-2xl md:rounded-3xl p-6 md:p-10 lg:p-12 border-2 border-green-200 shadow-xl relative overflow-hidden">
               <div className="absolute -right-12 -bottom-12 opacity-5">
-                <Sparkles className="w-48 h-48 md:w-64 md:h-64" strokeWidth={1} />
+                <ShoppingCart className="w-48 h-48 md:w-64 md:h-64" strokeWidth={1} />
               </div>
-              <div className="relative z-10 text-center">
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  🧬 Nutrición <span className="text-green-600">Inteligente</span>
-                </h3>
-                <p className="text-base sm:text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-6 md:mb-8">
-                  Esta receta representa la integración de nutrigenómica aplicada: alimentos + suplementos trabajando sinérgicamente a nivel molecular para optimizar tu salud.
-                </p>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-green-300 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
-                  <span className="text-sm md:text-base font-semibold text-slate-700">Receta guardada en tu memoria 😊</span>
+              <div className="relative z-10">
+                <div className="text-center mb-6 md:mb-8">
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Lista de <span className="text-green-600">Compras</span>
+                  </h3>
+                  <p className="text-base sm:text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed">
+                    Descarga o imprime la lista completa de ingredientes para llevar al supermercado y preparar esta receta nutrigenómica.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-stretch sm:items-center">
+                  <button
+                    onClick={() => downloadShoppingList(selectedSalad)}
+                    className="group inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-5 md:px-6 py-3 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  >
+                    <Download className="w-4 h-4 md:w-5 md:h-5" />
+                    <span>Descargar Lista (.txt)</span>
+                  </button>
+
+                  <button
+                    onClick={() => printShoppingList(selectedSalad)}
+                    className="group inline-flex items-center justify-center gap-2 md:gap-3 bg-white hover:bg-gray-50 text-green-700 border-2 border-green-600 hover:border-green-700 px-5 md:px-6 py-3 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all shadow-md hover:shadow-lg"
+                  >
+                    <Printer className="w-4 h-4 md:w-5 md:h-5" />
+                    <span>Imprimir Lista</span>
+                  </button>
+                </div>
+
+                <div className="mt-6 md:mt-8 text-center">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-green-300 shadow-sm">
+                    <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
+                    <span className="text-xs md:text-sm font-semibold text-slate-700">Incluye ingredientes, cantidades e instrucciones completas</span>
+                  </div>
                 </div>
               </div>
             </div>
