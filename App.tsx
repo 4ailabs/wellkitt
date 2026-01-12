@@ -22,7 +22,7 @@ import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/us
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Zap, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight, Salad } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight, Salad } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import useMobileDetect from './hooks/useMobileDetect';
 import { useDebounce } from './hooks/useDebounce';
@@ -721,71 +721,6 @@ const App: React.FC = () => {
                         }}
                       />
                     )}
-                </div>
-            </section>
-
-            {/* Separador entre IA y Video */}
-            <div className="flex items-center justify-center gap-4 my-12 md:my-16 px-4 max-w-5xl mx-auto">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-slate-300"></div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
-                    <Droplets className="w-4 h-4 md:w-5 md:h-5 text-brand-green-600" />
-                    <span className="text-xs md:text-sm font-medium text-slate-700">Contenido Destacado</span>
-                </div>
-                <div className="flex-1 h-px bg-gradient-to-l from-transparent via-slate-300 to-slate-300"></div>
-            </div>
-
-            {/* Producto Destacado: Carnilis */}
-            <section className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
-                <div className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 border border-orange-200">
-                    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 mb-6 md:mb-8">
-                        <div className="flex-1 w-full">
-                            <div className="inline-block px-3 py-1 md:px-4 md:py-1 bg-orange-500 text-white text-xs md:text-sm font-bold rounded-full mb-3 md:mb-4">
-                                PRODUCTO DESTACADO
-                            </div>
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                Carnilis
-                            </h2>
-                            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-700 mb-3 md:mb-4 font-light leading-relaxed">
-                                Potencia tu metabolismo energético con L-Carnitina. Optimiza el transporte de ácidos grasos y reduce la fatiga.
-                            </p>
-                            <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
-                                <span className="px-2.5 py-1 md:px-3 md:py-1 bg-white/80 text-orange-700 rounded-full text-xs md:text-sm font-semibold border border-orange-200">L-Carnitina</span>
-                                <span className="px-2.5 py-1 md:px-3 md:py-1 bg-white/80 text-orange-700 rounded-full text-xs md:text-sm font-semibold border border-orange-200">Metabolismo Energético</span>
-                                <span className="px-2.5 py-1 md:px-3 md:py-1 bg-white/80 text-orange-700 rounded-full text-xs md:text-sm font-semibold border border-orange-200">60 cápsulas</span>
-                            </div>
-                            <button 
-                                onClick={() => {
-                                    const carnilis = products.find(p => p.id === "SN21" || p.name === "Carnilis");
-                                    if (carnilis) handleShowDetails(carnilis);
-                                }}
-                                className="group inline-flex items-center gap-2 md:gap-3 text-orange-600 text-base md:text-lg lg:text-xl font-semibold hover:gap-3 md:hover:gap-4 transition-all duration-300"
-                            >
-                                <span>Ver Detalles</span>
-                                <svg className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div className="flex-shrink-0 hidden md:block">
-                            <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center shadow-2xl">
-                                <Zap className="w-16 h-16 lg:w-24 lg:h-24 text-white" strokeWidth={1.5} />
-                            </div>
-                        </div>
-                    </div>
-                    
-                    {/* Video Embed */}
-                    <div className="w-full">
-                        <div className="relative w-full rounded-xl md:rounded-2xl overflow-hidden shadow-lg md:shadow-2xl" style={{ paddingBottom: '56.25%' }}>
-                            <iframe 
-                                className="absolute top-0 left-0 w-full h-full"
-                                src="https://www.youtube.com/embed/c3d1YQ2s7qY"
-                                title="Carnilis - Video Explicativo"
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            ></iframe>
-                        </div>
-                    </div>
                 </div>
             </section>
 
