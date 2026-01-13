@@ -9,7 +9,7 @@ export const SALAD_MECHANISMS: SaladMolecularMechanism[] = [
     whyItMatters: ['Detox hepática profunda', 'Protección contra contaminación', 'Aumento de glutatión'],
     keyNutrients: [{ name: 'Sulforafano', examples: 'Brotes de brócoli, rúcula, rábanos' }],
     blockers: ['Cocinar verduras >5 min', 'No incluir grasa con fitoquímicos', 'Consumo irregular'],
-    scientificEvidence: 'Vía Keap1-Nrf2-ARE. El sulforafano activa más de 200 genes protectores. Evidencia: ⭐⭐⭐⭐⭐'
+    scientificEvidence: 'Vía Keap1-Nrf2-ARE. El sulforafano activa más de 200 genes protectores. Evidencia: Muy Alta (5/5)'
   },
   {
     id: 'nfkappab',
@@ -22,7 +22,7 @@ export const SALAD_MECHANISMS: SaladMolecularMechanism[] = [
       { name: 'Antocianinas', examples: 'Lechuga morada, cebolla roja' }
     ],
     blockers: ['Grasas trans', 'Azúcar refinada en aderezos', 'Falta de sueño', 'Estrés crónico'],
-    scientificEvidence: 'Inhibición de la cascada de citoquinas pro-inflamatorias (IL-6, TNF-α). Evidencia: ⭐⭐⭐⭐'
+    scientificEvidence: 'Inhibición de la cascada de citoquinas pro-inflamatorias (IL-6, TNF-α). Evidencia: Muy Alta (4/5)'
   },
   {
     id: 'methylation',
@@ -36,7 +36,7 @@ export const SALAD_MECHANISMS: SaladMolecularMechanism[] = [
       { name: 'Betaína', examples: 'Remolacha' }
     ],
     blockers: ['Deficiencia de B12/folato', 'Alcohol excesivo', 'Deficiencia de zinc/magnesio'],
-    scientificEvidence: 'Ciclo de un carbono. Donadores de metilos esenciales para expresión genética. Evidencia: ⭐⭐⭐⭐⭐'
+    scientificEvidence: 'Ciclo de un carbono. Donadores de metilos esenciales para expresión genética. Evidencia: Muy Alta (5/5)'
   },
   {
     id: 'sirtuins',
@@ -50,7 +50,7 @@ export const SALAD_MECHANISMS: SaladMolecularMechanism[] = [
       { name: 'Apigenina', examples: 'Perejil' }
     ],
     blockers: ['Comida ultraprocesada', 'Sedentarismo', 'Exceso calórico constante'],
-    scientificEvidence: 'Proteínas SIRT1-7 reguladas por NAD+ y polifenoles. Mimetiza restricción calórica. Evidencia: ⭐⭐⭐⭐'
+    scientificEvidence: 'Proteínas SIRT1-7 reguladas por NAD+ y polifenoles. Mimetiza restricción calórica. Evidencia: Muy Alta (4/5)'
   },
   {
     id: 'telomeres',
@@ -63,7 +63,7 @@ export const SALAD_MECHANISMS: SaladMolecularMechanism[] = [
       { name: 'Antioxidantes', examples: 'Vitamina C, E, Betacaroteno' }
     ],
     blockers: ['Estrés oxidativo', 'Inflamación crónica', 'Tabaquismo'],
-    scientificEvidence: 'El licopeno y antioxidantes reducen el acortamiento telomérico. Evidencia: ⭐⭐⭐⭐'
+    scientificEvidence: 'El licopeno y antioxidantes reducen el acortamiento telomérico. Evidencia: Muy Alta (4/5)'
   },
   {
     id: 'psychobiotic',
@@ -76,7 +76,7 @@ export const SALAD_MECHANISMS: SaladMolecularMechanism[] = [
       { name: 'Fibra', examples: 'Verduras crudas variadas' }
     ],
     blockers: ['Antibióticos frecuentes', 'Dieta baja en fibra', 'Estrés crónico'],
-    scientificEvidence: 'El nervio vago conecta intestino-cerebro. Microbioma produce neurotransmisores. Evidencia: ⭐⭐⭐⭐'
+    scientificEvidence: 'El nervio vago conecta intestino-cerebro. Microbioma produce neurotransmisores. Evidencia: Muy Alta (4/5)'
   }
 ];
 
@@ -131,7 +131,7 @@ export const MASTER_SALADS: SaladRecipe[] = [
     molecularGoalDesc: 'Activa tu sistema de limpieza intracelular (vía NRF2) para eliminar toxinas, metales pesados y radicales libres. La combinación de brásicas crudas + grasas saludables = máxima expresión de genes protectores.',
     scienceQuick: {
       mechanism: 'Activación Nrf2 → Fase II Detoxificación',
-      evidence: '⭐⭐⭐⭐⭐',
+      evidence: 'Muy Alta (5/5)',
       timeToEffect: '3-7 días de consumo regular'
     },
     ingredients: [
@@ -201,7 +201,7 @@ export const MASTER_SALADS: SaladRecipe[] = [
     molecularGoalDesc: 'Bloquea el factor de transcripción NF-κB responsable de la cascada inflamatoria. Ideal para personas con dolor articular, reumatismo o inflamación crónica silenciosa.',
     scienceQuick: {
       mechanism: 'Inhibición NF-κB → Supresión IL-6, TNF-α',
-      evidence: '⭐⭐⭐⭐',
+      evidence: 'Muy Alta (4/5)',
       timeToEffect: '5-14 días para notar reducción de dolor'
     },
     ingredients: [
@@ -274,7 +274,7 @@ export const MASTER_SALADS: SaladRecipe[] = [
     molecularGoalDesc: 'Alimenta tu segundo cerebro (microbiota intestinal) para producir serotonina, dopamina y GABA. Rebalancéa el eje intestino-cerebro afectado por estrés, antibióticos o dieta moderna.',
     scienceQuick: {
       mechanism: 'Prebióticos → Eubiosis → Neurotransmisores',
-      evidence: '⭐⭐⭐⭐',
+      evidence: 'Muy Alta (4/5)',
       timeToEffect: '2-4 semanas para cambios notorios en ánimo'
     },
     ingredients: [
@@ -345,7 +345,7 @@ export const MASTER_SALADS: SaladRecipe[] = [
     molecularGoalDesc: 'Activa proteínas sirtuinas (SIRT1-7) responsables del envejecimiento lento. Mimetiza los efectos del ayuno intermitente en cada bocado. Ideal para optimización anti-aging y salud mitocondrial.',
     scienceQuick: {
       mechanism: 'Polifenoles → NAD+ ↑ → Sirtuinas Activas',
-      evidence: '⭐⭐⭐⭐⭐',
+      evidence: 'Muy Alta (5/5)',
       timeToEffect: '4-8 semanas para telómeros notoriamente más largos'
     },
     ingredients: [
