@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SaladRecipe, Product } from '../types';
 import { MASTER_SALADS } from '../constants/salads';
 import { products } from '../constants/data';
-import { ChevronRight, ArrowLeft, Clock, Timer, Sparkles, CheckCircle2, Microscope, ChefHat, Lightbulb, Calendar, TrendingUp, Leaf, Salad, Drumstick, Droplet, Stars, Soup, Package, ExternalLink, ShoppingCart, Download, Printer } from 'lucide-react';
+import { ChevronRight, ArrowLeft, Clock, Timer, Sparkles, CheckCircle2, Microscope, ChefHat, Lightbulb, Calendar, TrendingUp, Leaf, Salad, Drumstick, Droplet, Stars, Soup, Package, ShoppingCart, Download, Printer } from 'lucide-react';
 
 interface SaladsBankProps {
   onSelectSalad: (salad: SaladRecipe) => void;
@@ -402,7 +402,7 @@ www.wellkitt.com
                             className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-semibold text-xs md:text-sm group/btn"
                           >
                             <span>Ver más</span>
-                            <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                            <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover/btn:translate-x-1 transition-transform" />
                           </button>
                         </div>
                       </div>

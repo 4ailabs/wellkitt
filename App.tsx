@@ -22,7 +22,7 @@ import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/us
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight, Salad } from 'lucide-react';
+import { Phone, MapPin, List, Heart, Droplets, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight, Salad, CheckCircle2 } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import useMobileDetect from './hooks/useMobileDetect';
 import { useDebounce } from './hooks/useDebounce';
@@ -735,11 +735,60 @@ const App: React.FC = () => {
                         Descubre nuestros productos más populares y recomendados
                     </p>
                 </div>
-                
-                <ProductCarousel 
-                    products={products.slice(0, 12)} 
+
+                <ProductCarousel
+                    products={products.slice(0, 12)}
                     onShowDetails={handleShowDetails}
                 />
+            </section>
+
+            {/* Divisor */}
+            <div className="max-w-5xl mx-auto mb-12 md:mb-16 px-4">
+                <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+            </div>
+
+            {/* Banco de Ensaladas - Sección Destacada */}
+            <section className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
+                <div className="relative bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl p-8 md:p-12 border border-green-100 shadow-xl overflow-hidden">
+                    {/* Patrón decorativo de fondo */}
+                    <div className="absolute inset-0 opacity-5">
+                        <div className="absolute top-0 left-0 w-64 h-64 bg-green-400 rounded-full filter blur-3xl"></div>
+                        <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-400 rounded-full filter blur-3xl"></div>
+                    </div>
+
+                    {/* Contenido */}
+                    <div className="relative z-10">
+                        <div className="text-center mb-6 md:mb-8">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-600/10 border border-green-600/20 text-green-700 rounded-full text-sm font-semibold mb-4">
+                                <Salad className="w-4 h-4" />
+                                <span>Nutrigenómica Aplicada</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3 md:mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                Banco de <span className="text-green-600">Ensaladas Maestras</span>
+                            </h2>
+                            <p className="text-base md:text-lg text-slate-700 max-w-3xl mx-auto leading-relaxed">
+                                Recetas diseñadas con precisión científica para activar mecanismos moleculares específicos.
+                                Cada ensalada optimiza tu salud a nivel celular con productos complementarios estratégicos.
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            <button
+                                onClick={() => setShowSalads(true)}
+                                className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-lg font-bold px-8 py-4 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
+                            >
+                                <Salad className="w-6 h-6" />
+                                <span>Explorar Ensaladas</span>
+                                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </button>
+
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                                <CheckCircle2 className="w-5 h-5 text-green-600" />
+                                <span>4 Recetas Maestras • Lista de Compras • Productos Recomendados</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             {/* Divisor */}
@@ -758,7 +807,7 @@ const App: React.FC = () => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
                     {/* Endotelio Test */}
                     <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
                         <div className="h-full flex flex-col">
@@ -772,7 +821,7 @@ const App: React.FC = () => {
                             <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
                                 Evalúa tu salud cardiovascular con 20 preguntas sobre 6 áreas fundamentales.
                             </p>
-                            <button 
+                            <button
                                 onClick={() => setShowEndotelioTest(true)}
                                 className="group/btn inline-flex items-center gap-2 text-red-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
                             >
@@ -797,7 +846,7 @@ const App: React.FC = () => {
                             <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
                                 Descubre cómo tus genes responden a los alimentos. 20 preguntas sobre 7 áreas genéticas.
                             </p>
-                            <button 
+                            <button
                                 onClick={() => setShowNutrigenomicaTest(true)}
                                 className="group/btn inline-flex items-center gap-2 text-purple-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
                             >
@@ -833,31 +882,6 @@ const App: React.FC = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
                             </a>
-                        </div>
-                    </div>
-
-                    {/* Banco de Ensaladas */}
-                    <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
-                        <div className="h-full flex flex-col">
-                            <div className="mb-3 md:mb-4">
-                                <Salad className="w-10 h-10 md:w-12 md:h-12 text-green-600 mb-2 md:mb-3" strokeWidth={1.5} />
-                                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                    Banco de Ensaladas
-                                </h3>
-                                <div className="h-0.5 w-12 md:w-16 bg-green-600 mb-3 md:mb-4"></div>
-                            </div>
-                            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
-                                Recetas maestras diseñadas con precisión nutrigenómica para optimizar tu salud molecular.
-                            </p>
-                            <button
-                                onClick={() => setShowSalads(true)}
-                                className="group/btn inline-flex items-center gap-2 text-green-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
-                            >
-                                <span>Explorar Ensaladas</span>
-                                <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </button>
                         </div>
                     </div>
                 </div>
