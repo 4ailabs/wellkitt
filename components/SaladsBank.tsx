@@ -124,13 +124,13 @@ www.wellkitt.com
 
   if (selectedSalad) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 pb-12">
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 pb-16 md:pb-12">
         {/* Header with Back Button */}
         <div className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-10">
-          <div className="container mx-auto px-4 py-4 md:py-6">
+          <div className="container mx-auto px-4 py-3 md:py-6">
             <button
               onClick={handleBackToList}
-              className="inline-flex items-center text-slate-600 hover:text-slate-900 transition-colors font-medium"
+              className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 transition-colors font-semibold text-sm md:text-base bg-white/90 md:bg-transparent border border-slate-200 md:border-transparent rounded-lg px-3 py-2 md:px-0 md:py-0"
             >
               <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               <span className="text-sm md:text-base">Volver al Banco</span>
@@ -140,7 +140,7 @@ www.wellkitt.com
 
         <div className="container mx-auto px-4 py-6 md:py-12">
           {/* Hero Section */}
-          <div className="max-w-5xl mx-auto mb-8 md:mb-16">
+          <div className="max-w-5xl mx-auto mb-6 md:mb-16">
             <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl md:rounded-3xl p-6 md:p-12 lg:p-16 text-white relative overflow-hidden shadow-2xl">
               <div className="absolute top-0 right-0 opacity-10">
                 <Sparkles className="w-32 h-32 md:w-48 md:h-48" strokeWidth={1} />
@@ -176,7 +176,7 @@ www.wellkitt.com
           </div>
 
           {/* Objective Molecular - Card destacada */}
-          <div className="max-w-5xl mx-auto mb-8 md:mb-12">
+          <div className="max-w-5xl mx-auto mb-6 md:mb-12">
             <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl border border-blue-200 shadow-lg relative overflow-hidden">
               <div className="absolute -right-8 -top-8 opacity-5">
                 <Microscope className="w-32 h-32 md:w-48 md:h-48" strokeWidth={1} />
@@ -194,7 +194,7 @@ www.wellkitt.com
           </div>
 
           {/* Ingredients Section */}
-          <div className="max-w-5xl mx-auto mb-8 md:mb-12">
+          <div className="max-w-5xl mx-auto mb-6 md:mb-12">
             <div className="mb-6 md:mb-8">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Ingredientes
@@ -202,7 +202,7 @@ www.wellkitt.com
               <p className="text-sm md:text-base text-slate-600">Cada componente cumple una función molecular específica</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               {['base', 'verdura', 'proteina', 'grasa', 'topping', 'aderezo'].map((category) => {
                 const items = selectedSalad.ingredients.filter(i => i.category === category);
                 if (items.length === 0) return null;
@@ -257,7 +257,7 @@ www.wellkitt.com
           </div>
 
           {/* Preparation Section */}
-          <div className="max-w-5xl mx-auto mb-8 md:mb-12">
+          <div className="max-w-5xl mx-auto mb-6 md:mb-12">
             <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl border border-orange-200 shadow-lg">
               <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8">
                 <ChefHat className="w-6 h-6 md:w-7 md:h-7 text-orange-600" />
@@ -283,7 +283,7 @@ www.wellkitt.com
           </div>
 
           {/* Secret Section */}
-          <div className="max-w-5xl mx-auto mb-8 md:mb-12">
+          <div className="max-w-5xl mx-auto mb-6 md:mb-12">
             <div className="bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 p-6 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl border-2 border-amber-300 shadow-xl relative overflow-hidden">
               <div className="absolute -right-4 -bottom-4 opacity-5">
                 <Lightbulb className="w-32 h-32 md:w-48 md:h-48" strokeWidth={1} />
@@ -301,7 +301,7 @@ www.wellkitt.com
           </div>
 
           {/* Pro Optimization Grid */}
-          <div className="max-w-5xl mx-auto mb-8 md:mb-12">
+          <div className="max-w-5xl mx-auto mb-6 md:mb-12">
             <div className="mb-6 md:mb-8">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Optimización PRO
@@ -309,7 +309,7 @@ www.wellkitt.com
               <p className="text-sm md:text-base text-slate-600">Maximiza los beneficios con estas recomendaciones</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
               <div className="bg-white p-5 md:p-6 rounded-xl md:rounded-2xl border-2 border-purple-200 shadow-sm hover:shadow-lg transition-shadow">
                 <div className="flex items-center gap-2 mb-3 md:mb-4">
                   <Clock className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
@@ -343,7 +343,7 @@ www.wellkitt.com
           </div>
 
           {/* Smart Rotation */}
-          <div className="max-w-5xl mx-auto mb-8 md:mb-12">
+          <div className="max-w-5xl mx-auto mb-6 md:mb-12">
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl border border-green-200 shadow-lg relative overflow-hidden">
               <div className="absolute -left-8 -bottom-8 opacity-5">
                 <TrendingUp className="w-32 h-32 md:w-48 md:h-48" strokeWidth={1} />
@@ -362,7 +362,7 @@ www.wellkitt.com
 
           {/* Recommended Products Section */}
           {selectedSalad.recommendedProducts && selectedSalad.recommendedProducts.length > 0 && (
-            <div className="max-w-5xl mx-auto mb-8 md:mb-12">
+            <div className="max-w-5xl mx-auto mb-6 md:mb-12">
               <div className="mb-6 md:mb-8 text-center">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full mb-4">
                   <Package className="w-4 h-4 md:w-5 md:h-5 text-blue-700" />
@@ -376,7 +376,7 @@ www.wellkitt.com
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
                 {selectedSalad.recommendedProducts.map((rec, index) => {
                   const product = products.find(p => p.id === rec.productId);
                   if (!product) return null;
@@ -384,7 +384,7 @@ www.wellkitt.com
                   return (
                     <div
                       key={rec.productId}
-                      className="group bg-white rounded-xl md:rounded-2xl p-5 md:p-6 border-2 border-blue-100 hover:border-blue-300 shadow-sm hover:shadow-lg transition-all duration-300"
+                      className="group bg-white rounded-xl md:rounded-2xl p-4 md:p-6 border-2 border-blue-100 hover:border-blue-300 shadow-sm hover:shadow-lg transition-all duration-300"
                     >
                       <div className="flex items-start gap-4 mb-4">
                         <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-md">
@@ -472,7 +472,7 @@ www.wellkitt.com
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-stretch sm:items-center">
                   <button
                     onClick={() => downloadShoppingList(selectedSalad)}
-                    className="group inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-5 md:px-6 py-3 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="group inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-5 md:px-6 py-3 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 w-full sm:w-auto"
                   >
                     <Download className="w-4 h-4 md:w-5 md:h-5" />
                     <span>Descargar Lista (.txt)</span>
@@ -480,7 +480,7 @@ www.wellkitt.com
 
                   <button
                     onClick={() => printShoppingList(selectedSalad)}
-                    className="group inline-flex items-center justify-center gap-2 md:gap-3 bg-white hover:bg-gray-50 text-green-700 border-2 border-green-600 hover:border-green-700 px-5 md:px-6 py-3 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all shadow-md hover:shadow-lg"
+                    className="group inline-flex items-center justify-center gap-2 md:gap-3 bg-white hover:bg-gray-50 text-green-700 border-2 border-green-600 hover:border-green-700 px-5 md:px-6 py-3 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all shadow-md hover:shadow-lg w-full sm:w-auto"
                   >
                     <Printer className="w-4 h-4 md:w-5 md:h-5" />
                     <span>Imprimir Lista</span>
@@ -502,13 +502,13 @@ www.wellkitt.com
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 pb-16 md:pb-12">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 md:py-6">
+        <div className="container mx-auto px-4 py-3 md:py-6">
           <button
             onClick={onBack}
-            className="inline-flex items-center text-slate-600 hover:text-slate-900 transition-colors font-medium"
+            className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 transition-colors font-semibold text-sm md:text-base bg-white/90 md:bg-transparent border border-slate-200 md:border-transparent rounded-lg px-3 py-2 md:px-0 md:py-0"
           >
             <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 mr-2" />
             <span className="text-sm md:text-base">Volver al Menú Principal</span>
@@ -516,7 +516,7 @@ www.wellkitt.com
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 md:py-12">
+      <div className="container mx-auto px-4 py-6 md:py-12">
         {/* Hero Section */}
         <div className="max-w-5xl mx-auto mb-8 md:mb-16 text-center">
           <div className="inline-block px-3 py-1 md:px-4 md:py-1.5 bg-green-100 text-green-700 text-xs md:text-sm font-bold rounded-full mb-4 md:mb-6">
