@@ -212,7 +212,7 @@ export const MASTER_SALADS: SaladRecipe[] = [
       { name: 'Cúrcuma molida', amount: '0.5 cucharadita', reason: 'Curcumina: bloqueador NF-κB más potente', category: 'topping', power: 'Antiinflamatorio x10' },
       { name: 'Pimienta negra molida', amount: '1 pellizco', reason: 'Piperina aumenta absorción de curcumina x2000%', category: 'topping' },
       { name: 'Pechuga de pollo a la parrilla', amount: '120g', reason: 'Proteína + selenio antioxidante', category: 'proteina' },
-      { name: 'Aceite de coco virgen', amount: '2 cucharadas', reason: 'Ácido láurico antiinflamatorio + SFA sano', category: 'aderezo' },
+      { name: 'Aceite de oliva virgen extra', amount: '2 cucharadas', reason: 'Polifenoles + ácido oleico antiinflamatorio (disponible en México)', category: 'aderezo' },
       { name: 'Limón fresco (jugo)', amount: '0.5 limón', reason: 'Vitamina C + quercetina potencia', category: 'aderezo' },
       { name: 'Semillas de sésamo negro', amount: '15g', reason: 'Lignanos + omega-6 balanceado', category: 'topping' }
     ],
@@ -223,11 +223,11 @@ export const MASTER_SALADS: SaladRecipe[] = [
       'Raspar espinacas y dejarlas enteras o ligeramente picadas',
       'Desmenuzar pechuga de pollo tibia en trozos',
       'En un bol aparte, mezclar cúrcuma + pimienta',
-      'En otro bol, mezclar aceite de coco + jugo de limón',
-      'Añadir la mezcla de cúrcuma al aceite de coco y remover bien',
+      'En otro bol, mezclar aceite de oliva + jugo de limón',
+      'Añadir la mezcla de cúrcuma al aceite de oliva y remover bien',
       'Combinar todas las verduras en un plato',
       'Distribuir pollo sobre la ensalada',
-      'Verter aderezo de cúrcuma-coco',
+      'Verter aderezo de cúrcuma-oliva',
       'Espolvorear semillas de sésamo negro',
       'Mezclar bien 20 segundos antes de comer'
     ],

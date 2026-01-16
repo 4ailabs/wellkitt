@@ -375,7 +375,7 @@ TOPPINGS:
 - Semillas sésamo negro (15g) - Lignanos + omega-6
 
 ADEREZO:
-- Aceite de coco virgen (2 cdas) - Ácido láurico antiinflamatorio
+- Aceite de oliva virgen extra (2 cdas) - Polifenoles + ácido oleico antiinflamatorio (disponible en México)
 - Limón fresco (0.5) - Vitamina C
 ```
 
@@ -386,14 +386,14 @@ ADEREZO:
 4. Espinacas enteras o ligeramente picadas
 5. Pollo desmenuzado tibia
 6. **Mezclar cúrcuma + pimienta en bol aparte** (CRÍTICO)
-7. Mezclar aceite coco + limón en otro bol
+7. Mezclar aceite de oliva + limón en otro bol
 8. Añadir mezcla cúrcuma al aceite (remover bien)
 9. Combinar verduras + pollo
-10. Verter aderezo cúrcuma-coco
+10. Verter aderezo cúrcuma-oliva
 11. Espolvorear semillas sésamo
 12. Mezclar bien 20 seg antes de comer
 
-**El Secreto:** Curcumina requiere GRASA + PIMIENTA para biodisponibilidad. Si no: solo absorbes 5%. Tríada perfecta = Aceite coco + Pimienta + Cúrcuma. COME TIBIA, no fría.
+**El Secreto:** Curcumina requiere GRASA + PIMIENTA para biodisponibilidad. Si no: solo absorbes 5%. Tríada perfecta = Aceite de oliva + Pimienta + Cúrcuma. COME TIBIA, no fría.
 
 **Optimización Pro:**
 - **Cuándo:** Almuerzo/cena temprana (curcumina trabaja durante sueño reparador)
