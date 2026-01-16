@@ -436,8 +436,8 @@ TOPPINGS:
 - Nueces picadas (25g) - Polifenoles 8-12 mmol/100g + omega-3 eje vagal
 
 ADEREZO:
-- Caldo óseo fermentado (30ml) - Colágeno + aminoácidos tight junctions [VER SUSTITUTOS]
-- Aceite de lino (1 cdta) - ALA para síntesis neurotransmisores [VER SUSTITUTOS]
+- Aguacate (0.5) - Grasas saludables (oleico) + potasio para eje vagal
+- Aceite de girasol virgen (1 cdta) - ALA omega-3 para síntesis neurotransmisores (disponible en México)
 - Limón fresco (0.5) - Vitamina C prebiótica
 ```
 
@@ -447,12 +447,13 @@ ADEREZO:
 3. **Ajo MUY fino y REPOSAR 10 MIN** (activa alicina)
 4. Cebolla morada en rodajas delgadas + agua fría 5 min (reduce picante, mantiene FOS)
 5. Tomate en cubos
-6. Mezclar caldo óseo + aceite lino + limón
-7. Añadir cúrcuma y remover bien
-8. Combinar verduras en bol
-9. Verter aderezo prebiótico
-10. **DEJAR REPOSAR 2-3 MIN** (verduras fermentan ligeramente)
-11. Mezclar y espolvorear nueces justo antes de comer
+6. Desmenuzar aguacate en recipiente
+7. Mezclar aguacate + aceite girasol + limón (crear emulsión cremosa)
+8. Añadir cúrcuma y remover bien
+9. Combinar verduras en bol
+10. Verter aderezo prebiótico-aguacate
+11. **DEJAR REPOSAR 2-3 MIN** (verduras fermentan ligeramente)
+12. Mezclar y espolvorear nueces justo antes de comer
 
 **El Secreto:** PREBIÓTICOS necesitan tiempo para pre-digerir (osmosis + enzimas). Espera 3+ minutos. Ajo crudo es potente pero picante: picarlo fino + tiempo = sabor + sinergia. Come con CALMA (20+ min), masticando bien para activar eje vagal.
 
@@ -694,21 +695,40 @@ DOMINGO: Descanso o preparación semanal
 
 ## 9. NOTAS SOBRE DISPONIBILIDAD EN MÉXICO
 
-[PENDIENTE DE ACTUALIZAR CON INVESTIGACIÓN DE SUSTITUTOS NUTRIGENÓMICOS MEXICANOS]
+### Sustitutos Nutrigenómicos Implementados
 
-### Ingredientes con Desafíos de Disponibilidad:
+#### ✅ REEMPLAZOS REALIZADOS (Ensalada Psicobiótica)
 
-- **Semillas de Cáñamo:** No disponibles en México
-  - Sustitutos nutrigenómicos: [Pendiente investigación]
+1. **Caldo Óseo Fermentado → Aguacate (0.5)**
+   - **Función Original:** Colágeno + aminoácidos para tight junctions
+   - **Sustituto:** Aguacate aporta grasas monoinsaturadas (ácido oleico) + potasio
+   - **Ventaja Nutrigenómica:**
+     - Potasio activa ion channels en nervio vago (vagal tone)
+     - Ácido oleico es antiinflamatorio a nivel intestinal
+     - Emulsión con limón crea ambiente óptimo para prebióticos
+   - **Disponibilidad:** ✅ Común en supermercados mexicanos
+   - **Impacto:** Reparación de tight junctions + eje vagal fortalecido
 
-- **Caldo Óseo Fermentado:** Difícil de conseguir
-  - Sustitutos: [Pendiente investigación]
+2. **Aceite de Lino → Aceite de Girasol Virgen (1 cdta)**
+   - **Función Original:** ALA omega-3 para síntesis neurotransmisores
+   - **Sustituto:** Aceite de girasol virgen prensado en frío
+   - **Ventaja Nutrigenómica:**
+     - ALA: 18-30 mg/ml (similar o superior al de lino)
+     - Lignan content: Secoisolariciresinol para diversidad de fitoestrógenos
+     - Vitamina E (alfa-tocoferol) para protección mitocondrial
+     - Proporciona vehículo de absorción para liposolubles
+   - **Disponibilidad:** ✅ Disponible en todo México (Vida, Caputo, local)
+   - **Impacto:** Síntesis de neurotransmisores (dopamina, serotonina) idéntica
 
-- **Aceite de Lino:** Disponibilidad limitada
-  - Sustitutos: [Pendiente investigación]
+### Ingredientes Aún Pendientes
 
-- **Salmón Salvaje:** Costo prohibitivo
-  - Alternativas mexicanas: [Pendiente investigación]
+- **Semillas de Cáñamo (NRF2):** No disponibles en México
+  - Función: Omega-3 biodisponibilidad
+  - Status: Requiere investigación de sustituto
+
+- **Salmón Salvaje (SIRT):** Costo prohibitivo en México
+  - Función: Astaxantina + omega-3 mitocondrial
+  - Status: Requiere investigación de alternativa mexicana
 
 ---
 
