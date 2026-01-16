@@ -180,6 +180,9 @@ const App: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
+  const isSaladScreen = (state: any) =>
+    state?.screen === 'salads' || state?.screen === 'salad-detail';
+
   // Hook para historial de recomendaciones
   const {
     history: recommendationHistory,
@@ -202,9 +205,32 @@ const App: React.FC = () => {
     setShowSalads(false);
   };
 
+  const handleSaladsBack = () => {
+    if (window.history.state?.screen === 'salads') {
+      window.history.back();
+      return;
+    }
+    setShowSalads(false);
+  };
+
   const handleSplashFinish = () => {
     setShowSplash(false);
   };
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      setShowSalads(isSaladScreen(event.state));
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (showSalads && !isSaladScreen(window.history.state)) {
+      window.history.pushState({ screen: 'salads' }, '');
+    }
+  }, [showSalads]);
 
   // Tipar como any para evitar errores de tipo
   const productosJson: any = productosJsonRaw;
@@ -471,7 +497,7 @@ const App: React.FC = () => {
             onSelectSalad={(salad: SaladRecipe) => {
               console.log('Ensalada seleccionada:', salad);
             }}
-            onBack={handleBackToMain}
+            onBack={handleSaladsBack}
             onShowProductDetails={handleShowDetails}
           />
         ) : (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SaladRecipe, Product } from '../types';
 import { MASTER_SALADS } from '../constants/salads';
 import { products } from '../constants/data';
@@ -12,6 +12,39 @@ interface SaladsBankProps {
 
 const SaladsBank: React.FC<SaladsBankProps> = ({ onSelectSalad, onBack, onShowProductDetails }) => {
   const [selectedSalad, setSelectedSalad] = useState<SaladRecipe | null>(null);
+
+  const findSaladById = (saladId?: string) =>
+    MASTER_SALADS.find((salad) => salad.id === saladId) || null;
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state?.screen === 'salad-detail') {
+        setSelectedSalad(findSaladById(event.state.saladId));
+        return;
+      }
+
+      if (selectedSalad) {
+        setSelectedSalad(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [selectedSalad]);
+
+  const handleSelectSalad = (salad: SaladRecipe) => {
+    setSelectedSalad(salad);
+    window.history.pushState({ screen: 'salad-detail', saladId: salad.id }, '');
+    onSelectSalad(salad);
+  };
+
+  const handleBackToList = () => {
+    if (window.history.state?.screen === 'salad-detail') {
+      window.history.back();
+      return;
+    }
+    setSelectedSalad(null);
+  };
 
   const generateShoppingList = (salad: SaladRecipe) => {
     const listText = `
@@ -96,7 +129,7 @@ www.wellkitt.com
         <div className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-10">
           <div className="container mx-auto px-4 py-4 md:py-6">
             <button
-              onClick={() => setSelectedSalad(null)}
+              onClick={handleBackToList}
               className="inline-flex items-center text-slate-600 hover:text-slate-900 transition-colors font-medium"
             >
               <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 mr-2" />
@@ -511,7 +544,7 @@ www.wellkitt.com
             return (
               <button
                 key={salad.id}
-                onClick={() => setSelectedSalad(salad)}
+                onClick={() => handleSelectSalad(salad)}
                 className="bg-white rounded-2xl md:rounded-3xl overflow-hidden border border-gray-200 hover:border-green-300 hover:shadow-2xl transition-all group text-left transform hover:-translate-y-1"
               >
                 {/* Header colorido */}
