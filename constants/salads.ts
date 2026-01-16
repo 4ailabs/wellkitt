@@ -285,7 +285,7 @@ export const MASTER_SALADS: SaladRecipe[] = [
       { name: 'Tomate', amount: '80g', reason: 'Licopeno + ácido fólico para síntesis de serotonina', category: 'verdura' },
       { name: 'Cúrcuma molida', amount: '0.5 cucharadita', reason: 'Antiinflamatoria intestinal (permeabilidad)', category: 'topping' },
       { name: 'Aguacate', amount: '0.5 unidad', reason: 'Grasas saludables (oleico) + potasio para eje vagal', category: 'aderezo', power: 'Ácido oleico + electrolitos' },
-      { name: 'Aceite de girasol virgen', amount: '1 cucharada', reason: 'ALA omega-3 para síntesis de neurotransmisores (sustituto de lino disponible en México)', category: 'aderezo' },
+      { name: 'Mantequilla ghee', amount: '1 cucharada', reason: 'Grasas estables + butirato (soporte intestinal)', category: 'aderezo' },
       { name: 'Limón fresco (jugo)', amount: '0.5 limón', reason: 'Ácido cítrico + vitamina C prebiótica', category: 'aderezo' },
       { name: 'Nueces picadas', amount: '25g', reason: 'Polifenoles + omega-3 para eje vagal', category: 'topping', power: 'Polifenoles 8-12 mmol/100g' }
     ],
@@ -296,7 +296,7 @@ export const MASTER_SALADS: SaladRecipe[] = [
       'Picar cebolla morada en rodajas delgadas y dejar en agua fría 5 min (reduce picante, mantiene FOS)',
       'Cortar tomate en cubos',
       'Desmenuzar aguacate en un recipiente',
-      'Mezclar aguacate + aceite de girasol + limón (crear emulsión cremosa)',
+      'Mezclar aguacate + ghee + limón (crear emulsión cremosa)',
       'Añadir cúrcuma a este aderezo y remover bien',
       'En un bol, combinar todas las verduras',
       'Verter aderezo prebiótico sobre verduras',

@@ -437,7 +437,7 @@ TOPPINGS:
 
 ADEREZO:
 - Aguacate (0.5) - Grasas saludables (oleico) + potasio para eje vagal
-- Aceite de girasol virgen (1 cdta) - ALA omega-3 para síntesis neurotransmisores (disponible en México)
+- Mantequilla ghee (1 cdta) - Grasas estables + butirato (soporte intestinal)
 - Limón fresco (0.5) - Vitamina C prebiótica
 ```
 
@@ -448,7 +448,7 @@ ADEREZO:
 4. Cebolla morada en rodajas delgadas + agua fría 5 min (reduce picante, mantiene FOS)
 5. Tomate en cubos
 6. Desmenuzar aguacate en recipiente
-7. Mezclar aguacate + aceite girasol + limón (crear emulsión cremosa)
+7. Mezclar aguacate + ghee + limón (crear emulsión cremosa)
 8. Añadir cúrcuma y remover bien
 9. Combinar verduras en bol
 10. Verter aderezo prebiótico-aguacate
@@ -709,9 +709,9 @@ DOMINGO: Descanso o preparación semanal
    - **Disponibilidad:** ✅ Común en supermercados mexicanos
    - **Impacto:** Reparación de tight junctions + eje vagal fortalecido
 
-2. **Aceite de Lino → Aceite de Girasol Virgen (1 cdta)**
+2. **Aceite de Lino → Mantequilla ghee (1 cdta)**
    - **Función Original:** ALA omega-3 para síntesis neurotransmisores
-   - **Sustituto:** Aceite de girasol virgen prensado en frío
+   - **Sustituto:** Mantequilla ghee
    - **Ventaja Nutrigenómica:**
      - ALA: 18-30 mg/ml (similar o superior al de lino)
      - Lignan content: Secoisolariciresinol para diversidad de fitoestrógenos
