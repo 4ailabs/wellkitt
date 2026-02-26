@@ -46,7 +46,7 @@ const cardVariants = {
 const FeaturesSection: React.FC = () => {
   return (
     <section
-      className="py-20 sm:py-28 bg-white"
+      className="py-20 sm:py-28 bg-slate-50"
       style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -291,122 +291,143 @@ const App: React.FC = () => {
             />
 
             {/* Recomendador IA */}
-            <section id="recomendador" className="py-20 sm:py-28 bg-white">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-10">
+            <section id="recomendador" className="py-20 sm:py-28 bg-slate-50">
+              <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
                   <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Lora, serif' }}>
-                    Tu recomendación personalizada
+                    Tu Kit Personalizado
                   </h2>
-                  <p className="text-slate-500 text-base mt-3 max-w-lg mx-auto">
-                    Nuestra IA analiza tu perfil y te sugiere los productos ideales para tus objetivos.
+                  <p className="text-slate-500 text-base mt-3 max-w-md mx-auto">
+                    Cuéntanos sobre ti y seleccionaremos los productos ideales para tus objetivos.
                   </p>
                 </div>
 
-                {/* Paso 1: Áreas de Salud */}
-                <div className="mb-8">
-                  <p className="text-sm font-semibold text-slate-700 mb-3">1. Áreas de salud <span className="text-slate-400 font-normal">(opcional)</span></p>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { id: 'energia', label: 'Energía', icon: '⚡' },
-                      { id: 'digestion', label: 'Digestión', icon: '🌿' },
-                      { id: 'inmunidad', label: 'Inmunidad', icon: '🛡️' },
-                      { id: 'sueno', label: 'Sueño', icon: '😴' },
-                      { id: 'estres', label: 'Estrés', icon: '🧘' },
-                      { id: 'cardiovascular', label: 'Corazón', icon: '❤️' },
-                      { id: 'cognitivo', label: 'Mente', icon: '🧠' },
-                      { id: 'articular', label: 'Articulaciones', icon: '🦴' },
-                    ].map((area) => (
-                      <button
-                        key={area.id}
-                        type="button"
-                        onClick={() => {
-                          setSelectedHealthAreas(prev =>
-                            prev.includes(area.id) ? prev.filter(a => a !== area.id) : [...prev, area.id]
-                          );
-                        }}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                          selectedHealthAreas.includes(area.id)
-                            ? 'bg-brand-green-600 text-white'
-                            : 'bg-slate-50 text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
-                        }`}
-                      >
-                        <span className="mr-1.5">{area.icon}</span>{area.label}
-                      </button>
-                    ))}
+                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                  {/* Step 1 */}
+                  <div className="p-6 sm:p-8 border-b border-slate-100">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-7 h-7 rounded-full bg-brand-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">1</div>
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800">Áreas de salud</p>
+                        <p className="text-xs text-slate-400">Selecciona las que apliquen</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: 'energia', label: 'Energía', icon: '⚡' },
+                        { id: 'digestion', label: 'Digestión', icon: '🌿' },
+                        { id: 'inmunidad', label: 'Inmunidad', icon: '🛡️' },
+                        { id: 'sueno', label: 'Sueño', icon: '😴' },
+                        { id: 'estres', label: 'Estrés', icon: '🧘' },
+                        { id: 'cardiovascular', label: 'Corazón', icon: '❤️' },
+                        { id: 'cognitivo', label: 'Mente', icon: '🧠' },
+                        { id: 'articular', label: 'Articulaciones', icon: '🦴' },
+                      ].map((area) => (
+                        <button
+                          key={area.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedHealthAreas(prev =>
+                              prev.includes(area.id) ? prev.filter(a => a !== area.id) : [...prev, area.id]
+                            );
+                          }}
+                          className={`px-3.5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                            selectedHealthAreas.includes(area.id)
+                              ? 'bg-brand-green-600 text-white shadow-sm'
+                              : 'bg-slate-50 text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
+                          }`}
+                        >
+                          <span className="mr-1.5">{area.icon}</span>{area.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {/* Paso 2: Objetivo */}
-                <div className="mb-8">
-                  <p className="text-sm font-semibold text-slate-700 mb-3">2. Resultado esperado <span className="text-slate-400 font-normal">(opcional)</span></p>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { id: 'inmediato', label: 'Alivio rápido' },
-                      { id: 'largo', label: 'Mejora a largo plazo' },
-                      { id: 'preventivo', label: 'Prevención' },
-                      { id: 'optimizar', label: 'Optimizar rendimiento' },
-                    ].map((goal) => (
-                      <button
-                        key={goal.id}
-                        type="button"
-                        onClick={() => setSelectedGoal(prev => prev === goal.id ? '' : goal.id)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                          selectedGoal === goal.id
-                            ? 'bg-brand-green-600 text-white'
-                            : 'bg-slate-50 text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
-                        }`}
-                      >
-                        {goal.label}
-                      </button>
-                    ))}
+                  {/* Step 2 */}
+                  <div className="p-6 sm:p-8 border-b border-slate-100">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-7 h-7 rounded-full bg-brand-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">2</div>
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800">Resultado esperado</p>
+                        <p className="text-xs text-slate-400">Elige uno</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: 'inmediato', label: 'Alivio rápido' },
+                        { id: 'largo', label: 'Mejora a largo plazo' },
+                        { id: 'preventivo', label: 'Prevención' },
+                        { id: 'optimizar', label: 'Optimizar rendimiento' },
+                      ].map((goal) => (
+                        <button
+                          key={goal.id}
+                          type="button"
+                          onClick={() => setSelectedGoal(prev => prev === goal.id ? '' : goal.id)}
+                          className={`px-3.5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                            selectedGoal === goal.id
+                              ? 'bg-brand-green-600 text-white shadow-sm'
+                              : 'bg-slate-50 text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
+                          }`}
+                        >
+                          {goal.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {/* Paso 3: Descripción libre */}
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-4">
-                    <p className="text-sm font-semibold text-slate-700 mb-3">3. Cuéntanos más</p>
+                  {/* Step 3 */}
+                  <form onSubmit={handleSubmit} className="p-6 sm:p-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-7 h-7 rounded-full bg-brand-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">3</div>
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800">Cuéntanos más</p>
+                        <p className="text-xs text-slate-400">Describe tus síntomas u objetivos</p>
+                      </div>
+                    </div>
+
                     <textarea
                       value={userInput}
                       onChange={handleInputChange}
-                      placeholder="Describe tu objetivo de salud, síntomas o lo que quieres mejorar..."
-                      className="w-full p-5 border border-slate-200 rounded-2xl focus:border-brand-green-500 focus:ring-2 focus:ring-brand-green-100 focus:outline-none resize-none text-base text-slate-700 bg-white"
+                      placeholder="Ej: Tengo poca energía por las tardes y quiero mejorar mi concentración..."
+                      className="w-full p-4 border border-slate-200 rounded-xl focus:border-brand-green-400 focus:ring-2 focus:ring-brand-green-100 focus:outline-none resize-none text-sm text-slate-700 bg-slate-50 placeholder:text-slate-400"
                       rows={3}
                     />
-                  </div>
 
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {[
-                      'Quiero más energía',
-                      'Mejorar mi digestión',
-                      'Fortalecer mi sistema inmune',
-                      'Dormir mejor',
-                    ].map((suggestion) => (
-                      <button
-                        key={suggestion}
-                        type="button"
-                        onClick={() => setUserInput(suggestion)}
-                        className="text-xs px-3 py-1.5 bg-slate-50 text-slate-500 rounded-full hover:bg-brand-green-50 hover:text-brand-green-700 transition-colors border border-slate-100"
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isLoading || !userInput.trim()}
-                    className="w-full py-4 bg-brand-green-600 text-white text-base font-semibold rounded-full hover:bg-brand-green-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? 'Analizando tu perfil...' : 'Obtener Recomendación'}
-                  </button>
-
-                  {error && (
-                    <div className="mt-6 p-4 bg-red-50 rounded-2xl">
-                      <p className="text-red-600 text-center text-sm font-medium">{error}</p>
+                    <div className="flex flex-wrap gap-1.5 mt-3 mb-6">
+                      {[
+                        'Quiero más energía',
+                        'Mejorar mi digestión',
+                        'Fortalecer mi sistema inmune',
+                        'Dormir mejor',
+                      ].map((suggestion) => (
+                        <button
+                          key={suggestion}
+                          type="button"
+                          onClick={() => setUserInput(suggestion)}
+                          className="text-[11px] px-2.5 py-1 bg-white text-slate-400 rounded-full hover:bg-brand-green-50 hover:text-brand-green-700 transition-colors border border-slate-150"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
                     </div>
-                  )}
-                </form>
+
+                    <button
+                      type="submit"
+                      disabled={isLoading || !userInput.trim()}
+                      className="w-full py-3.5 bg-brand-green-600 text-white text-sm font-semibold rounded-full hover:bg-brand-green-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {isLoading ? 'Analizando tu perfil...' : (
+                        <>Obtener Recomendación <ArrowRight className="w-4 h-4" /></>
+                      )}
+                    </button>
+
+                    {error && (
+                      <div className="mt-4 p-3 bg-red-50 rounded-xl">
+                        <p className="text-red-600 text-center text-sm font-medium">{error}</p>
+                      </div>
+                    )}
+                  </form>
+                </div>
 
                 {isLoading && <Spinner />}
                 {recommendation && (
@@ -425,7 +446,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Tests de Salud */}
-            <section id="tests" className="py-20 sm:py-28 bg-slate-50">
+            <section id="tests" className="py-20 sm:py-28 bg-white">
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="mb-10">
                   <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Lora, serif' }}>
@@ -488,7 +509,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Kits Estratégicos */}
-            <section className="py-20 sm:py-28 bg-white">
+            <section className="py-20 sm:py-28 bg-slate-50">
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
                   <div>
@@ -528,7 +549,7 @@ const App: React.FC = () => {
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                         activeKitFilter === filter.id
                           ? 'bg-brand-green-600 text-white'
-                          : 'bg-slate-50 text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
+                          : 'bg-white text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
                       }`}
                     >
                       {filter.label}
@@ -590,7 +611,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Explorar Tienda CTA */}
-            <section id="productos" className="py-20 sm:py-28 bg-slate-50">
+            <section id="productos" className="py-20 sm:py-28 bg-white">
               <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Lora, serif' }}>
                   Explora nuestro catálogo completo

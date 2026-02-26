@@ -38,7 +38,7 @@ const ProductGridModern: React.FC<ProductGridModernProps> = ({
   const displayProducts = products.slice(0, 6);
 
   return (
-    <section className="py-20 sm:py-28 bg-white">
+    <section className="py-20 sm:py-28 bg-white" id="productos-destacados">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {(title || subtitle) && (
           <motion.div

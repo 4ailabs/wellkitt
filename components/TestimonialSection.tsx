@@ -49,9 +49,9 @@ const TestimonialSection: React.FC = () => {
   const t = testimonials[current];
 
   return (
-    <section className="py-20 sm:py-28 bg-white">
+    <section className="py-20 sm:py-28 bg-slate-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl px-8 sm:px-16 py-16 sm:py-20 overflow-hidden bg-slate-50 border border-slate-100">
+        <div className="relative rounded-3xl px-8 sm:px-16 py-16 sm:py-20 overflow-hidden bg-white border border-slate-100">
           {/* Arrows */}
           <div className="absolute top-6 right-6 flex items-center gap-2 z-10">
             <button
