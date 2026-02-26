@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { products as baseProducts, kits } from './constants/data';
 import productosJsonRaw from './constants/Productos.json';
 import { Product, Kit, Recommendation, SaladRecipe } from './types';
@@ -7,8 +7,6 @@ import KitCard from './components/KitCard';
 import RecommendationResult from './components/RecommendationResult';
 import Spinner from './components/Spinner';
 import { getKitRecommendation } from './services/geminiService';
-import ProductCardPremium from './components/ProductCardPremium';
-import ProductListItem from './components/ProductListItem';
 import DetailModal from './components/DetailModal';
 import EndotelioTest from './components/EndotelioTest';
 import NutrigenomicaTest from './components/NutrigenomicaTest';
@@ -21,8 +19,8 @@ import SaladsBank from './components/SaladsBank';
 import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/useRecommendationHistory';
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
-import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
-import { List, Heart, Droplets, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight, Salad, CheckCircle2 } from 'lucide-react';
+import { mainCategories } from './components/category-config';
+import { Heart, Droplets, Dna, ArrowRight } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import HeroModern from './components/HeroModern';
 import FeaturesSection from './components/FeaturesSection';
@@ -30,136 +28,8 @@ import TestimonialSection from './components/TestimonialSection';
 import CTASection from './components/CTASection';
 import ProductGridModern from './components/ProductGridModern';
 import FooterModern from './components/FooterModern';
+import StorePage from './components/StorePage';
 import useMobileDetect from './hooks/useMobileDetect';
-import { useDebounce } from './hooks/useDebounce';
-import { normalizeText, isFuzzyMatch, calculateRelevanceScore, getSearchSuggestions } from './utils/searchUtils';
-
-type SortOption = 'default' | 'name-asc' | 'name-desc' | 'category';
-type ViewMode = 'grid' | 'list';
-
-// Componente Carrusel de Productos
-interface ProductCarouselProps {
-  products: Product[];
-  onShowDetails: (product: Product) => void;
-}
-
-const ProductCarousel: React.FC<ProductCarouselProps> = ({ products, onShowDetails }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { isMobile } = useMobileDetect();
-
-  // Productos visibles por vez según dispositivo
-  const itemsPerView = isMobile ? 1 : 3;
-  const maxIndex = Math.max(0, products.length - itemsPerView);
-
-  const scrollToIndex = (index: number) => {
-    const clampedIndex = Math.max(0, Math.min(index, maxIndex));
-    setCurrentIndex(clampedIndex);
-    
-    if (scrollContainerRef.current) {
-      const cardWidth = scrollContainerRef.current.children[0]?.clientWidth || 0;
-      const gap = 16; // gap-4 = 16px
-      const scrollPosition = clampedIndex * (cardWidth + gap);
-      scrollContainerRef.current.scrollTo({
-        left: scrollPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  const handlePrev = () => {
-    scrollToIndex(currentIndex - 1);
-  };
-
-  const handleNext = () => {
-    scrollToIndex(currentIndex + 1);
-  };
-
-  return (
-    <div className="relative">
-      {/* Contenedor del carrusel */}
-      <div className="relative overflow-hidden">
-        <div
-          ref={scrollContainerRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
-          style={{
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-          onScroll={(e) => {
-            const container = e.currentTarget;
-            const cardWidth = container.children[0]?.clientWidth || 0;
-            const gap = 16;
-            const newIndex = Math.round(container.scrollLeft / (cardWidth + gap));
-            setCurrentIndex(newIndex);
-          }}
-        >
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="flex-shrink-0 w-full md:w-[calc(33.333%-0.75rem)]"
-            >
-              <ProductCardPremium
-                product={product}
-                onShowDetails={() => onShowDetails(product)}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Botones de navegación - Solo mostrar si hay más productos que los visibles */}
-      {products.length > itemsPerView && (
-        <>
-          <button
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-10 bg-white rounded-full p-2 md:p-3 shadow-lg border border-gray-200 hover:bg-brand-green-50 hover:border-brand-green-300 transition-all ${
-              currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
-            }`}
-            aria-label="Producto anterior"
-          >
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-slate-700" />
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={currentIndex >= maxIndex}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 z-10 bg-white rounded-full p-2 md:p-3 shadow-lg border border-gray-200 hover:bg-brand-green-50 hover:border-brand-green-300 transition-all ${
-              currentIndex >= maxIndex ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
-            }`}
-            aria-label="Siguiente producto"
-          >
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-slate-700" />
-          </button>
-        </>
-      )}
-
-      {/* Indicadores de posición - Solo en móvil */}
-      {isMobile && products.length > 1 && (
-        <div className="flex justify-center gap-2 mt-4">
-          {products.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToIndex(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentIndex
-                  ? 'w-8 bg-brand-green-600'
-                  : 'w-2 bg-gray-300 hover:bg-gray-400'
-              }`}
-              aria-label={`Ir al producto ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
-
-      <style>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-    </div>
-  );
-};
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState('');
@@ -167,20 +37,14 @@ const App: React.FC = () => {
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<Kit | Product | null>(null);
-  const [activeCategory, setActiveCategory] = useState('All');
   const [showEndotelioTest, setShowEndotelioTest] = useState(false);
   const [showNutrigenomicaTest, setShowNutrigenomicaTest] = useState(false);
   const [showSalads, setShowSalads] = useState(false);
+  const [showStore, setShowStore] = useState(false);
+  const [storeInitialCategory, setStoreInitialCategory] = useState<string | undefined>(undefined);
   const [showSplash, setShowSplash] = useState(true);
   const [showAllKits, setShowAllKits] = useState(false);
   const [activeKitFilter, setActiveKitFilter] = useState<string>('all');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-  const [sortBy, setSortBy] = useState<SortOption>('default');
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [selectedHealthAreas, setSelectedHealthAreas] = useState<string[]>([]);
   const [selectedGoal, setSelectedGoal] = useState<string>('');
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -199,16 +63,19 @@ const App: React.FC = () => {
 
   // Detectar dispositivo móvil
   const { isMobile } = useMobileDetect();
-  
-  // Productos por página según dispositivo y vista
-  const productsPerPage = viewMode === 'list'
-    ? (isMobile ? 8 : 12)  // Lista: más productos porque ocupan menos espacio
-    : (isMobile ? 6 : 12); // Grid: tarjetas premium más grandes
 
   const handleBackToMain = () => {
     setShowEndotelioTest(false);
     setShowNutrigenomicaTest(false);
     setShowSalads(false);
+    setShowStore(false);
+    setStoreInitialCategory(undefined);
+  };
+
+  const handleOpenStore = (category?: string) => {
+    setStoreInitialCategory(category);
+    setShowStore(true);
+    window.scrollTo({ top: 0 });
   };
 
   const handleSaladsBack = () => {
@@ -343,135 +210,6 @@ const App: React.FC = () => {
     setSelectedItem(null);
   };
 
-  const handleCategoryChange = (category: string) => {
-    setActiveCategory(category);
-    setCurrentPage(1); // Resetear a la primera página
-    
-    // Scroll automático a la grilla de productos en móviles
-    setTimeout(() => {
-      const productsGrid = document.querySelector('[data-section="products-grid"]');
-      if (productsGrid) {
-        productsGrid.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
-        });
-      }
-    }, 200);
-  };
-
-  const handleSubcategoryChange = (subcategory: string) => {
-    setActiveCategory(subcategory);
-    setCurrentPage(1); // Resetear a la primera página
-    // Scroll automático a la grilla de productos en móviles
-    setTimeout(() => {
-      const productsGrid = document.querySelector('[data-section="products-grid"]');
-      if (productsGrid) {
-        productsGrid.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
-        });
-      }
-    }, 200);
-  };
-
-  // Sugerencias de búsqueda
-  const searchSuggestions = useMemo(() => {
-    return getSearchSuggestions(debouncedSearchQuery, products);
-  }, [debouncedSearchQuery, products]);
-
-  // Filtrado inteligente de productos con búsqueda fuzzy
-  const filteredProducts = useMemo(() => {
-    return products.filter(p => {
-      // Filtro por categoría
-      const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
-
-      // Filtro por búsqueda con debounce
-      if (!debouncedSearchQuery.trim()) {
-        return matchesCategory;
-      }
-
-      const query = debouncedSearchQuery;
-
-      // Búsqueda fuzzy tolerante a errores tipográficos
-      const matchesSearch =
-        isFuzzyMatch(query, p.name) ||
-        isFuzzyMatch(query, p.brand) ||
-        isFuzzyMatch(query, p.category) ||
-        p.ingredients.some((ing: string) => isFuzzyMatch(query, ing)) ||
-        p.benefits.some((ben: string) => isFuzzyMatch(query, ben));
-
-      return matchesCategory && matchesSearch;
-    });
-  }, [products, activeCategory, debouncedSearchQuery]);
-
-  // Ordenamiento de productos (con relevancia cuando hay búsqueda)
-  const sortedProducts = useMemo(() => {
-    const sorted = [...filteredProducts];
-
-    // Si hay búsqueda activa y ordenamiento por defecto, ordenar por relevancia
-    if (debouncedSearchQuery.trim() && sortBy === 'default') {
-      return sorted.sort((a, b) => {
-        const scoreA = calculateRelevanceScore(debouncedSearchQuery, a);
-        const scoreB = calculateRelevanceScore(debouncedSearchQuery, b);
-        return scoreB - scoreA; // Mayor relevancia primero
-      });
-    }
-
-    // Ordenamiento manual seleccionado
-    return sorted.sort((a, b) => {
-      switch (sortBy) {
-        case 'name-asc':
-          return a.name.localeCompare(b.name);
-        case 'name-desc':
-          return b.name.localeCompare(a.name);
-        case 'category':
-          return a.category.localeCompare(b.category);
-        default:
-          return 0;
-      }
-    });
-  }, [filteredProducts, sortBy, debouncedSearchQuery]);
-
-  // Contador de productos por categoría
-  const getProductCountByCategory = (category: string): number => {
-    if (category === 'All') return products.length;
-
-    // Si es una categoría principal, contar todas las subcategorías
-    const mainCat = mainCategories.find(cat => cat.name === category);
-    if (mainCat) {
-      const subcats = getSubcategories(category);
-      return products.filter(p => subcats.includes(p.category)).length;
-    }
-
-    // Si es una subcategoría específica
-    return products.filter(p => p.category === category).length;
-  };
-
-  // Paginación de productos
-  const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    // Scroll al inicio de los productos
-    setTimeout(() => {
-      const productsGrid = document.querySelector('[data-section="products-grid"]');
-      if (productsGrid) {
-        productsGrid.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
-        });
-      }
-    }, 100);
-  };
-
-  // Obtener subcategorías de una categoría principal
-  const getSubcategoriesForMainCategory = (mainCategory: string): string[] => {
-    return getSubcategories(mainCategory);
-  };
-
   // Scroll a una sección específica
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -486,14 +224,17 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 font-sans text-slate-800">
+    <div className="min-h-screen bg-white text-slate-800">
       {/* Navbar que aparece al scroll */}
       <Navbar
         onOpenCart={() => setIsCartOpen(true)}
         onOpenFavorites={() => setIsFavoritesOpen(true)}
+        onOpenStore={() => handleOpenStore()}
+        onGoHome={handleBackToMain}
+        isOnLanding={!showEndotelioTest && !showNutrigenomicaTest && !showSalads && !showStore}
       />
 
-      <main className="container mx-auto px-4 py-8 md:py-12" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <main style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {showEndotelioTest ? (
           <EndotelioTest
             allProducts={products}
@@ -514,6 +255,13 @@ const App: React.FC = () => {
             onBack={handleSaladsBack}
             onShowProductDetails={handleShowDetails}
           />
+        ) : showStore ? (
+          <StorePage
+            products={products}
+            onBack={handleBackToMain}
+            onShowDetails={handleShowDetails}
+            initialCategory={storeInitialCategory}
+          />
         ) : (
           <>
             {/* Hero Section */}
@@ -529,897 +277,347 @@ const App: React.FC = () => {
               title="Explora | Productos Premium"
               subtitle="Selecciones cuidadas de marcas certificadas"
               onShowDetails={handleShowDetails}
+              onViewAll={() => handleOpenStore()}
             />
 
             {/* Testimonios */}
             <TestimonialSection />
 
-            {/* CTA Final */}
-            <CTASection onStartTest={() => scrollToSection('recomendador')} />
+            {/* CTA Categorías */}
+            <CTASection
+              onStartTest={() => scrollToSection('tests')}
+              onShowSalads={() => setShowSalads(true)}
+              onScrollToProducts={() => handleOpenStore()}
+            />
 
-            {/* Sistema de Recomendación Mejorado */}
-            <section id="recomendador-section" className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
-              <div id="recomendador" className="max-w-3xl mx-auto mb-8">
-                        {/* Paso 1: Áreas de Salud */}
-                        <div className="mb-6">
-                            <p className="text-sm md:text-base text-slate-600 mb-3 font-medium">
-                                1. ¿Qué áreas de salud te interesan? (opcional)
-                            </p>
-                            <div className="flex flex-wrap justify-center gap-2">
-                                {[
-                                    { id: 'energia', label: 'Energía', icon: '⚡' },
-                                    { id: 'digestion', label: 'Digestión', icon: '🌿' },
-                                    { id: 'inmunidad', label: 'Inmunidad', icon: '🛡️' },
-                                    { id: 'sueno', label: 'Sueño', icon: '😴' },
-                                    { id: 'estres', label: 'Estrés', icon: '🧘' },
-                                    { id: 'cardiovascular', label: 'Corazón', icon: '❤️' },
-                                    { id: 'cognitivo', label: 'Mente', icon: '🧠' },
-                                    { id: 'articular', label: 'Articulaciones', icon: '🦴' },
-                                ].map((area) => (
-                                    <button
-                                        key={area.id}
-                                        type="button"
-                                        onClick={() => {
-                                            setSelectedHealthAreas(prev =>
-                                                prev.includes(area.id)
-                                                    ? prev.filter(a => a !== area.id)
-                                                    : [...prev, area.id]
-                                            );
-                                        }}
-                                        className={`px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 ${
-                                            selectedHealthAreas.includes(area.id)
-                                                ? 'bg-brand-green-600 text-white border-brand-green-600'
-                                                : 'bg-white text-slate-600 border-gray-200 hover:border-brand-green-400'
-                                        }`}
-                                    >
-                                        <span className="mr-1">{area.icon}</span>
-                                        {area.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
+            {/* Recomendador IA */}
+            <section id="recomendador" className="py-20 sm:py-28 bg-white">
+              <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-10">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Lora, serif' }}>
+                    Tu recomendación personalizada
+                  </h2>
+                  <p className="text-slate-500 text-base mt-3 max-w-lg mx-auto">
+                    Nuestra IA analiza tu perfil y te sugiere los productos ideales para tus objetivos.
+                  </p>
+                </div>
 
-                        {/* Paso 2: Objetivo */}
-                        <div className="mb-6">
-                            <p className="text-sm md:text-base text-slate-600 mb-3 font-medium">
-                                2. ¿Qué resultado esperas? (opcional)
-                            </p>
-                            <div className="flex flex-wrap justify-center gap-2">
-                                {[
-                                    { id: 'inmediato', label: 'Alivio rápido' },
-                                    { id: 'largo', label: 'Mejora a largo plazo' },
-                                    { id: 'preventivo', label: 'Prevención' },
-                                    { id: 'optimizar', label: 'Optimizar rendimiento' },
-                                ].map((goal) => (
-                                    <button
-                                        key={goal.id}
-                                        type="button"
-                                        onClick={() => setSelectedGoal(prev => prev === goal.id ? '' : goal.id)}
-                                        className={`px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm font-medium transition-all duration-200 border-2 ${
-                                            selectedGoal === goal.id
-                                                ? 'bg-slate-800 text-white border-slate-800'
-                                                : 'bg-white text-slate-600 border-gray-200 hover:border-slate-400'
-                                        }`}
-                                    >
-                                        {goal.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Paso 3: Descripción libre */}
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <p className="text-sm md:text-base text-slate-600 mb-3 font-medium">
-                                    3. Cuéntanos más sobre tu situación:
-                                </p>
-                                <textarea
-                                    value={userInput}
-                                    onChange={handleInputChange}
-                                    placeholder="Describe tu objetivo de salud, síntomas o lo que quieres mejorar..."
-                                    className="w-full p-4 md:p-5 border-2 border-gray-200 rounded-2xl focus:border-brand-green-500 focus:outline-none resize-none text-base md:text-lg text-slate-700 bg-white shadow-sm"
-                                    rows={3}
-                                />
-                            </div>
-
-                            {/* Sugerencias de ejemplo */}
-                            <div className="mb-6">
-                                <p className="text-xs md:text-sm text-slate-500 mb-2">
-                                    Prueba con alguno de estos ejemplos:
-                                </p>
-                                <div className="flex flex-wrap justify-center gap-2">
-                                    {[
-                                        'Quiero más energía durante el día',
-                                        'Mejorar mi digestión',
-                                        'Fortalecer mi sistema inmune',
-                                        'Reducir el estrés y dormir mejor',
-                                        'Mejorar mi concentración',
-                                    ].map((suggestion) => (
-                                        <button
-                                            key={suggestion}
-                                            type="button"
-                                            onClick={() => setUserInput(suggestion)}
-                                            className="text-xs md:text-sm px-3 py-1.5 bg-gray-100 text-slate-600 rounded-lg hover:bg-brand-green-50 hover:text-brand-green-700 transition-colors"
-                                        >
-                                            "{suggestion}"
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={isLoading || !userInput.trim()}
-                                className="group inline-flex items-center justify-center gap-3 text-brand-green-600 text-lg md:text-xl font-semibold hover:gap-4 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <span>{isLoading ? 'Analizando tu perfil...' : 'Obtener Recomendación Personalizada'}</span>
-                                {!isLoading && (
-                                    <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                )}
-                            </button>
-
-                            {error && (
-                                <div className="mt-6 p-4 bg-red-50 border-l-4 border-red-500 rounded">
-                                    <p className="text-red-600 text-center font-medium">{error}</p>
-                                </div>
-                            )}
-                        </form>
-
-                    {isLoading && <Spinner />}
-                    {recommendation && (
-                      <RecommendationResult
-                        recommendation={recommendation}
-                        allProducts={products}
-                        onNewRecommendation={() => {
-                          setRecommendation(null);
-                          setUserInput('');
-                          setSelectedHealthAreas([]);
-                          setSelectedGoal('');
+                {/* Paso 1: Áreas de Salud */}
+                <div className="mb-8">
+                  <p className="text-sm font-semibold text-slate-700 mb-3">1. Áreas de salud <span className="text-slate-400 font-normal">(opcional)</span></p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { id: 'energia', label: 'Energía', icon: '⚡' },
+                      { id: 'digestion', label: 'Digestión', icon: '🌿' },
+                      { id: 'inmunidad', label: 'Inmunidad', icon: '🛡️' },
+                      { id: 'sueno', label: 'Sueño', icon: '😴' },
+                      { id: 'estres', label: 'Estrés', icon: '🧘' },
+                      { id: 'cardiovascular', label: 'Corazón', icon: '❤️' },
+                      { id: 'cognitivo', label: 'Mente', icon: '🧠' },
+                      { id: 'articular', label: 'Articulaciones', icon: '🦴' },
+                    ].map((area) => (
+                      <button
+                        key={area.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedHealthAreas(prev =>
+                            prev.includes(area.id) ? prev.filter(a => a !== area.id) : [...prev, area.id]
+                          );
                         }}
-                      />
-                    )}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                          selectedHealthAreas.includes(area.id)
+                            ? 'bg-brand-green-600 text-white'
+                            : 'bg-slate-50 text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
+                        }`}
+                      >
+                        <span className="mr-1.5">{area.icon}</span>{area.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Paso 2: Objetivo */}
+                <div className="mb-8">
+                  <p className="text-sm font-semibold text-slate-700 mb-3">2. Resultado esperado <span className="text-slate-400 font-normal">(opcional)</span></p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { id: 'inmediato', label: 'Alivio rápido' },
+                      { id: 'largo', label: 'Mejora a largo plazo' },
+                      { id: 'preventivo', label: 'Prevención' },
+                      { id: 'optimizar', label: 'Optimizar rendimiento' },
+                    ].map((goal) => (
+                      <button
+                        key={goal.id}
+                        type="button"
+                        onClick={() => setSelectedGoal(prev => prev === goal.id ? '' : goal.id)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                          selectedGoal === goal.id
+                            ? 'bg-brand-green-600 text-white'
+                            : 'bg-slate-50 text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
+                        }`}
+                      >
+                        {goal.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Paso 3: Descripción libre */}
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-4">
+                    <p className="text-sm font-semibold text-slate-700 mb-3">3. Cuéntanos más</p>
+                    <textarea
+                      value={userInput}
+                      onChange={handleInputChange}
+                      placeholder="Describe tu objetivo de salud, síntomas o lo que quieres mejorar..."
+                      className="w-full p-5 border border-slate-200 rounded-2xl focus:border-brand-green-500 focus:ring-2 focus:ring-brand-green-100 focus:outline-none resize-none text-base text-slate-700 bg-white"
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {[
+                      'Quiero más energía',
+                      'Mejorar mi digestión',
+                      'Fortalecer mi sistema inmune',
+                      'Dormir mejor',
+                    ].map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        type="button"
+                        onClick={() => setUserInput(suggestion)}
+                        className="text-xs px-3 py-1.5 bg-slate-50 text-slate-500 rounded-full hover:bg-brand-green-50 hover:text-brand-green-700 transition-colors border border-slate-100"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading || !userInput.trim()}
+                    className="w-full py-4 bg-brand-green-600 text-white text-base font-semibold rounded-full hover:bg-brand-green-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? 'Analizando tu perfil...' : 'Obtener Recomendación'}
+                  </button>
+
+                  {error && (
+                    <div className="mt-6 p-4 bg-red-50 rounded-2xl">
+                      <p className="text-red-600 text-center text-sm font-medium">{error}</p>
+                    </div>
+                  )}
+                </form>
+
+                {isLoading && <Spinner />}
+                {recommendation && (
+                  <RecommendationResult
+                    recommendation={recommendation}
+                    allProducts={products}
+                    onNewRecommendation={() => {
+                      setRecommendation(null);
+                      setUserInput('');
+                      setSelectedHealthAreas([]);
+                      setSelectedGoal('');
+                    }}
+                  />
+                )}
               </div>
             </section>
 
-            {/* Carrusel de Productos Destacados - Section vieja */}
-            <section className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
-                <div className="mb-6 md:mb-8 text-center">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                        Productos <span className="text-brand-green-600">Destacados</span>
-                    </h2>
-                    <p className="text-sm md:text-base text-slate-600 max-w-2xl mx-auto">
-                        Descubre nuestros productos más populares y recomendados
-                    </p>
+            {/* Tests de Salud */}
+            <section id="tests" className="py-20 sm:py-28 bg-slate-50">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mb-10">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Lora, serif' }}>
+                    Tests de Salud
+                  </h2>
+                  <p className="text-slate-500 text-base mt-2 max-w-md">
+                    Evaluaciones científicas para conocer tu perfil y recibir recomendaciones personalizadas.
+                  </p>
                 </div>
 
-                <ProductCarousel
-                    products={products.slice(0, 12)}
-                    onShowDetails={handleShowDetails}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {[
+                    {
+                      icon: <Heart className="w-5 h-5" strokeWidth={2} />,
+                      title: 'Test Endotelial',
+                      desc: 'Evalúa tu salud cardiovascular con 20 preguntas sobre 6 áreas fundamentales.',
+                      action: () => setShowEndotelioTest(true),
+                      href: undefined,
+                    },
+                    {
+                      icon: <Dna className="w-5 h-5" strokeWidth={2} />,
+                      title: 'Test Nutrigenómico',
+                      desc: 'Descubre cómo tus genes responden a los alimentos. 20 preguntas sobre 7 áreas genéticas.',
+                      action: () => setShowNutrigenomicaTest(true),
+                      href: undefined,
+                    },
+                    {
+                      icon: <Droplets className="w-5 h-5" strokeWidth={2} />,
+                      title: 'Sueroterapia Premium',
+                      desc: 'Hidratación intravenosa con vitaminas, minerales y antioxidantes.',
+                      action: undefined,
+                      href: 'https://sueroterapia-premiun.vercel.app',
+                    },
+                  ].map((test) => (
+                    <div
+                      key={test.title}
+                      className="group bg-white rounded-2xl p-8 hover:shadow-md transition-shadow cursor-pointer border border-slate-100"
+                      onClick={test.action}
+                    >
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-brand-green-50 text-brand-green-600">
+                        {test.icon}
+                      </div>
+                      <h3 className="text-lg font-bold text-slate-900 mb-3 leading-snug" style={{ fontFamily: 'Lora, serif' }}>
+                        {test.title}
+                      </h3>
+                      <p className="text-sm text-slate-500 leading-relaxed mb-6">{test.desc}</p>
+                      {test.href ? (
+                        <a href={test.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-green-600 hover:text-brand-green-700 transition-colors">
+                          Comenzar <ArrowRight className="w-4 h-4" />
+                        </a>
+                      ) : (
+                        <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-green-600 group-hover:text-brand-green-700 transition-colors">
+                          Comenzar <ArrowRight className="w-4 h-4" />
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </section>
 
-            {/* Divisor */}
-            <div className="max-w-5xl mx-auto mb-12 md:mb-16 px-4">
-                <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-            </div>
-
-            {/* Banco de Ensaladas - Sección Destacada */}
-            <section className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
-                <div className="relative bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl p-8 md:p-12 border border-green-100 shadow-xl overflow-hidden">
-                    {/* Patrón decorativo de fondo */}
-                    <div className="absolute inset-0 opacity-5">
-                        <div className="absolute top-0 left-0 w-64 h-64 bg-green-400 rounded-full filter blur-3xl"></div>
-                        <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-400 rounded-full filter blur-3xl"></div>
-                    </div>
-
-                    {/* Contenido */}
-                    <div className="relative z-10">
-                        <div className="text-center mb-6 md:mb-8">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-600/10 border border-green-600/20 text-green-700 rounded-full text-sm font-semibold mb-4">
-                                <Salad className="w-4 h-4" />
-                                <span>Nutrigenómica Aplicada</span>
-                            </div>
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3 md:mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                Banco de <span className="text-green-600">Ensaladas Maestras</span>
-                            </h2>
-                            <p className="text-base md:text-lg text-slate-700 max-w-3xl mx-auto leading-relaxed">
-                                Recetas diseñadas con precisión científica para activar mecanismos moleculares específicos.
-                                Cada ensalada optimiza tu salud a nivel celular con productos complementarios estratégicos.
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <button
-                                onClick={() => setShowSalads(true)}
-                                className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-lg font-bold px-8 py-4 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
-                            >
-                                <Salad className="w-6 h-6" />
-                                <span>Explorar Ensaladas</span>
-                                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </button>
-
-                            <div className="flex items-center gap-2 text-sm text-slate-600">
-                                <CheckCircle2 className="w-5 h-5 text-green-600" />
-                                <span>4 Recetas Maestras • Lista de Compras • Productos Recomendados</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Divisor */}
-            <div className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
-                <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-            </div>
-
-            {/* Tests Section - Agrupados */}
-            <section id="tests" className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
-                <div className="text-center mb-8 md:mb-12 lg:mb-16">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 md:mb-4 tracking-tight px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                        Tests de Salud <span className="text-brand-green-600">Personalizados</span>
+            {/* Kits Estratégicos */}
+            <section className="py-20 sm:py-28 bg-white">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+                  <div>
+                    <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Lora, serif' }}>
+                      Kits Estratégicos
                     </h2>
-                    <p className="text-base md:text-lg lg:text-xl text-slate-600 font-light max-w-3xl mx-auto px-2">
-                        Evaluaciones científicas para conocer tu perfil de salud y recibir recomendaciones personalizadas
+                    <p className="text-slate-500 text-base mt-2 max-w-md">
+                      Soluciones diseñadas para objetivos de salud específicos.
                     </p>
+                  </div>
+                  {!showAllKits && kits.length > 3 && (
+                    <button
+                      onClick={() => setShowAllKits(true)}
+                      className="flex items-center gap-1.5 text-sm font-semibold text-slate-900 hover:text-brand-green-600 transition-colors shrink-0 self-start sm:self-auto"
+                    >
+                      Ver Todos ({kits.length}) <ArrowRight className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
-                    {/* Endotelio Test */}
-                    <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
-                        <div className="h-full flex flex-col">
-                            <div className="mb-3 md:mb-4">
-                                <Heart className="w-10 h-10 md:w-12 md:h-12 text-red-600 mb-2 md:mb-3" strokeWidth={1.5} />
-                                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                    Test Endotelial
-                                </h3>
-                                <div className="h-0.5 w-12 md:w-16 bg-red-600 mb-3 md:mb-4"></div>
-                            </div>
-                            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
-                                Evalúa tu salud cardiovascular con 20 preguntas sobre 6 áreas fundamentales.
-                            </p>
-                            <button
-                                onClick={() => setShowEndotelioTest(true)}
-                                className="group/btn inline-flex items-center gap-2 text-red-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
-                            >
-                                <span>Realizar Test</span>
-                                <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Nutrigenómica Test */}
-                    <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
-                        <div className="h-full flex flex-col">
-                            <div className="mb-3 md:mb-4">
-                                <Dna className="w-10 h-10 md:w-12 md:h-12 text-purple-600 mb-2 md:mb-3" strokeWidth={1.5} />
-                                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                    Test Nutrigenómico
-                                </h3>
-                                <div className="h-0.5 w-12 md:w-16 bg-purple-600 mb-3 md:mb-4"></div>
-                            </div>
-                            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
-                                Descubre cómo tus genes responden a los alimentos. 20 preguntas sobre 7 áreas genéticas.
-                            </p>
-                            <button
-                                onClick={() => setShowNutrigenomicaTest(true)}
-                                className="group/btn inline-flex items-center gap-2 text-purple-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
-                            >
-                                <span>Realizar Test</span>
-                                <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Sueroterapia */}
-                    <div className="group bg-white/50 rounded-2xl p-6 md:p-0 md:bg-transparent">
-                        <div className="h-full flex flex-col">
-                            <div className="mb-3 md:mb-4">
-                                <Droplets className="w-10 h-10 md:w-12 md:h-12 text-blue-600 mb-2 md:mb-3" strokeWidth={1.5} />
-                                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                    Sueroterapia Premium
-                                </h3>
-                                <div className="h-0.5 w-12 md:w-16 bg-blue-600 mb-3 md:mb-4"></div>
-                            </div>
-                            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-4 flex-1 leading-relaxed">
-                                Hidratación intravenosa con vitaminas, minerales y antioxidantes. Recupera tu energía inmediatamente.
-                            </p>
-                            <a
-                                href="https://sueroterapia-premiun.vercel.app"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group/btn inline-flex items-center gap-2 text-blue-600 text-base md:text-lg font-semibold hover:gap-3 transition-all duration-300"
-                            >
-                                <span>Realizar Test</span>
-                                <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Separador entre Tests y Kits */}
-            <div className="flex items-center justify-center gap-4 my-12 md:my-16 px-4 max-w-5xl mx-auto">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-slate-300"></div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
-                    <Package className="w-4 h-4 md:w-5 md:h-5 text-brand-green-600" />
-                    <span className="text-xs md:text-sm font-medium text-slate-700">Kits Estratégicos</span>
-                </div>
-                <div className="flex-1 h-px bg-gradient-to-l from-transparent via-slate-300 to-slate-300"></div>
-            </div>
-
-            {/* Pre-defined Kits Section */}
-            <section className="px-4">
-               <div className="text-center mb-8 md:mb-12">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                        O explora nuestros Kits Estratégicos
-                    </h2>
-                    <p className="text-sm md:text-base text-slate-600 max-w-xl mx-auto">
-                        Soluciones expertas diseñadas para los objetivos de salud más comunes.
-                    </p>
+                {/* Kit filters */}
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {[
+                    { id: 'all', label: 'Todos' },
+                    { id: 'detox', label: 'Detox', keywords: ['detox', 'desintox'] },
+                    { id: 'digestivo', label: 'Digestión', keywords: ['digestiv', 'flora', 'intestin'] },
+                    { id: 'estres', label: 'Estrés & Sueño', keywords: ['estrés', 'sueño', 'ansiedad', 'relaj'] },
+                    { id: 'energia', label: 'Energía', keywords: ['energía', 'fatiga', 'rendimiento'] },
+                    { id: 'inmunidad', label: 'Inmunidad', keywords: ['inmun', 'defensa', 'resfri'] },
+                  ].map(filter => (
+                    <button
+                      key={filter.id}
+                      onClick={() => {
+                        setActiveKitFilter(filter.id);
+                        if (filter.id !== 'all') setShowAllKits(true);
+                      }}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                        activeKitFilter === filter.id
+                          ? 'bg-brand-green-600 text-white'
+                          : 'bg-slate-50 text-slate-600 hover:bg-brand-green-50 hover:text-brand-green-700 border border-slate-200'
+                      }`}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
                 </div>
 
-                {/* Filtros por categoría/objetivo */}
-                <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 max-w-4xl mx-auto">
-                    {[
-                        { id: 'all', label: 'Todos', icon: '✨' },
-                        { id: 'detox', label: 'Detox', icon: '🌿', keywords: ['detox', 'desintox'] },
-                        { id: 'digestivo', label: 'Digestión', icon: '🍃', keywords: ['digestiv', 'flora', 'intestin'] },
-                        { id: 'estres', label: 'Estrés & Sueño', icon: '😴', keywords: ['estrés', 'sueño', 'ansiedad', 'relaj'] },
-                        { id: 'energia', label: 'Energía', icon: '⚡', keywords: ['energía', 'fatiga', 'rendimiento'] },
-                        { id: 'hormonal', label: 'Hormonal', icon: '💗', keywords: ['hormonal', 'femenin', 'menopaus'] },
-                        { id: 'articular', label: 'Articulaciones', icon: '🦴', keywords: ['articulacion', 'dolor', 'movilidad', 'inflam'] },
-                        { id: 'inmunidad', label: 'Inmunidad', icon: '🛡️', keywords: ['inmun', 'defensa', 'resfri'] },
-                        { id: 'peso', label: 'Control de Peso', icon: '⚖️', keywords: ['peso', 'metabolismo', 'grasa'] },
-                    ].map(filter => (
-                        <button
-                            key={filter.id}
-                            onClick={() => {
-                                setActiveKitFilter(filter.id);
-                                if (filter.id !== 'all') setShowAllKits(true);
-                            }}
-                            className={`
-                                flex items-center gap-1.5 px-3 md:px-4 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium
-                                transition-all duration-300 border-2
-                                ${activeKitFilter === filter.id
-                                    ? 'bg-brand-green-600 text-white border-brand-green-600 shadow-lg scale-105'
-                                    : 'bg-white text-slate-700 border-slate-200 hover:border-brand-green-400 hover:bg-brand-green-50'
-                                }
-                            `}
-                        >
-                            <span>{filter.icon}</span>
-                            <span>{filter.label}</span>
-                        </button>
-                    ))}
-                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {(() => {
+                    const filterConfig: Record<string, string[]> = {
+                      detox: ['detox', 'desintox'],
+                      digestivo: ['digestiv', 'flora', 'intestin'],
+                      estres: ['estrés', 'sueño', 'ansiedad', 'relaj'],
+                      energia: ['energía', 'fatiga', 'rendimiento'],
+                      inmunidad: ['inmun', 'defensa', 'resfri'],
+                    };
 
-                {/* Grid centrado con justificación mejorada */}
-                <div className={`
-                    grid gap-4 md:gap-6
-                    ${showAllKits
-                        ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-                        : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-                    }
-                    ${!showAllKits ? 'max-w-6xl mx-auto' : ''}
-                `}>
-                    {(() => {
-                        const filterConfig = [
-                            { id: 'all', keywords: [] },
-                            { id: 'detox', keywords: ['detox', 'desintox'] },
-                            { id: 'digestivo', keywords: ['digestiv', 'flora', 'intestin'] },
-                            { id: 'estres', keywords: ['estrés', 'sueño', 'ansiedad', 'relaj'] },
-                            { id: 'energia', keywords: ['energía', 'fatiga', 'rendimiento'] },
-                            { id: 'hormonal', keywords: ['hormonal', 'femenin', 'menopaus'] },
-                            { id: 'articular', keywords: ['articulacion', 'dolor', 'movilidad', 'inflam'] },
-                            { id: 'inmunidad', keywords: ['inmun', 'defensa', 'resfri'] },
-                            { id: 'peso', keywords: ['peso', 'metabolismo', 'grasa'] },
-                        ];
-
-                        const currentFilter = filterConfig.find(f => f.id === activeKitFilter);
-                        const keywords = currentFilter?.keywords || [];
-
-                        const filteredKits = activeKitFilter === 'all'
-                            ? kits
-                            : kits.filter(kit =>
-                                keywords.some(keyword =>
-                                    kit.name.toLowerCase().includes(keyword) ||
-                                    kit.problem.toLowerCase().includes(keyword) ||
-                                    kit.benefit.toLowerCase().includes(keyword)
-                                )
-                            );
-
-                        const kitsToShow = showAllKits ? filteredKits : filteredKits.slice(0, 3);
-
-                        if (kitsToShow.length === 0) {
-                            return (
-                                <div className="col-span-full text-center py-12">
-                                    <p className="text-slate-500 text-lg">No hay kits en esta categoría</p>
-                                    <button
-                                        onClick={() => setActiveKitFilter('all')}
-                                        className="mt-4 text-brand-green-600 hover:text-brand-green-700 font-medium"
-                                    >
-                                        Ver todos los kits
-                                    </button>
-                                </div>
-                            );
-                        }
-
-                        return kitsToShow.map(kit => (
-                            <KitCard
-                                key={kit.id}
-                                kit={kit}
-                                allProducts={products}
-                                onShowDetails={() => handleShowDetails(kit)}
-                            />
-                        ));
-                    })()}
-                </div>
-
-                {/* Botón Ver Más/Menos Kits */}
-                {(() => {
-                    const filterConfig = [
-                        { id: 'all', keywords: [] },
-                        { id: 'detox', keywords: ['detox', 'desintox'] },
-                        { id: 'digestivo', keywords: ['digestiv', 'flora', 'intestin'] },
-                        { id: 'estres', keywords: ['estrés', 'sueño', 'ansiedad', 'relaj'] },
-                        { id: 'energia', keywords: ['energía', 'fatiga', 'rendimiento'] },
-                        { id: 'hormonal', keywords: ['hormonal', 'femenin', 'menopaus'] },
-                        { id: 'articular', keywords: ['articulacion', 'dolor', 'movilidad', 'inflam'] },
-                        { id: 'inmunidad', keywords: ['inmun', 'defensa', 'resfri'] },
-                        { id: 'peso', keywords: ['peso', 'metabolismo', 'grasa'] },
-                    ];
-
-                    const currentFilter = filterConfig.find(f => f.id === activeKitFilter);
-                    const keywords = currentFilter?.keywords || [];
-
+                    const keywords = filterConfig[activeKitFilter] || [];
                     const filteredKits = activeKitFilter === 'all'
-                        ? kits
-                        : kits.filter(kit =>
-                            keywords.some(keyword =>
-                                kit.name.toLowerCase().includes(keyword) ||
-                                kit.problem.toLowerCase().includes(keyword) ||
-                                kit.benefit.toLowerCase().includes(keyword)
-                            )
+                      ? kits
+                      : kits.filter(kit =>
+                          keywords.some(kw =>
+                            kit.name.toLowerCase().includes(kw) ||
+                            kit.problem.toLowerCase().includes(kw) ||
+                            kit.benefit.toLowerCase().includes(kw)
+                          )
                         );
 
-                    if (filteredKits.length <= 3) return null;
+                    const kitsToShow = showAllKits ? filteredKits : filteredKits.slice(0, 3);
 
-                    return (
-                        <div className="flex justify-center mt-8 md:mt-10">
-                            <button
-                                onClick={() => setShowAllKits(!showAllKits)}
-                                className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-brand-green-600 to-brand-green-700 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl hover:from-brand-green-700 hover:to-brand-green-800 focus:outline-none focus:ring-4 focus:ring-brand-green-300 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
-                            >
-                                <span className="relative z-10">
-                                    {showAllKits ? 'Ver Menos Kits' : `Ver Todos los Kits (${filteredKits.length})`}
-                                </span>
-                                <svg
-                                    className={`w-5 h-5 transition-transform duration-300 ${showAllKits ? 'rotate-180' : ''}`}
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-
-                                {/* Efecto de brillo al hacer hover */}
-                                <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                            </button>
+                    if (kitsToShow.length === 0) {
+                      return (
+                        <div className="col-span-full text-center py-12">
+                          <p className="text-slate-400">No hay kits en esta categoría</p>
+                          <button onClick={() => setActiveKitFilter('all')} className="mt-3 text-sm text-brand-green-600 hover:text-brand-green-700 font-medium">
+                            Ver todos los kits
+                          </button>
                         </div>
-                    );
-                })()}
+                      );
+                    }
+
+                    return kitsToShow.map(kit => (
+                      <KitCard key={kit.id} kit={kit} allProducts={products} onShowDetails={() => handleShowDetails(kit)} />
+                    ));
+                  })()}
+                </div>
+
+                {showAllKits && kits.length > 3 && (
+                  <div className="flex justify-center mt-10">
+                    <button
+                      onClick={() => setShowAllKits(false)}
+                      className="px-6 py-3 rounded-full text-sm font-semibold bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 transition-colors"
+                    >
+                      Ver menos
+                    </button>
+                  </div>
+                )}
+              </div>
             </section>
 
-            {/* Separador Visual entre Kits y Productos */}
-            <div className="my-16 md:my-20 px-4">
-                <div className="relative">
-                    {/* Línea central */}
-                    <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300"></div>
-                    </div>
-                    
-                    {/* Círculo central con icono */}
-                    <div className="relative flex justify-center">
-                        <div className="bg-white px-6 py-3 rounded-full border-2 border-gray-300 shadow-lg">
-                            <div className="flex items-center gap-2 text-gray-600">
-                                <List className="w-5 h-5" />
-                                <span className="font-semibold text-sm md:text-base">Productos Individuales</span>
-                            </div>
-                        </div>
-                    </div>
+            {/* Explorar Tienda CTA */}
+            <section id="productos" className="py-20 sm:py-28 bg-slate-50">
+              <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Lora, serif' }}>
+                  Explora nuestro catálogo completo
+                </h2>
+                <p className="text-slate-500 text-base mt-3 max-w-lg mx-auto">
+                  {products.length} productos organizados por categoría. Encuentra exactamente lo que necesitas.
+                </p>
+                <div className="flex flex-wrap justify-center gap-3 mt-8">
+                  <button
+                    onClick={() => handleOpenStore()}
+                    className="px-8 py-3.5 bg-brand-green-600 text-white text-sm font-semibold rounded-full hover:bg-brand-green-700 transition-colors flex items-center gap-2"
+                  >
+                    Ver Todos los Productos <ArrowRight className="w-4 h-4" />
+                  </button>
                 </div>
-            </div>
-
-            {/* All Products Section */}
-            <section id="productos" className="mt-8 md:mt-12" data-section="products">
-                <div className="text-center mb-10 md:mb-14 px-4">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-brand-green-50 text-brand-green-700 rounded-full text-sm font-medium mb-4">
-                        <Sparkles className="w-4 h-4" />
-                        <span>Catálogo Completo</span>
-                    </div>
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                        Nuestros <span className="text-brand-green-600">Productos</span>
-                    </h2>
-                    <p className="text-base md:text-lg text-slate-500 max-w-2xl mx-auto font-light">
-                        Encuentra el suplemento perfecto para tus necesidades
-                    </p>
+                <div className="flex flex-wrap justify-center gap-2 mt-6">
+                  {mainCategories.map(cat => (
+                    <button
+                      key={cat.name}
+                      onClick={() => handleOpenStore(cat.name)}
+                      className="px-4 py-2 rounded-full text-sm font-medium text-slate-600 bg-white hover:bg-slate-100 border border-slate-200 transition-colors"
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
                 </div>
-
-                {/* Barra de Búsqueda Premium */}
-                <div className="mb-8 md:mb-10 px-4 max-w-2xl mx-auto">
-                    <div className="relative group">
-                        <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-green-400 to-teal-400 rounded-2xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
-                        <div className="relative">
-                            <input
-                                ref={searchInputRef}
-                                type="text"
-                                value={searchQuery}
-                                onChange={(e) => {
-                                    setSearchQuery(e.target.value);
-                                    setCurrentPage(1);
-                                    setShowSuggestions(true);
-                                }}
-                                onFocus={() => setShowSuggestions(true)}
-                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                                placeholder="¿Qué producto buscas?"
-                                className="w-full px-5 py-4 md:py-5 pl-14 pr-12 border-0 rounded-2xl focus:ring-2 focus:ring-brand-green-500 focus:outline-none text-base md:text-lg text-slate-700 bg-white shadow-lg transition-all duration-300 placeholder:text-slate-400"
-                            />
-                            <div className="absolute left-5 top-1/2 -translate-y-1/2 w-8 h-8 bg-brand-green-100 rounded-lg flex items-center justify-center">
-                                <Search className="w-4 h-4 text-brand-green-600" />
-                            </div>
-
-                            {/* Indicador de búsqueda activa */}
-                            {searchQuery && searchQuery !== debouncedSearchQuery && (
-                                <div className="absolute right-14 top-1/2 -translate-y-1/2">
-                                    <div className="w-5 h-5 border-2 border-brand-green-500 border-t-transparent rounded-full animate-spin"></div>
-                                </div>
-                            )}
-
-                            {searchQuery && (
-                                <button
-                                    onClick={() => {
-                                        setSearchQuery('');
-                                        setCurrentPage(1);
-                                        setShowSuggestions(false);
-                                        searchInputRef.current?.focus();
-                                    }}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                                >
-                                    <X className="w-5 h-5 text-gray-400 hover:text-gray-600" />
-                                </button>
-                            )}
-
-                            {/* Dropdown de sugerencias */}
-                            {showSuggestions && searchSuggestions.length > 0 && searchQuery.length >= 2 && (
-                                <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-xl shadow-2xl z-50 overflow-hidden border border-gray-100">
-                                    <div className="px-4 py-2.5 bg-gradient-to-r from-brand-green-50 to-teal-50 border-b border-gray-100">
-                                        <p className="text-xs text-brand-green-700 font-medium flex items-center gap-1.5">
-                                            <Sparkles className="w-3.5 h-3.5" />
-                                            Sugerencias
-                                        </p>
-                                    </div>
-                                    <ul className="max-h-64 overflow-y-auto py-1">
-                                        {searchSuggestions.map((suggestion, index) => (
-                                            <li key={index}>
-                                                <button
-                                                    onMouseDown={(e) => {
-                                                        e.preventDefault();
-                                                        setSearchQuery(suggestion);
-                                                        setShowSuggestions(false);
-                                                        setCurrentPage(1);
-                                                    }}
-                                                    className="w-full px-4 py-3 text-left text-sm text-slate-700 hover:bg-brand-green-50 transition-colors flex items-center gap-3"
-                                                >
-                                                    <Search className="w-4 h-4 text-gray-300" />
-                                                    <span
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: suggestion.replace(
-                                                                new RegExp(`(${normalizeText(searchQuery).split(/\s+/).join('|')})`, 'gi'),
-                                                                '<strong class="text-brand-green-600">$1</strong>'
-                                                            )
-                                                        }}
-                                                    />
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Resultado de búsqueda con mejor feedback */}
-                    {debouncedSearchQuery && (
-                        <div className="mt-3 text-center">
-                            {filteredProducts.length > 0 ? (
-                                <p className="text-sm text-slate-600">
-                                    <span className="font-semibold text-brand-green-600">{filteredProducts.length}</span>
-                                    {' '}{filteredProducts.length === 1 ? 'resultado' : 'resultados'} para
-                                    {' '}<span className="font-medium">"{debouncedSearchQuery}"</span>
-                                    {debouncedSearchQuery.trim() && sortBy === 'default' && (
-                                        <span className="text-xs text-gray-500 ml-2">(ordenados por relevancia)</span>
-                                    )}
-                                </p>
-                            ) : (
-                                <div className="py-4">
-                                    <p className="text-slate-600 mb-2">
-                                        No encontramos resultados para <span className="font-medium">"{debouncedSearchQuery}"</span>
-                                    </p>
-                                    <p className="text-sm text-gray-500 mb-3">
-                                        Intenta con términos similares o revisa la ortografía
-                                    </p>
-                                    <div className="flex flex-wrap justify-center gap-2">
-                                        {['vitamina', 'energia', 'digestion', 'inmunidad'].map((term) => (
-                                            <button
-                                                key={term}
-                                                onClick={() => {
-                                                    setSearchQuery(term);
-                                                    setCurrentPage(1);
-                                                }}
-                                                className="px-3 py-1.5 text-xs bg-gray-100 text-slate-600 rounded-full hover:bg-brand-green-50 hover:text-brand-green-700 transition-colors"
-                                            >
-                                                {term}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </div>
-
-                {/* Categorías Principales - Cards elegantes */}
-                <div className="mb-8 md:mb-12 px-4 max-w-5xl mx-auto">
-                    {/* Categorías como cards horizontales */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 mb-8">
-                        {['All', ...mainCategories.map(cat => cat.name)].map(category => {
-                            const isActive = activeCategory === category;
-                            const mainCat = mainCategories.find(cat => cat.name === category);
-                            const Icon = category === 'All' ? List : mainCat?.icon;
-                            const count = getProductCountByCategory(category);
-
-                            return (
-                                <button
-                                    key={category}
-                                    onClick={() => handleCategoryChange(category)}
-                                    className={`group relative flex flex-col items-center p-4 md:p-5 rounded-2xl transition-all duration-300 ${
-                                        isActive
-                                            ? 'bg-gradient-to-br from-brand-green-500 to-brand-green-600 text-white shadow-lg shadow-brand-green-500/25 scale-[1.02]'
-                                            : 'bg-white hover:bg-gray-50 text-slate-700 shadow-sm hover:shadow-md border border-gray-100'
-                                    }`}
-                                >
-                                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-2 transition-colors ${
-                                        isActive
-                                            ? 'bg-white/20'
-                                            : 'bg-gray-100 group-hover:bg-brand-green-100'
-                                    }`}>
-                                        {Icon && <Icon className={`w-5 h-5 md:w-6 md:h-6 ${isActive ? 'text-white' : 'text-brand-green-600'}`} />}
-                                    </div>
-                                    <span className="text-xs md:text-sm font-semibold text-center leading-tight">
-                                        {category === 'All' ? 'Todos' : category}
-                                    </span>
-                                    <span className={`mt-1.5 text-[10px] md:text-xs font-medium px-2 py-0.5 rounded-full ${
-                                        isActive
-                                            ? 'bg-white/20 text-white'
-                                            : 'bg-gray-100 text-gray-500'
-                                    }`}>
-                                        {count}
-                                    </span>
-                                </button>
-                            );
-                        })}
-                    </div>
-
-                    {/* Controles de ordenamiento y vista en línea */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 py-4 px-4 md:px-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                        {/* Ordenamiento */}
-                        <div className="flex items-center gap-2">
-                            <span className="text-xs md:text-sm text-slate-500 font-medium flex items-center gap-1.5">
-                                <ArrowUpDown className="w-4 h-4" />
-                                <span className="hidden sm:inline">Ordenar:</span>
-                            </span>
-                            <div className="flex gap-1">
-                                {[
-                                    { value: 'default', label: 'Relevancia' },
-                                    { value: 'name-asc', label: 'A-Z' },
-                                    { value: 'name-desc', label: 'Z-A' },
-                                ].map((option) => (
-                                    <button
-                                        key={option.value}
-                                        onClick={() => {
-                                            setSortBy(option.value as SortOption);
-                                            setCurrentPage(1);
-                                        }}
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                            sortBy === option.value
-                                                ? 'bg-brand-green-600 text-white'
-                                                : 'text-slate-600 hover:bg-gray-100'
-                                        }`}
-                                    >
-                                        {option.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Vista */}
-                        <div className="flex items-center gap-2">
-                            <span className="text-xs text-slate-500 hidden sm:inline">Vista:</span>
-                            <div className="flex bg-gray-100 rounded-lg p-1">
-                                <button
-                                    onClick={() => setViewMode('grid')}
-                                    className={`p-2 rounded-md transition-all ${
-                                        viewMode === 'grid'
-                                            ? 'bg-white text-brand-green-600 shadow-sm'
-                                            : 'text-gray-400 hover:text-gray-600'
-                                    }`}
-                                    title="Vista cuadrícula"
-                                >
-                                    <LayoutGrid className="w-4 h-4" />
-                                </button>
-                                <button
-                                    onClick={() => setViewMode('list')}
-                                    className={`p-2 rounded-md transition-all ${
-                                        viewMode === 'list'
-                                            ? 'bg-white text-brand-green-600 shadow-sm'
-                                            : 'text-gray-400 hover:text-gray-600'
-                                    }`}
-                                    title="Vista lista"
-                                >
-                                    <LayoutList className="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Subcategorías - Chips modernos */}
-                    {activeCategory !== 'All' && mainCategories.some(cat => cat.name === activeCategory) && (
-                        <div className="mt-6 p-4 md:p-5 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-100">
-                            <p className="text-xs text-slate-500 mb-3 font-medium uppercase tracking-wide">
-                                Filtrar por subcategoría
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                {getSubcategoriesForMainCategory(activeCategory).map(subcategory => {
-                                    const subCount = getProductCountByCategory(subcategory);
-                                    const subConfig = categoryConfig[subcategory];
-                                    const SubIcon = subConfig?.icon;
-                                    const isSubActive = activeCategory === subcategory;
-
-                                    return (
-                                        <button
-                                            key={subcategory}
-                                            onClick={() => handleSubcategoryChange(subcategory)}
-                                            className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm font-medium rounded-full transition-all duration-200 ${
-                                                isSubActive
-                                                    ? `${subConfig?.bgClass || 'bg-brand-green-100'} ${subConfig?.colorClass || 'text-brand-green-700'} ring-2 ring-offset-1 ring-brand-green-300`
-                                                    : 'bg-white text-slate-600 border border-gray-200 hover:border-brand-green-300 hover:bg-brand-green-50'
-                                            }`}
-                                        >
-                                            {SubIcon && <SubIcon className={`w-3.5 h-3.5 ${isSubActive ? subConfig?.colorClass : 'text-gray-400'}`} />}
-                                            <span>{subcategory}</span>
-                                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                                                isSubActive ? 'bg-white/50' : 'bg-gray-100 text-gray-500'
-                                            }`}>
-                                                {subCount}
-                                            </span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* Productos */}
-                {viewMode === 'grid' ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 px-4" data-section="products-grid">
-                        {currentProducts.map(product => (
-                            <ProductCardPremium
-                                key={product.id}
-                                product={product}
-                                onShowDetails={() => handleShowDetails(product)}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="flex flex-col gap-2 md:gap-3 px-4 max-w-4xl mx-auto" data-section="products-grid">
-                        {currentProducts.map(product => (
-                            <ProductListItem
-                                key={product.id}
-                                product={product}
-                                onShowDetails={() => handleShowDetails(product)}
-                            />
-                        ))}
-                    </div>
-                )}
-
-                {/* Información de productos y paginación */}
-                {filteredProducts.length > 0 && (
-                    <div className="mt-6 md:mt-12 px-4">
-                        {/* Contador de productos */}
-                        <div className="text-center mb-4 md:mb-6">
-                            <p className="text-xs md:text-base text-slate-600">
-                                Mostrando <span className="font-bold text-slate-800">{indexOfFirstProduct + 1}</span>-<span className="font-bold text-slate-800">{Math.min(indexOfLastProduct, filteredProducts.length)}</span> de <span className="font-bold text-slate-800">{filteredProducts.length}</span>
-                            </p>
-                        </div>
-
-                        {/* Controles de paginación - Touch optimizado (min 44px) */}
-                        {totalPages > 1 && (
-                            <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3">
-                                {/* Botón Anterior */}
-                                <button
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                    className={`flex items-center justify-center gap-1 min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 text-sm md:text-base ${
-                                        currentPage === 1
-                                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                            : 'bg-brand-green-600 text-white hover:bg-brand-green-700 shadow-md hover:shadow-lg active:scale-95'
-                                    }`}
-                                >
-                                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                    <span className="hidden sm:inline">Anterior</span>
-                                </button>
-
-                                {/* Números de página */}
-                                <div className="flex flex-wrap justify-center gap-1.5 md:gap-2">
-                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => {
-                                        // Mostrar solo algunas páginas para no saturar en móviles
-                                        const showPage =
-                                            pageNumber === 1 ||
-                                            pageNumber === totalPages ||
-                                            (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1);
-
-                                        // Mostrar puntos suspensivos
-                                        if (!showPage && (pageNumber === currentPage - 2 || pageNumber === currentPage + 2)) {
-                                            return <span key={pageNumber} className="px-1.5 text-slate-400 self-center">...</span>;
-                                        }
-
-                                        if (!showPage) return null;
-
-                                        return (
-                                            <button
-                                                key={pageNumber}
-                                                onClick={() => handlePageChange(pageNumber)}
-                                                className={`min-w-[44px] h-[44px] md:min-w-[40px] md:h-10 px-3 md:px-3 rounded-xl font-bold transition-all duration-300 text-sm md:text-base active:scale-95 ${
-                                                    currentPage === pageNumber
-                                                        ? 'bg-brand-green-600 text-white shadow-lg'
-                                                        : 'bg-white text-slate-700 border border-gray-300 hover:border-brand-green-500 hover:bg-brand-green-50'
-                                                }`}
-                                            >
-                                                {pageNumber}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-
-                                {/* Botón Siguiente */}
-                                <button
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={currentPage === totalPages}
-                                    className={`flex items-center justify-center gap-1 min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 text-sm md:text-base ${
-                                        currentPage === totalPages
-                                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                            : 'bg-brand-green-600 text-white hover:bg-brand-green-700 shadow-md hover:shadow-lg active:scale-95'
-                                    }`}
-                                >
-                                    <span className="hidden sm:inline">Siguiente</span>
-                                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                )}
+              </div>
             </section>
           </>
         )}

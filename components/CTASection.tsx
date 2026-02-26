@@ -1,124 +1,112 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, Zap } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface CTASectionProps {
   onStartTest: () => void;
+  onShowSalads: () => void;
+  onScrollToProducts: () => void;
 }
 
-const CTASection: React.FC<CTASectionProps> = ({ onStartTest }) => {
+const categories = [
+  { id: 'digestion', display: 'Digestión', emoji: '🌿', action: 'products' },
+  { id: 'energia', display: 'Energía', emoji: '⚡', action: 'products' },
+  { id: 'inmunidad', display: 'Inmunidad', emoji: '🛡️', action: 'products' },
+  { id: 'ensaladas', display: 'Ensaladas', emoji: '🥗', action: 'salads' },
+  { id: 'tests', display: 'Tests', emoji: '🧬', action: 'tests' },
+  { id: 'kits', display: 'Kits', emoji: '📦', action: 'products' },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: 'easeOut' as const },
+  },
+};
+
+const CTASection: React.FC<CTASectionProps> = ({ onStartTest, onShowSalads, onScrollToProducts }) => {
+  const handleCategoryClick = (cat: typeof categories[0]) => {
+    if (cat.action === 'salads') onShowSalads();
+    else if (cat.action === 'tests') onStartTest();
+    else onScrollToProducts();
+  };
+
   return (
-    <section className="py-20 sm:py-32 relative overflow-hidden">
-      {/* Fondo gradiente */}
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-brand-green-900 to-slate-900" />
-
-      {/* Elementos decorativos */}
-      <motion.div
-        animate={{
-          x: [0, 50, 0],
-          y: [0, -30, 0],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-brand-green-500/30 to-transparent rounded-full blur-3xl"
-      />
-      <motion.div
-        animate={{
-          x: [0, -50, 0],
-          y: [0, 30, 0],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-brand-gold-500/20 to-transparent rounded-full blur-3xl"
-      />
-
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 sm:py-28 bg-white relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+          className="mb-10"
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-green-500/20 border border-brand-green-400/40 backdrop-blur-sm mb-6"
+          <h2
+            className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight"
+            style={{ fontFamily: 'Lora, serif' }}
           >
-            <Zap className="w-4 h-4 text-brand-green-300" />
-            <span className="text-sm font-medium text-brand-green-200">
-              Oferta limitada: Primeros 3 meses con 20% descuento
-            </span>
-          </motion.div>
+            Explora por Categoría
+          </h2>
+          <p className="text-slate-500 text-base mt-2 max-w-md" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            Todo lo que necesitas para cuidar tu salud en un solo lugar.
+          </p>
+        </motion.div>
 
-          {/* Título */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
-          >
-            Comienza tu transformación{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green-300 to-brand-gold-300">
-              hoy mismo
-            </span>
-          </motion.h2>
-
-          {/* Descripción */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg text-slate-300 max-w-2xl mx-auto mb-12"
-          >
-            Tu kit personalizado te espera. Responde nuestro test de 5 minutos y descubre
-            exactamente qué necesita tu cuerpo.
-          </motion.p>
-
-          {/* Botones */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 25px 50px rgba(43, 168, 154, 0.4)' }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onStartTest}
-              className="group flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-brand-green-400 to-brand-green-500 text-slate-900 font-bold rounded-xl hover:shadow-2xl transition-all duration-300 text-lg"
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5"
+        >
+          {categories.map((cat) => (
+            <motion.div
+              key={cat.id}
+              variants={cardVariants}
+              whileHover={{ scale: 1.03, transition: { duration: 0.25 } }}
+              onClick={() => handleCategoryClick(cat)}
+              className="group relative rounded-2xl overflow-hidden cursor-pointer bg-slate-50 border border-slate-100"
             >
-              <Sparkles className="w-5 h-5" />
-              Empezar Test IA
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05, borderColor: '#2ba89a' }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:border-brand-green-400/60 transition-all duration-300"
-            >
-              Ver Catálogo
-            </motion.button>
-          </motion.div>
-
-          {/* Garantía */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-12 pt-8 border-t border-white/10 text-slate-400 text-sm"
-          >
-            ✓ 100% Satisfacción garantizada o devolvemos tu dinero
-            <br />
-            ✓ Envío gratis en órdenes mayores a $500
-            <br />✓ Asesoramiento profesional incluido
-          </motion.div>
+              <div className="relative px-6 sm:px-7 pt-6 sm:pt-8 pb-14 sm:pb-16 min-h-[160px] sm:min-h-[200px] flex flex-col justify-between">
+                <span className="text-2xl sm:text-3xl mb-3 sm:mb-4 block" aria-hidden="true">{cat.emoji}</span>
+                <div className="absolute bottom-3 sm:bottom-4 left-6 sm:left-7 right-14 sm:right-16 select-none pointer-events-none" aria-hidden="true">
+                  <span
+                    className="text-3xl sm:text-5xl md:text-6xl font-bold leading-none"
+                    style={{ fontFamily: 'Lora, serif', color: 'rgba(0, 0, 0, 0.04)' }}
+                  >
+                    {cat.display}
+                  </span>
+                </div>
+                <div className="relative z-10">
+                  <h3
+                    className="text-lg sm:text-2xl font-bold text-slate-800 group-hover:text-slate-600 transition-colors"
+                    style={{ fontFamily: 'Lora, serif' }}
+                  >
+                    {cat.display}
+                  </h3>
+                </div>
+                <div className="absolute bottom-4 sm:bottom-5 right-4 sm:right-5 z-10">
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white border border-slate-200 group-hover:bg-brand-green-600 group-hover:border-brand-green-600 group-hover:shadow-md transition-all"
+                  >
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-700 group-hover:text-white transition-colors" />
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>

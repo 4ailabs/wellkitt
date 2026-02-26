@@ -1,113 +1,146 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const testimonials = [
   {
-    name: 'María González',
-    role: 'Nutricionista',
-    image: '👩‍⚕️',
-    rating: 5,
-    text: 'Las recomendaciones de IA son extraordinarias. Mis pacientes ven resultados reales en 2-3 semanas.',
+    avatar: '👩‍⚕️',
+    quote: 'Wellkitt transformó mi rutina de suplementación. Las recomendaciones con IA son increíblemente precisas y personalizadas.',
+    stars: 5,
+    name: 'María García',
   },
   {
+    avatar: '👨‍💼',
+    quote: 'La calidad de los productos es excepcional. Noto la diferencia desde la primera semana de uso.',
+    stars: 5,
     name: 'Carlos Rodríguez',
-    role: 'Atleta Profesional',
-    image: '🏃‍♂️',
-    rating: 5,
-    text: 'Finalmente encontré suplementos que realmente funcionan y que mi cuerpo reconoce como natural.',
   },
   {
-    name: 'Ana Martínez',
-    role: 'Emprendedora',
-    image: '👩‍💼',
-    rating: 5,
-    text: 'El test de nutrigenómica cambió mi perspectiva sobre la salud. Es increíblemente preciso.',
+    avatar: '👩‍🔬',
+    quote: 'El test de salud endotelial me abrió los ojos. Ahora entiendo exactamente qué necesita mi cuerpo.',
+    stars: 5,
+    name: 'Ana López',
   },
 ];
 
+const brands = [
+  { name: 'Soria Natural', style: 'italic font-semibold' },
+  { name: 'Biofito', style: 'font-bold tracking-wider uppercase text-sm' },
+  { name: 'Wellkitt', style: 'font-extrabold' },
+  { name: 'DOZ', style: 'font-bold tracking-widest uppercase text-xs' },
+];
+
 const TestimonialSection: React.FC = () => {
+  const [current, setCurrent] = useState(0);
+
+  const next = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % testimonials.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  const t = testimonials[current];
+
   return (
-    <section className="py-20 sm:py-32 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
-      {/* Decorativos */}
-      <div className="absolute top-20 left-1/4 w-72 h-72 bg-brand-green-100/40 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-brand-gold-100/30 rounded-full blur-3xl -z-10" />
-
+    <section className="py-20 sm:py-28 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16 sm:mb-24"
-        >
-          <p className="text-brand-green-600 font-semibold text-sm uppercase tracking-wider mb-3">
-            Lo que dicen nuestros clientes
-          </p>
-          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-            Miles confían en Wellkitt
-          </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Resultados reales de personas que transformaron su salud con nuestros productos.
-          </p>
-        </motion.div>
-
-        {/* Testimonios */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300"
+        <div className="relative rounded-3xl px-8 sm:px-16 py-16 sm:py-20 overflow-hidden bg-slate-50 border border-slate-100">
+          {/* Arrows */}
+          <div className="absolute top-6 right-6 flex items-center gap-2 z-10">
+            <button
+              onClick={prev}
+              className="w-10 h-10 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:bg-slate-50 transition-colors"
+              aria-label="Anterior"
             >
-              {/* Fondo gradiente */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-green-50 to-brand-gold-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+              <ChevronLeft className="w-4 h-4 text-slate-600" />
+            </button>
+            <button
+              onClick={next}
+              className="w-10 h-10 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:bg-slate-50 transition-colors"
+              aria-label="Siguiente"
+            >
+              <ChevronRight className="w-4 h-4 text-slate-600" />
+            </button>
+          </div>
 
-              {/* Rating */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.1 + i * 0.05, type: 'spring' }}
-                  >
-                    <Star className="w-5 h-5 fill-brand-gold-400 text-brand-gold-400" />
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Texto */}
-              <p className="text-slate-700 text-lg leading-relaxed mb-6 italic font-serif">
-                "{testimonial.text}"
-              </p>
-
-              {/* Autor */}
-              <div className="flex items-center gap-4">
-                <div className="text-4xl">{testimonial.image}</div>
-                <div>
-                  <p className="font-bold text-slate-900">{testimonial.name}</p>
-                  <p className="text-sm text-slate-600">{testimonial.role}</p>
-                </div>
-              </div>
-
-              {/* Línea decorativa */}
+          <div className="flex flex-col items-center text-center">
+            <AnimatePresence mode="wait">
               <motion.div
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
-                className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-green-500 to-brand-gold-400 rounded-b-2xl origin-left"
+                key={current}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
+                className="flex flex-col items-center"
+              >
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl mb-8 border border-slate-200 bg-white">
+                  {t.avatar}
+                </div>
+
+                <blockquote
+                  className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight max-w-3xl mb-8"
+                  style={{ fontFamily: 'Lora, serif' }}
+                >
+                  {t.quote}
+                </blockquote>
+
+                <div className="flex gap-1 mb-3">
+                  {Array.from({ length: t.stars }).map((_, i) => (
+                    <span key={i} className="text-brand-green-500 text-lg">★</span>
+                  ))}
+                </div>
+
+                <p className="text-slate-500 text-base" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  {t.name}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="flex justify-center gap-2 mt-10">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === current ? 'w-8 bg-brand-green-500' : 'w-2 bg-slate-300 hover:bg-slate-400'
+                }`}
+                aria-label={`Ir a testimonial ${i + 1}`}
               />
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        {/* Brands */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-12 text-center"
+        >
+          <p className="text-sm text-slate-400 mb-6" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            Marcas de confianza que respaldan tu salud:
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
+            {brands.map((brand) => (
+              <span
+                key={brand.name}
+                className={`text-slate-300 hover:text-slate-500 transition-colors cursor-default ${brand.style}`}
+                style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: brand.style.includes('text-xs') ? '0.75rem' : brand.style.includes('text-sm') ? '0.875rem' : '1.1rem' }}
+              >
+                {brand.name}
+              </span>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
