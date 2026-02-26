@@ -22,8 +22,14 @@ import { useRecommendationHistory, RecommendationHistoryEntry } from './hooks/us
 import { CartProvider, useCart } from './contexts/CartContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { mainCategories, getSubcategories, categoryConfig } from './components/category-config';
-import { Phone, MapPin, List, Heart, Droplets, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight, Salad, CheckCircle2 } from 'lucide-react';
+import { List, Heart, Droplets, Dna, X, ArrowUpDown, LayoutGrid, LayoutList, Search, Sparkles, Package, ChevronLeft, ChevronRight, Salad, CheckCircle2 } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
+import HeroModern from './components/HeroModern';
+import FeaturesSection from './components/FeaturesSection';
+import TestimonialSection from './components/TestimonialSection';
+import CTASection from './components/CTASection';
+import ProductGridModern from './components/ProductGridModern';
+import FooterModern from './components/FooterModern';
 import useMobileDetect from './hooks/useMobileDetect';
 import { useDebounce } from './hooks/useDebounce';
 import { normalizeText, isFuzzyMatch, calculateRelevanceScore, getSearchSuggestions } from './utils/searchUtils';
@@ -466,6 +472,14 @@ const App: React.FC = () => {
     return getSubcategories(mainCategory);
   };
 
+  // Scroll a una sección específica
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   // Mostrar splash screen solo en dispositivos móviles
   if (isMobile && showSplash) {
     return <SplashScreen onFinish={handleSplashFinish} />;
@@ -503,110 +517,29 @@ const App: React.FC = () => {
         ) : (
           <>
             {/* Hero Section */}
-            <section id="hero" className="max-w-5xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
-                <div className="text-center">
-                    <div className="flex justify-center mb-6 md:mb-8">
-                        <img
-                            src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=300w"
-                            srcSet="
-                                https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=100w 100w,
-                                https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=200w 200w,
-                                https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=300w 300w
-                            "
-                            sizes="(max-width: 640px) 64px, (max-width: 768px) 96px, 128px"
-                            alt="Wellkitt Logo"
-                            className="h-16 md:h-24 lg:h-32 w-auto"
-                            loading="eager"
-                        />
-                    </div>
-                    
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 mb-4 md:mb-6 tracking-tight px-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                        <span className="text-brand-green-600">Wellkitt:</span> Tu Salud,<br className="hidden sm:block" /> 
-                        <span className="text-slate-900">Ciencia Personalizada</span>
-                    </h1>
-                    
-                    <p className="text-sm sm:text-base md:text-lg text-slate-500 mb-6 md:mb-8 px-2 md:px-4 max-w-2xl mx-auto leading-relaxed font-light italic">
-                        Descubre tu kit de bienestar ideal. Completa el formulario y recibe recomendaciones personalizadas basadas en tus necesidades.
-                    </p>
-                    
-                    {/* Buscador Superior */}
-                    <div className="max-w-2xl mx-auto mb-8 md:mb-12 px-4">
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <Search className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />
-                            </div>
-                            <input
-                                ref={searchInputRef}
-                                type="text"
-                                placeholder="¿Qué estás buscando?"
-                                value={searchQuery}
-                                onChange={(e) => {
-                                    setSearchQuery(e.target.value);
-                                    setShowSuggestions(true);
-                                }}
-                                onFocus={() => {
-                                    if (searchQuery.length >= 2) {
-                                        setShowSuggestions(true);
-                                    }
-                                }}
-                                className="w-full pl-12 pr-12 py-4 md:py-5 text-base md:text-lg border-2 border-slate-200 rounded-xl md:rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-green-500 focus:border-brand-green-500 bg-white shadow-lg placeholder:text-slate-400"
-                            />
-                            {searchQuery && (
-                                <button
-                                    onClick={() => {
-                                        setSearchQuery('');
-                                        setShowSuggestions(false);
-                                        searchInputRef.current?.focus();
-                                    }}
-                                    className="absolute inset-y-0 right-0 pr-4 flex items-center"
-                                >
-                                    <X className="w-5 h-5 md:w-6 md:h-6 text-slate-400 hover:text-slate-600 transition-colors" />
-                                </button>
-                            )}
-                        </div>
-                        
-                        {/* Sugerencias de búsqueda */}
-                        {showSuggestions && searchSuggestions.length > 0 && searchQuery.length >= 2 && (
-                            <div className="absolute z-50 w-full max-w-2xl mt-2 bg-white border border-slate-200 rounded-xl shadow-2xl max-h-60 overflow-y-auto">
-                                {searchSuggestions.map((suggestion, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => {
-                                            setSearchQuery(suggestion);
-                                            setShowSuggestions(false);
-                                            // Scroll a la sección de productos
-                                            document.querySelector('[data-section="products-grid"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                        }}
-                                        className="w-full px-4 py-3 text-left hover:bg-brand-green-50 transition-colors flex items-center gap-3 border-b border-slate-100 last:border-b-0"
-                                    >
-                                        <Search className="w-4 h-4 text-gray-300" />
-                                        <span className="text-sm md:text-base text-slate-700">
-                                            {suggestion.split(new RegExp(`(${normalizeText(searchQuery).split(/\s+/).join('|')})`, 'gi')).map((part, i) => 
-                                                normalizeText(part).toLowerCase() === normalizeText(searchQuery).toLowerCase() ? (
-                                                    <span key={i} className="font-semibold text-brand-green-600">{part}</span>
-                                                ) : (
-                                                    <span key={i}>{part}</span>
-                                                )
-                                            )}
-                                        </span>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                    
-                    {/* Separador visual */}
-                    <div className="flex items-center justify-center gap-4 mb-8 md:mb-12 px-4 max-w-3xl mx-auto">
-                        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-slate-300"></div>
-                        <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
-                            <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-brand-green-600" />
-                            <span className="text-xs md:text-sm font-medium text-slate-700">Recomendación Personalizada</span>
-                        </div>
-                        <div className="flex-1 h-px bg-gradient-to-l from-transparent via-slate-300 to-slate-300"></div>
-                    </div>
-                    
-                    {/* Sistema de Recomendación Mejorado */}
-                    <div id="recomendador" className="max-w-3xl mx-auto mb-8">
+            {/* Hero Moderno */}
+            <HeroModern onStartRecommendation={() => scrollToSection('recomendador')} />
+
+            {/* Features Section */}
+            <FeaturesSection />
+
+            {/* Productos Destacados */}
+            <ProductGridModern
+              products={products.slice(0, 12)}
+              title="Explora | Productos Premium"
+              subtitle="Selecciones cuidadas de marcas certificadas"
+              onShowDetails={handleShowDetails}
+            />
+
+            {/* Testimonios */}
+            <TestimonialSection />
+
+            {/* CTA Final */}
+            <CTASection onStartTest={() => scrollToSection('recomendador')} />
+
+            {/* Sistema de Recomendación Mejorado */}
+            <section id="recomendador-section" className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
+              <div id="recomendador" className="max-w-3xl mx-auto mb-8">
                         {/* Paso 1: Áreas de Salud */}
                         <div className="mb-6">
                             <p className="text-sm md:text-base text-slate-600 mb-3 font-medium">
@@ -733,7 +666,6 @@ const App: React.FC = () => {
                                 </div>
                             )}
                         </form>
-                    </div>
 
                     {isLoading && <Spinner />}
                     {recommendation && (
@@ -748,10 +680,10 @@ const App: React.FC = () => {
                         }}
                       />
                     )}
-                </div>
+              </div>
             </section>
 
-            {/* Carrusel de Productos Destacados */}
+            {/* Carrusel de Productos Destacados - Section vieja */}
             <section className="max-w-7xl mx-auto mb-12 md:mb-20 lg:mb-28 px-4">
                 <div className="mb-6 md:mb-8 text-center">
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
@@ -1493,63 +1425,7 @@ const App: React.FC = () => {
         )}
       </main>
 
-      <footer id="contacto" className="bg-white/60 backdrop-blur-sm border-t border-gray-200 mt-12 md:mt-20 lg:mt-28">
-        <div className="max-w-5xl mx-auto px-4 py-8 md:py-12 lg:py-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 text-center md:text-left">
-                <div>
-                    <div className="flex items-center gap-3 justify-center md:justify-start mb-3">
-                        <img 
-                            src="https://images.squarespace-cdn.com/content/v1/63937c55c3c2e84a13a3ede9/73c6af8e-f633-4998-8928-407855b4400e/logo+wellkitt.png?format=500w" 
-                            alt="Wellkitt Logo" 
-                            className="h-8 md:h-10 w-auto"
-                        />
-                    </div>
-                    <p className="text-sm md:text-base text-slate-600 font-light">Tu Navegador de Salud Natural</p>
-                    <p className="text-xs md:text-sm text-slate-500 mt-3 md:mt-4">&copy; {new Date().getFullYear()} Wellkitt. Todos los derechos reservados.</p>
-                </div>
-                <div>
-                    <h4 className="font-semibold text-slate-900 text-base md:text-lg mb-3 md:mb-4">Contacto</h4>
-                    <ul className="space-y-2 md:space-y-3">
-                        <li>
-                            <a href="https://wa.me/+525579076626" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center justify-center md:justify-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors text-sm md:text-base">
-                                <Phone className="w-4 h-4 md:w-5 md:h-5" />
-                                <span>WhatsApp</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="tel:+525579076626" className="group inline-flex items-center justify-center md:justify-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors text-sm md:text-base">
-                                <Phone className="w-4 h-4 md:w-5 md:h-5" />
-                                <span>Llamar a un asesor</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 className="font-semibold text-slate-900 text-base md:text-lg mb-3 md:mb-4">Ubicación</h4>
-                    <ul className="space-y-2 md:space-y-3">
-                        <li>
-                            <a href="https://maps.google.com/?q=Acapulco%2036%20piso%208,%20Roma%20Nte.,%20Cuauhtémoc,%2006700%20Ciudad%20de%20México,%20CDMX" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start justify-center md:justify-start gap-2 text-slate-600 hover:text-brand-green-600 transition-colors text-sm md:text-base">
-                                <MapPin className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0 mt-0.5" />
-                                <span className="text-center md:text-left">Acapulco 36 piso 8, Roma Nte., CDMX</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-      </footer>
-      <div className="bg-slate-100/50 border-t border-gray-200 mt-8 md:mt-12 pt-6 md:pt-8 pb-4 md:pb-6">
-        <div className="max-w-5xl mx-auto px-4">
-          <p className="text-center text-slate-500 text-xs md:text-sm leading-relaxed mb-3 md:mb-4">
-            <span className="font-semibold text-slate-700">Descargo de responsabilidad:</span> La información y recomendaciones presentadas en este sitio no sustituyen el consejo, diagnóstico o tratamiento médico profesional. Consulta siempre a tu médico u otro proveedor de salud calificado ante cualquier duda sobre una condición médica.
-          </p>
-          <div className="text-center">
-            <a href="https://www.wellkitt.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-brand-green-600 transition-colors duration-200 font-medium text-sm md:text-base">
-              www.wellkitt.com
-            </a>
-          </div>
-        </div>
-      </div>
+      <FooterModern />
 
       <DetailModal 
         item={selectedItem}
