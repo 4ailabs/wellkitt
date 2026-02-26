@@ -29,6 +29,7 @@ import CTASection from './components/CTASection';
 import ProductGridModern from './components/ProductGridModern';
 import FooterModern from './components/FooterModern';
 import StorePage from './components/StorePage';
+import ProductPage from './components/ProductPage';
 import useMobileDetect from './hooks/useMobileDetect';
 
 const App: React.FC = () => {
@@ -36,7 +37,8 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [selectedItem, setSelectedItem] = useState<Kit | Product | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Kit | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showEndotelioTest, setShowEndotelioTest] = useState(false);
   const [showNutrigenomicaTest, setShowNutrigenomicaTest] = useState(false);
   const [showSalads, setShowSalads] = useState(false);
@@ -70,6 +72,7 @@ const App: React.FC = () => {
     setShowSalads(false);
     setShowStore(false);
     setStoreInitialCategory(undefined);
+    setSelectedProduct(null);
   };
 
   const handleOpenStore = (category?: string) => {
@@ -195,8 +198,17 @@ const App: React.FC = () => {
     }
   }, [userInput, products, kits, selectedHealthAreas, selectedGoal]);
 
+  const isKit = (item: Kit | Product): item is Kit => {
+    return (item as Kit).productIds !== undefined;
+  };
+
   const handleShowDetails = (item: Kit | Product) => {
-    setSelectedItem(item);
+    if (isKit(item)) {
+      setSelectedItem(item);
+    } else {
+      setSelectedProduct(item);
+      window.scrollTo({ top: 0 });
+    }
   };
 
   const handleSelectFromHistory = (entry: RecommendationHistoryEntry) => {
@@ -204,10 +216,6 @@ const App: React.FC = () => {
     setSelectedHealthAreas(entry.healthAreas);
     setSelectedGoal(entry.goal);
     setRecommendation(entry.recommendation);
-  };
-
-  const handleCloseDetails = () => {
-    setSelectedItem(null);
   };
 
   // Scroll a una sección específica
@@ -231,11 +239,18 @@ const App: React.FC = () => {
         onOpenFavorites={() => setIsFavoritesOpen(true)}
         onOpenStore={() => handleOpenStore()}
         onGoHome={handleBackToMain}
-        isOnLanding={!showEndotelioTest && !showNutrigenomicaTest && !showSalads && !showStore}
+        isOnLanding={!showEndotelioTest && !showNutrigenomicaTest && !showSalads && !showStore && !selectedProduct}
       />
 
       <main style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-        {showEndotelioTest ? (
+        {selectedProduct ? (
+          <ProductPage
+            product={selectedProduct}
+            onBack={() => setSelectedProduct(null)}
+            onShowDetails={(p) => { setSelectedProduct(p); window.scrollTo({ top: 0 }); }}
+            relatedProducts={products.filter(p => p.category === selectedProduct.category && p.id !== selectedProduct.id)}
+          />
+        ) : showEndotelioTest ? (
           <EndotelioTest
             allProducts={products}
             onShowDetails={handleShowDetails}
@@ -646,10 +661,10 @@ const App: React.FC = () => {
 
       <FooterModern />
 
-      <DetailModal 
+      <DetailModal
         item={selectedItem}
         allProducts={products}
-        onClose={handleCloseDetails}
+        onClose={() => setSelectedItem(null)}
       />
       
       <Cart
