@@ -61,7 +61,7 @@ export const products: Product[] = [
   { id: "SN49", name: "Lisam 60", brand: "Soria Natural", ingredients: ["L-Lisina"], benefits: ["Sistema inmune", "absorción de calcio", "colágeno"], category: "Aminoácidos", presentation: "60 cápsulas 500mg", price: 190, image: "/images/productos/aminoacidos/lisam.png" },
   { id: "SN50", name: "Lisam 90", brand: "Soria Natural", ingredients: ["L-Lisina"], benefits: ["Sistema inmune", "absorción de calcio", "colágeno"], category: "Aminoácidos", presentation: "90 cápsulas 500mg", price: 190, image: "/images/productos/aminoacidos/lisam.png" },
   { id: "SN51", name: "Lisam 200", brand: "Soria Natural", ingredients: ["L-Lisina"], benefits: ["Sistema inmune", "absorción de calcio", "colágeno"], category: "Aminoácidos", presentation: "200 cápsulas 500mg", price: 475, image: "/images/productos/aminoacidos/lisam.png" },
-  { id: "SN52", name: "Melis", brand: "Soria Natural", ingredients: ["L-Metionina", "L-Lisina"], benefits: ["Desintoxicación", "hígado sano", "cabello y uñas"], category: "Aminoácidos", presentation: "60 cápsulas 500mg", price: 270 },
+  { id: "SN52", name: "Melis", brand: "Soria Natural", ingredients: ["L-Metionina", "L-Lisina"], benefits: ["Desintoxicación", "hígado sano", "cabello y uñas"], category: "Aminoácidos", presentation: "60 cápsulas 500mg", price: 270, image: "/images/productos/aminoacidos/melis.png" },
 
   // Biofito - Todos los productos Biofito a $190 MXN
   { id: "BF01", name: "Hepacryl", brand: "Biofito", ingredients: ["Cardo mariano", "Alcachofa", "Boldo", "Diente de león", "Cúrcuma"], benefits: ["Protege hígado", "regenera células hepáticas", "desintoxica"], category: "Detox y Antioxidantes", presentation: "Bote 90 comprimidos 750 mg", price: 190 },
