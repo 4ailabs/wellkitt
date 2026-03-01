@@ -39,9 +39,8 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onBack, onShowDetail
           <div className="flex items-center gap-2">
             <button
               onClick={handleToggleFavorite}
-              className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
-                isFavorite ? 'bg-red-50 text-red-500' : 'bg-slate-50 text-slate-400 hover:text-red-400'
-              }`}
+              className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${isFavorite ? 'bg-red-50 text-red-500' : 'bg-slate-50 text-slate-400 hover:text-red-400'
+                }`}
             >
               <Heart className="w-4 h-4" fill={isFavorite ? 'currentColor' : 'none'} />
             </button>
@@ -100,9 +99,11 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onBack, onShowDetail
           >
             {/* Breadcrumb tags */}
             <div className="flex flex-wrap gap-2 mb-4">
-              <span className="text-xs font-medium text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
-                {product.brand}
-              </span>
+              {product.brand && product.brand !== product.category && (
+                <span className="text-xs font-medium text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
+                  {product.brand}
+                </span>
+              )}
               <span className="text-xs font-medium text-brand-green-700 bg-brand-green-50 px-3 py-1 rounded-full border border-brand-green-100">
                 {product.category}
               </span>

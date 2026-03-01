@@ -35,7 +35,7 @@ const ProductCardMinimal: React.FC<ProductCardMinimalProps> = ({ product, onShow
   // Obtener el beneficio principal (el más corto o el primero)
   const mainBenefit = product.benefits.reduce((shortest, current) =>
     current.length < shortest.length ? current : shortest
-  , product.benefits[0] || '');
+    , product.benefits[0] || '');
 
   return (
     <motion.div
@@ -60,11 +60,10 @@ const ProductCardMinimal: React.FC<ProductCardMinimalProps> = ({ product, onShow
             <motion.button
               onClick={handleToggleFavorite}
               whileTap={{ scale: 0.9 }}
-              className={`p-1.5 rounded-full transition-colors ${
-                isProductFavorite
+              className={`p-1.5 rounded-full transition-colors ${isProductFavorite
                   ? 'text-red-500'
                   : 'text-gray-300 hover:text-red-400'
-              }`}
+                }`}
             >
               <Heart className="w-4 h-4" fill={isProductFavorite ? 'currentColor' : 'none'} />
             </motion.button>
@@ -88,9 +87,11 @@ const ProductCardMinimal: React.FC<ProductCardMinimalProps> = ({ product, onShow
           </h3>
 
           {/* Marca */}
-          <p className="text-[11px] text-slate-400 mb-2">
-            {product.brand}
-          </p>
+          {product.brand && product.brand !== product.category && (
+            <p className="text-[11px] text-slate-400 mb-2">
+              {product.brand}
+            </p>
+          )}
 
           {/* Beneficio principal */}
           <p className={`text-xs ${config?.colorClass || 'text-gray-600'} font-medium line-clamp-1`}>

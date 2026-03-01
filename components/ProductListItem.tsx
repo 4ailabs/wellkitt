@@ -38,10 +38,14 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product, onShowDetail
                 {product.name}
               </h3>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[11px] md:text-xs text-slate-400">
-                  {product.brand}
-                </span>
-                <span className="text-slate-300">•</span>
+                {product.brand && product.brand !== product.category && (
+                  <>
+                    <span className="text-[11px] md:text-xs text-slate-400">
+                      {product.brand}
+                    </span>
+                    <span className="text-slate-300">•</span>
+                  </>
+                )}
                 <span className={`text-[11px] md:text-xs ${config?.colorClass || 'text-gray-500'} font-medium`}>
                   {product.category}
                 </span>
@@ -70,11 +74,10 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product, onShowDetail
           <motion.button
             onClick={handleToggleFavorite}
             whileTap={{ scale: 0.9 }}
-            className={`p-2.5 md:p-2 rounded-full transition-colors min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center ${
-              isProductFavorite
+            className={`p-2.5 md:p-2 rounded-full transition-colors min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center ${isProductFavorite
                 ? 'text-red-500 bg-red-50'
                 : 'text-gray-300 hover:text-red-400 hover:bg-red-50'
-            }`}
+              }`}
           >
             <Heart className="w-5 h-5 md:w-4 md:h-4" fill={isProductFavorite ? 'currentColor' : 'none'} />
           </motion.button>

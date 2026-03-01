@@ -68,11 +68,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
           onClick={handleToggleFavorite}
           whileHover={{ scale: 1.15 }}
           whileTap={{ scale: 0.9 }}
-          className={`absolute top-3 right-3 p-2 rounded-full shadow-md transition-all duration-300 ${
-            isProductFavorite
+          className={`absolute top-3 right-3 p-2 rounded-full shadow-md transition-all duration-300 ${isProductFavorite
               ? 'bg-red-500 text-white'
               : 'bg-white/90 backdrop-blur-sm text-gray-400 hover:text-red-500'
-          }`}
+            }`}
         >
           <Heart
             className="w-4 h-4"
@@ -82,9 +81,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onShowDetails }) => 
         </motion.button>
 
         {/* Badge de marca */}
-        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-slate-700 text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
-          {product.brand}
-        </div>
+        {product.brand && product.brand !== product.category && (
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-slate-700 text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
+            {product.brand}
+          </div>
+        )}
       </div>
 
       {/* Contenido */}

@@ -115,7 +115,9 @@ const ProductGridModern: React.FC<ProductGridModernProps> = ({
 
               <div className="mt-3 sm:mt-4 px-0.5" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                 <h3 className="font-semibold text-slate-900 text-sm sm:text-base leading-snug line-clamp-2">{product.name}</h3>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1">{product.brand || product.category}</p>
+                <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                  {product.brand && product.brand !== product.category ? product.brand : product.category}
+                </p>
                 {product.price != null && (
                   <p className="text-sm font-semibold text-slate-900 mt-1.5">
                     ${product.price.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-xs font-normal text-slate-400">MXN</span>
