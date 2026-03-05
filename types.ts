@@ -2,7 +2,7 @@
 export interface Product {
   id: string;
   name: string;
-  brand: 'Soria Natural' | 'Biofito' | 'Wellkitt' | 'Aminoácidos' | 'DOZ' | 'Homeopatía' | 'Flores de Bach' | 'Sales de Schüssler';
+  brand: 'Soria Natural' | 'Biofito' | 'Wellkitt' | 'Aminoácidos' | 'DOZ' | 'Homeopatía' | 'Flores de Bach' | 'Sales de Schüssler' | 'Aminas y Derivados';
   ingredients: string[];
   benefits: string[];
   presentation?: string;

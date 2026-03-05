@@ -4,9 +4,12 @@
     "descripcion": "Catálogo completo de productos naturales y kits de salud",
     "version": "1.0",
     "fecha_actualizacion": "2025-10-09",
-    "marcas": ["Soria Natural", "Biofito", "Wellkitt"]
+    "marcas": [
+      "Soria Natural",
+      "Biofito",
+      "Wellkitt"
+    ]
   },
-  
   "productos": [
     {
       "id": "SN01",
@@ -28,8 +31,15 @@
         "Fortalece huesos",
         "Efecto antioxidante"
       ],
-      "usos": ["Menopausia", "Salud ósea", "Antioxidante"],
-      "sistemas": ["hormonal", "oseo"]
+      "usos": [
+        "Menopausia",
+        "Salud ósea",
+        "Antioxidante"
+      ],
+      "sistemas": [
+        "hormonal",
+        "oseo"
+      ]
     },
     {
       "id": "SN02",
@@ -48,8 +58,17 @@
         "Antioxidante",
         "Mejora resistencia física"
       ],
-      "usos": ["Energía celular", "Cardiovascular", "Antioxidante", "Rendimiento físico"],
-      "sistemas": ["circulatorio", "energético", "metabolico"]
+      "usos": [
+        "Energía celular",
+        "Cardiovascular",
+        "Antioxidante",
+        "Rendimiento físico"
+      ],
+      "sistemas": [
+        "circulatorio",
+        "energético",
+        "metabolico"
+      ]
     },
     {
       "id": "SN03",
@@ -73,8 +92,15 @@
         "Firmeza",
         "Elasticidad cutánea"
       ],
-      "usos": ["Regeneración piel", "Cicatrices", "Firmeza", "Elasticidad"],
-      "sistemas": ["piel"]
+      "usos": [
+        "Regeneración piel",
+        "Cicatrices",
+        "Firmeza",
+        "Elasticidad"
+      ],
+      "sistemas": [
+        "piel"
+      ]
     },
     {
       "id": "SN04",
@@ -91,8 +117,15 @@
         "Regula funciones alérgicas",
         "Mejora defensas"
       ],
-      "usos": ["Sistema respiratorio", "Alergias", "Defensas"],
-      "sistemas": ["respiratorio", "inmune"]
+      "usos": [
+        "Sistema respiratorio",
+        "Alergias",
+        "Defensas"
+      ],
+      "sistemas": [
+        "respiratorio",
+        "inmune"
+      ]
     },
     {
       "id": "SN05",
@@ -110,8 +143,15 @@
         "Estimula metabolismo",
         "Antioxidante"
       ],
-      "usos": ["Inmunidad", "Metabolismo", "Antioxidante"],
-      "sistemas": ["inmune", "metabolico"]
+      "usos": [
+        "Inmunidad",
+        "Metabolismo",
+        "Antioxidante"
+      ],
+      "sistemas": [
+        "inmune",
+        "metabolico"
+      ]
     },
     {
       "id": "SN06",
@@ -129,8 +169,15 @@
         "Reduce ansiedad",
         "Equilibra trastornos hormonales"
       ],
-      "usos": ["Fatiga crónica", "Ansiedad", "Hormonas"],
-      "sistemas": ["nervioso", "hormonal"]
+      "usos": [
+        "Fatiga crónica",
+        "Ansiedad",
+        "Hormonas"
+      ],
+      "sistemas": [
+        "nervioso",
+        "hormonal"
+      ]
     },
     {
       "id": "SN07",
@@ -149,8 +196,18 @@
         "Fortalece inmunidad",
         "Aumenta energía"
       ],
-      "usos": ["Hormonas", "Piel", "Inmunidad", "Energía"],
-      "sistemas": ["hormonal", "piel", "inmune", "energético"]
+      "usos": [
+        "Hormonas",
+        "Piel",
+        "Inmunidad",
+        "Energía"
+      ],
+      "sistemas": [
+        "hormonal",
+        "piel",
+        "inmune",
+        "energético"
+      ]
     },
     {
       "id": "SN08",
@@ -168,8 +225,14 @@
         "Regulación endocrina",
         "Mejora metabolismo energético"
       ],
-      "usos": ["Sistema endocrino", "Metabolismo"],
-      "sistemas": ["hormonal", "metabolico"]
+      "usos": [
+        "Sistema endocrino",
+        "Metabolismo"
+      ],
+      "sistemas": [
+        "hormonal",
+        "metabolico"
+      ]
     },
     {
       "id": "SN09",
@@ -191,8 +254,15 @@
         "Mejora rendimiento mental",
         "Protección neuronal"
       ],
-      "usos": ["Memoria", "Concentración", "Rendimiento mental", "Neuroprotección"],
-      "sistemas": ["nervioso"]
+      "usos": [
+        "Memoria",
+        "Concentración",
+        "Rendimiento mental",
+        "Neuroprotección"
+      ],
+      "sistemas": [
+        "nervioso"
+      ]
     },
     {
       "id": "SN10",
@@ -212,8 +282,15 @@
         "Antioxidante",
         "Inmunoestimulante"
       ],
-      "usos": ["Energía", "Antioxidante", "Inmunidad"],
-      "sistemas": ["energético", "inmune"]
+      "usos": [
+        "Energía",
+        "Antioxidante",
+        "Inmunidad"
+      ],
+      "sistemas": [
+        "energético",
+        "inmune"
+      ]
     },
     {
       "id": "SN11",
@@ -233,8 +310,15 @@
         "Antioxidante",
         "Mejora concentración"
       ],
-      "usos": ["Energía máxima", "Antioxidante", "Concentración"],
-      "sistemas": ["energético", "nervioso"]
+      "usos": [
+        "Energía máxima",
+        "Antioxidante",
+        "Concentración"
+      ],
+      "sistemas": [
+        "energético",
+        "nervioso"
+      ]
     },
     {
       "id": "SN12",
@@ -253,8 +337,14 @@
         "Equilibra flora intestinal",
         "Regula tránsito intestinal"
       ],
-      "usos": ["Digestión", "Flora intestinal", "Tránsito intestinal"],
-      "sistemas": ["digestivo"]
+      "usos": [
+        "Digestión",
+        "Flora intestinal",
+        "Tránsito intestinal"
+      ],
+      "sistemas": [
+        "digestivo"
+      ]
     },
     {
       "id": "SN13",
@@ -272,8 +362,15 @@
         "Mejora digestión",
         "Refuerzo inmunológico"
       ],
-      "usos": ["Probiótico", "Digestión", "Inmunidad"],
-      "sistemas": ["digestivo", "inmune"]
+      "usos": [
+        "Probiótico",
+        "Digestión",
+        "Inmunidad"
+      ],
+      "sistemas": [
+        "digestivo",
+        "inmune"
+      ]
     },
     {
       "id": "SN14",
@@ -292,8 +389,16 @@
         "Mejora salud de piel",
         "Fortalece cabello y uñas"
       ],
-      "usos": ["Articulaciones", "Piel", "Cabello", "Uñas"],
-      "sistemas": ["musculoesqueletico", "piel"]
+      "usos": [
+        "Articulaciones",
+        "Piel",
+        "Cabello",
+        "Uñas"
+      ],
+      "sistemas": [
+        "musculoesqueletico",
+        "piel"
+      ]
     },
     {
       "id": "SN15",
@@ -311,8 +416,15 @@
         "Apoya función tiroidea",
         "Fortalece inmunidad"
       ],
-      "usos": ["Antioxidante", "Tiroides", "Inmunidad"],
-      "sistemas": ["hormonal", "inmune"]
+      "usos": [
+        "Antioxidante",
+        "Tiroides",
+        "Inmunidad"
+      ],
+      "sistemas": [
+        "hormonal",
+        "inmune"
+      ]
     },
     {
       "id": "SN16",
@@ -334,8 +446,16 @@
         "Equilibra sistema neurovegetativo",
         "Regula presión y función celular"
       ],
-      "usos": ["Neuromusculares", "Cardiovascular", "Sistema nervioso"],
-      "sistemas": ["nervioso", "circulatorio", "muscular"]
+      "usos": [
+        "Neuromusculares",
+        "Cardiovascular",
+        "Sistema nervioso"
+      ],
+      "sistemas": [
+        "nervioso",
+        "circulatorio",
+        "muscular"
+      ]
     },
     {
       "id": "SN17",
@@ -358,8 +478,20 @@
         "Acción desintoxicante",
         "Salud de articulaciones y piel"
       ],
-      "usos": ["Huesos", "Dientes", "Hormonas", "Tiroides", "Detox", "Articulaciones"],
-      "sistemas": ["oseo", "hormonal", "piel", "musculoesqueletico"]
+      "usos": [
+        "Huesos",
+        "Dientes",
+        "Hormonas",
+        "Tiroides",
+        "Detox",
+        "Articulaciones"
+      ],
+      "sistemas": [
+        "oseo",
+        "hormonal",
+        "piel",
+        "musculoesqueletico"
+      ]
     },
     {
       "id": "SN18",
@@ -385,8 +517,17 @@
         "Regula estados emocionales",
         "Útil en ansiedad y depresión"
       ],
-      "usos": ["Remineralización", "Estados emocionales", "Ansiedad", "Depresión"],
-      "sistemas": ["nervioso", "hormonal", "general"]
+      "usos": [
+        "Remineralización",
+        "Estados emocionales",
+        "Ansiedad",
+        "Depresión"
+      ],
+      "sistemas": [
+        "nervioso",
+        "hormonal",
+        "general"
+      ]
     },
     {
       "id": "SN19",
@@ -404,13 +545,21 @@
         "Antiinflamatorio",
         "Neuroprotector"
       ],
-      "usos": ["Antioxidante", "Cardiovascular", "Antiinflamatorio", "Neuroprotector"],
-      "sistemas": ["circulatorio", "nervioso"]
+      "usos": [
+        "Antioxidante",
+        "Cardiovascular",
+        "Antiinflamatorio",
+        "Neuroprotector"
+      ],
+      "sistemas": [
+        "circulatorio",
+        "nervioso"
+      ]
     },
     {
       "id": "SN20",
       "nombre": "Analis L-Triptófano",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Anti-Estrés y Sueño",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas de 500 mg",
@@ -424,13 +573,20 @@
         "Mejora ritmo circadiano",
         "Controla ansiedad y apetito"
       ],
-      "usos": ["Sueño", "Estado de ánimo", "Ansiedad", "Apetito"],
-      "sistemas": ["nervioso"]
+      "usos": [
+        "Sueño",
+        "Estado de ánimo",
+        "Ansiedad",
+        "Apetito"
+      ],
+      "sistemas": [
+        "nervioso"
+      ]
     },
     {
       "id": "SN21",
       "nombre": "Carnilis",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Energía y Rendimiento",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas de 500 mg",
@@ -445,8 +601,15 @@
         "Control de peso",
         "Mejora rendimiento físico"
       ],
-      "usos": ["Metabolismo energético", "Control de peso", "Rendimiento físico"],
-      "sistemas": ["metabolico", "muscular"]
+      "usos": [
+        "Metabolismo energético",
+        "Control de peso",
+        "Rendimiento físico"
+      ],
+      "sistemas": [
+        "metabolico",
+        "muscular"
+      ]
     },
     {
       "id": "SN22",
@@ -468,8 +631,17 @@
         "Salud de la piel",
         "Optimiza metabolismo celular"
       ],
-      "usos": ["Inmunidad", "Visión", "Piel", "Metabolismo celular"],
-      "sistemas": ["inmune", "piel", "nervioso"]
+      "usos": [
+        "Inmunidad",
+        "Visión",
+        "Piel",
+        "Metabolismo celular"
+      ],
+      "sistemas": [
+        "inmune",
+        "piel",
+        "nervioso"
+      ]
     },
     {
       "id": "SN23",
@@ -501,8 +673,19 @@
         "Salud de piel",
         "Apoya sistema nervioso"
       ],
-      "usos": ["Multivitamínico", "Antioxidante", "Energía", "Inmunidad", "Sistema nervioso"],
-      "sistemas": ["general", "inmune", "nervioso", "piel"]
+      "usos": [
+        "Multivitamínico",
+        "Antioxidante",
+        "Energía",
+        "Inmunidad",
+        "Sistema nervioso"
+      ],
+      "sistemas": [
+        "general",
+        "inmune",
+        "nervioso",
+        "piel"
+      ]
     },
     {
       "id": "BF01",
@@ -523,8 +706,14 @@
         "Regenera células hepáticas",
         "Desintoxica"
       ],
-      "usos": ["Protección hepática", "Regeneración", "Desintoxicación"],
-      "sistemas": ["hepatico"]
+      "usos": [
+        "Protección hepática",
+        "Regeneración",
+        "Desintoxicación"
+      ],
+      "sistemas": [
+        "hepatico"
+      ]
     },
     {
       "id": "BF02",
@@ -541,8 +730,16 @@
         "Diurético",
         "Estimula producción de bilis"
       ],
-      "usos": ["Detox", "Diurético", "Digestión"],
-      "sistemas": ["hepatico", "urinario", "digestivo"]
+      "usos": [
+        "Detox",
+        "Diurético",
+        "Digestión"
+      ],
+      "sistemas": [
+        "hepatico",
+        "urinario",
+        "digestivo"
+      ]
     },
     {
       "id": "BF03",
@@ -559,8 +756,16 @@
         "Rico en silicio",
         "Fortalece tejidos conectivos"
       ],
-      "usos": ["Diurético", "Tejidos conectivos", "Cabello y uñas"],
-      "sistemas": ["urinario", "musculoesqueletico", "piel"]
+      "usos": [
+        "Diurético",
+        "Tejidos conectivos",
+        "Cabello y uñas"
+      ],
+      "sistemas": [
+        "urinario",
+        "musculoesqueletico",
+        "piel"
+      ]
     },
     {
       "id": "BF04",
@@ -586,8 +791,14 @@
         "Mejora digestión",
         "Calma dolor digestivo"
       ],
-      "usos": ["Digestión", "Dolor abdominal", "Gases"],
-      "sistemas": ["digestivo"]
+      "usos": [
+        "Digestión",
+        "Dolor abdominal",
+        "Gases"
+      ],
+      "sistemas": [
+        "digestivo"
+      ]
     },
     {
       "id": "BF05",
@@ -604,8 +815,15 @@
         "Antiinflamatorio",
         "Estimula inmunidad"
       ],
-      "usos": ["Digestión", "Inflamación", "Inmunidad"],
-      "sistemas": ["digestivo", "inmune"]
+      "usos": [
+        "Digestión",
+        "Inflamación",
+        "Inmunidad"
+      ],
+      "sistemas": [
+        "digestivo",
+        "inmune"
+      ]
     },
     {
       "id": "BF06",
@@ -622,8 +840,15 @@
         "Mejora digestión",
         "Antiviral"
       ],
-      "usos": ["Nervios", "Digestión", "Antiviral"],
-      "sistemas": ["nervioso", "digestivo"]
+      "usos": [
+        "Nervios",
+        "Digestión",
+        "Antiviral"
+      ],
+      "sistemas": [
+        "nervioso",
+        "digestivo"
+      ]
     },
     {
       "id": "BF07",
@@ -644,8 +869,14 @@
         "Mejora sueño",
         "Equilibra emociones"
       ],
-      "usos": ["Ansiedad", "Insomnio", "Estrés"],
-      "sistemas": ["nervioso"]
+      "usos": [
+        "Ansiedad",
+        "Insomnio",
+        "Estrés"
+      ],
+      "sistemas": [
+        "nervioso"
+      ]
     },
     {
       "id": "BF08",
@@ -662,8 +893,14 @@
         "Mejora sueño",
         "Calma nervios"
       ],
-      "usos": ["Insomnio", "Ansiedad", "Estrés"],
-      "sistemas": ["nervioso"]
+      "usos": [
+        "Insomnio",
+        "Ansiedad",
+        "Estrés"
+      ],
+      "sistemas": [
+        "nervioso"
+      ]
     },
     {
       "id": "BF09",
@@ -680,8 +917,15 @@
         "Calma nervios",
         "Mejora sueño"
       ],
-      "usos": ["Presión arterial", "Nervios", "Sueño"],
-      "sistemas": ["circulatorio", "nervioso"]
+      "usos": [
+        "Presión arterial",
+        "Nervios",
+        "Sueño"
+      ],
+      "sistemas": [
+        "circulatorio",
+        "nervioso"
+      ]
     },
     {
       "id": "BF10",
@@ -698,8 +942,16 @@
         "Mejora función sexual",
         "Equilibra hormonas"
       ],
-      "usos": ["Energía", "Libido", "Hormonas"],
-      "sistemas": ["energético", "hormonal", "reproductivo"]
+      "usos": [
+        "Energía",
+        "Libido",
+        "Hormonas"
+      ],
+      "sistemas": [
+        "energético",
+        "hormonal",
+        "reproductivo"
+      ]
     },
     {
       "id": "BF11",
@@ -716,8 +968,15 @@
         "Aumenta energía",
         "Fortalece inmunidad"
       ],
-      "usos": ["Energía", "Nutrición", "Inmunidad"],
-      "sistemas": ["energético", "inmune"]
+      "usos": [
+        "Energía",
+        "Nutrición",
+        "Inmunidad"
+      ],
+      "sistemas": [
+        "energético",
+        "inmune"
+      ]
     },
     {
       "id": "BF12",
@@ -739,8 +998,15 @@
         "Equilibra emociones",
         "Regula hormonas"
       ],
-      "usos": ["Menopausia", "Hormonas", "Estado de ánimo"],
-      "sistemas": ["hormonal", "nervioso"]
+      "usos": [
+        "Menopausia",
+        "Hormonas",
+        "Estado de ánimo"
+      ],
+      "sistemas": [
+        "hormonal",
+        "nervioso"
+      ]
     },
     {
       "id": "BF13",
@@ -756,8 +1022,13 @@
         "Precursor natural de hormonas",
         "Alivia síntomas menopáusicos"
       ],
-      "usos": ["Menopausia", "Equilibrio hormonal"],
-      "sistemas": ["hormonal"]
+      "usos": [
+        "Menopausia",
+        "Equilibrio hormonal"
+      ],
+      "sistemas": [
+        "hormonal"
+      ]
     },
     {
       "id": "BF14",
@@ -774,8 +1045,16 @@
         "Mejora digestión",
         "Antiinflamatorio"
       ],
-      "usos": ["Ciclo menstrual", "Digestión", "Inflamación"],
-      "sistemas": ["hormonal", "digestivo", "circulatorio"]
+      "usos": [
+        "Ciclo menstrual",
+        "Digestión",
+        "Inflamación"
+      ],
+      "sistemas": [
+        "hormonal",
+        "digestivo",
+        "circulatorio"
+      ]
     },
     {
       "id": "BF15",
@@ -792,8 +1071,15 @@
         "Inmunomodulador",
         "Analgésico"
       ],
-      "usos": ["Inflamación", "Inmunidad", "Dolor"],
-      "sistemas": ["inmune", "musculoesqueletico"]
+      "usos": [
+        "Inflamación",
+        "Inmunidad",
+        "Dolor"
+      ],
+      "sistemas": [
+        "inmune",
+        "musculoesqueletico"
+      ]
     },
     {
       "id": "BF16",
@@ -810,8 +1096,14 @@
         "Analgésico",
         "Mejora movilidad articular"
       ],
-      "usos": ["Articulaciones", "Dolor", "Movilidad"],
-      "sistemas": ["musculoesqueletico"]
+      "usos": [
+        "Articulaciones",
+        "Dolor",
+        "Movilidad"
+      ],
+      "sistemas": [
+        "musculoesqueletico"
+      ]
     },
     {
       "id": "BF17",
@@ -828,8 +1120,16 @@
         "Antioxidante",
         "Mejora digestión"
       ],
-      "usos": ["Inflamación", "Antioxidante", "Digestión"],
-      "sistemas": ["musculoesqueletico", "digestivo", "inmune"]
+      "usos": [
+        "Inflamación",
+        "Antioxidante",
+        "Digestión"
+      ],
+      "sistemas": [
+        "musculoesqueletico",
+        "digestivo",
+        "inmune"
+      ]
     },
     {
       "id": "BF18",
@@ -854,8 +1154,14 @@
         "Antiinflamatorio",
         "Relajante muscular"
       ],
-      "usos": ["Dolor muscular", "Inflamación", "Relajación muscular"],
-      "sistemas": ["musculoesqueletico"]
+      "usos": [
+        "Dolor muscular",
+        "Inflamación",
+        "Relajación muscular"
+      ],
+      "sistemas": [
+        "musculoesqueletico"
+      ]
     },
     {
       "id": "BF19",
@@ -878,8 +1184,14 @@
         "Adaptógeno",
         "Antioxidante"
       ],
-      "usos": ["Inmunidad", "Adaptógeno", "Antioxidante"],
-      "sistemas": ["inmune"]
+      "usos": [
+        "Inmunidad",
+        "Adaptógeno",
+        "Antioxidante"
+      ],
+      "sistemas": [
+        "inmune"
+      ]
     },
     {
       "id": "BF20",
@@ -895,8 +1207,13 @@
         "Estimula sistema inmune",
         "Previene infecciones"
       ],
-      "usos": ["Inmunidad", "Prevención de infecciones"],
-      "sistemas": ["inmune"]
+      "usos": [
+        "Inmunidad",
+        "Prevención de infecciones"
+      ],
+      "sistemas": [
+        "inmune"
+      ]
     },
     {
       "id": "BF21",
@@ -918,8 +1235,14 @@
         "Fortalece inmunidad",
         "Antiinflamatorio"
       ],
-      "usos": ["Antibiótico natural", "Inmunidad", "Inflamación"],
-      "sistemas": ["inmune"]
+      "usos": [
+        "Antibiótico natural",
+        "Inmunidad",
+        "Inflamación"
+      ],
+      "sistemas": [
+        "inmune"
+      ]
     },
     {
       "id": "BF22",
@@ -942,8 +1265,14 @@
         "Quema grasa",
         "Diurético"
       ],
-      "usos": ["Control de peso", "Metabolismo", "Diurético"],
-      "sistemas": ["metabolico"]
+      "usos": [
+        "Control de peso",
+        "Metabolismo",
+        "Diurético"
+      ],
+      "sistemas": [
+        "metabolico"
+      ]
     },
     {
       "id": "BF23",
@@ -960,8 +1289,15 @@
         "Acelera metabolismo",
         "Mejora concentración"
       ],
-      "usos": ["Antioxidante", "Metabolismo", "Concentración"],
-      "sistemas": ["metabolico", "nervioso"]
+      "usos": [
+        "Antioxidante",
+        "Metabolismo",
+        "Concentración"
+      ],
+      "sistemas": [
+        "metabolico",
+        "nervioso"
+      ]
     },
     {
       "id": "BF24",
@@ -978,13 +1314,21 @@
         "Calma nervios",
         "Acelera metabolismo"
       ],
-      "usos": ["Alergias", "Nervios", "Metabolismo"],
-      "sistemas": ["inmune", "nervioso", "metabolico"]
+      "usos": [
+        "Alergias",
+        "Nervios",
+        "Metabolismo"
+      ],
+      "sistemas": [
+        "inmune",
+        "nervioso",
+        "metabolico"
+      ]
     },
     {
       "id": "AA001",
       "nombre": "Analis Aminoácido Glicina 130",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos esenciales",
       "subcategoria": "Aminoácidos",
       "presentacion": "Polvo 130g",
@@ -1000,13 +1344,22 @@
         "Antioxidante",
         "Protege sistema nervioso"
       ],
-      "usos": ["Sueño", "Colágeno", "Antiinflamatorio", "Antioxidante"],
-      "sistemas": ["nervioso", "piel", "musculoesqueletico"]
+      "usos": [
+        "Sueño",
+        "Colágeno",
+        "Antiinflamatorio",
+        "Antioxidante"
+      ],
+      "sistemas": [
+        "nervioso",
+        "piel",
+        "musculoesqueletico"
+      ]
     },
     {
       "id": "AA002",
       "nombre": "Analis Aminoácido Glicina 400",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos esenciales",
       "subcategoria": "Aminoácidos",
       "presentacion": "Polvo 400g",
@@ -1022,13 +1375,22 @@
         "Antioxidante",
         "Protege sistema nervioso"
       ],
-      "usos": ["Sueño", "Colágeno", "Antiinflamatorio", "Antioxidante"],
-      "sistemas": ["nervioso", "piel", "musculoesqueletico"]
+      "usos": [
+        "Sueño",
+        "Colágeno",
+        "Antiinflamatorio",
+        "Antioxidante"
+      ],
+      "sistemas": [
+        "nervioso",
+        "piel",
+        "musculoesqueletico"
+      ]
     },
     {
       "id": "AA003",
       "nombre": "Analis Aminoácido L-Arginina",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos semi-esenciales",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas 500mg",
@@ -1043,13 +1405,22 @@
         "Precursor óxido nítrico",
         "Estimula hormona del crecimiento"
       ],
-      "usos": ["Circulación", "Inmunidad", "Crecimiento", "Rendimiento"],
-      "sistemas": ["circulatorio", "inmune", "hormonal"]
+      "usos": [
+        "Circulación",
+        "Inmunidad",
+        "Crecimiento",
+        "Rendimiento"
+      ],
+      "sistemas": [
+        "circulatorio",
+        "inmune",
+        "hormonal"
+      ]
     },
     {
       "id": "AA004",
       "nombre": "Analis Aminoácido L-Prolina",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos no esenciales",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas 500mg",
@@ -1063,13 +1434,22 @@
         "Reparación articulaciones",
         "Salud de piel y vasos sanguíneos"
       ],
-      "usos": ["Colágeno", "Articulaciones", "Piel", "Vasos sanguíneos"],
-      "sistemas": ["piel", "musculoesqueletico", "circulatorio"]
+      "usos": [
+        "Colágeno",
+        "Articulaciones",
+        "Piel",
+        "Vasos sanguíneos"
+      ],
+      "sistemas": [
+        "piel",
+        "musculoesqueletico",
+        "circulatorio"
+      ]
     },
     {
       "id": "AA005",
       "nombre": "Analis L-Triptófano",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos esenciales",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas 500mg",
@@ -1083,13 +1463,20 @@
         "Regula ritmo circadiano",
         "Controla ansiedad y apetito"
       ],
-      "usos": ["Sueño", "Estado de ánimo", "Ansiedad", "Apetito"],
-      "sistemas": ["nervioso"]
+      "usos": [
+        "Sueño",
+        "Estado de ánimo",
+        "Ansiedad",
+        "Apetito"
+      ],
+      "sistemas": [
+        "nervioso"
+      ]
     },
     {
       "id": "AA006",
       "nombre": "Analis Neurotransmisores",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Complejo aminoácidos",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas 500mg",
@@ -1106,13 +1493,21 @@
         "Reduce ansiedad",
         "Combate fatiga mental y estrés"
       ],
-      "usos": ["Equilibrio emocional", "Insomnio", "Ansiedad", "Fatiga mental", "Estrés"],
-      "sistemas": ["nervioso"]
+      "usos": [
+        "Equilibrio emocional",
+        "Insomnio",
+        "Ansiedad",
+        "Fatiga mental",
+        "Estrés"
+      ],
+      "sistemas": [
+        "nervioso"
+      ]
     },
     {
       "id": "AA007",
       "nombre": "Carnilis",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos especializados",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas 500mg",
@@ -1127,13 +1522,20 @@
         "Control de peso",
         "Mejora rendimiento físico"
       ],
-      "usos": ["Metabolismo energético", "Control de peso", "Rendimiento físico"],
-      "sistemas": ["metabolico", "muscular"]
+      "usos": [
+        "Metabolismo energético",
+        "Control de peso",
+        "Rendimiento físico"
+      ],
+      "sistemas": [
+        "metabolico",
+        "muscular"
+      ]
     },
     {
       "id": "AA008",
       "nombre": "Cronovida",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Complejo aminoácidos avanzado",
       "subcategoria": "Aminoácidos",
       "presentacion": "Polvo 260g",
@@ -1154,13 +1556,22 @@
         "Regeneración hepática",
         "Soporte metabólico y mental"
       ],
-      "usos": ["Ciclo sueño-vigilia", "Neurotransmisores", "Regeneración hepática", "Soporte metabólico"],
-      "sistemas": ["nervioso", "hepatico", "hormonal"]
+      "usos": [
+        "Ciclo sueño-vigilia",
+        "Neurotransmisores",
+        "Regeneración hepática",
+        "Soporte metabólico"
+      ],
+      "sistemas": [
+        "nervioso",
+        "hepatico",
+        "hormonal"
+      ]
     },
     {
       "id": "AA009",
       "nombre": "Deprelat",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos estado de ánimo",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas 500mg",
@@ -1174,13 +1585,21 @@
         "Ayuda en síndrome premenstrual",
         "Reduce ansiedad"
       ],
-      "usos": ["Estado de ánimo", "Depresión leve", "Síndrome premenstrual", "Ansiedad"],
-      "sistemas": ["nervioso", "hormonal"]
+      "usos": [
+        "Estado de ánimo",
+        "Depresión leve",
+        "Síndrome premenstrual",
+        "Ansiedad"
+      ],
+      "sistemas": [
+        "nervioso",
+        "hormonal"
+      ]
     },
     {
       "id": "AA010",
       "nombre": "Glicam 130",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos colágeno",
       "subcategoria": "Aminoácidos",
       "presentacion": "Polvo 130g",
@@ -1194,13 +1613,23 @@
         "Favorece sueño profundo",
         "Repara tejidos conectivos"
       ],
-      "usos": ["Colágeno", "Inmunidad", "Sueño", "Tejidos conectivos"],
-      "sistemas": ["piel", "inmune", "nervioso", "musculoesqueletico"]
+      "usos": [
+        "Colágeno",
+        "Inmunidad",
+        "Sueño",
+        "Tejidos conectivos"
+      ],
+      "sistemas": [
+        "piel",
+        "inmune",
+        "nervioso",
+        "musculoesqueletico"
+      ]
     },
     {
       "id": "AA011",
       "nombre": "Glicam 400",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos colágeno",
       "subcategoria": "Aminoácidos",
       "presentacion": "Polvo 400g",
@@ -1214,13 +1643,23 @@
         "Favorece sueño profundo",
         "Repara tejidos conectivos"
       ],
-      "usos": ["Colágeno", "Inmunidad", "Sueño", "Tejidos conectivos"],
-      "sistemas": ["piel", "inmune", "nervioso", "musculoesqueletico"]
+      "usos": [
+        "Colágeno",
+        "Inmunidad",
+        "Sueño",
+        "Tejidos conectivos"
+      ],
+      "sistemas": [
+        "piel",
+        "inmune",
+        "nervioso",
+        "musculoesqueletico"
+      ]
     },
     {
       "id": "AA012",
       "nombre": "Lisam 200",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos esenciales",
       "subcategoria": "Aminoácidos",
       "presentacion": "200 cápsulas 500mg",
@@ -1234,13 +1673,22 @@
         "Regeneración tisular",
         "Antiviral contra herpes simplex"
       ],
-      "usos": ["Síntesis proteínas", "Absorción calcio", "Crecimiento óseo", "Antiviral"],
-      "sistemas": ["oseo", "inmune", "muscular"]
+      "usos": [
+        "Síntesis proteínas",
+        "Absorción calcio",
+        "Crecimiento óseo",
+        "Antiviral"
+      ],
+      "sistemas": [
+        "oseo",
+        "inmune",
+        "muscular"
+      ]
     },
     {
       "id": "AA013",
       "nombre": "Lisam 60",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos esenciales",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas 500mg",
@@ -1254,13 +1702,22 @@
         "Regeneración tisular",
         "Antiviral contra herpes simplex"
       ],
-      "usos": ["Síntesis proteínas", "Absorción calcio", "Crecimiento óseo", "Antiviral"],
-      "sistemas": ["oseo", "inmune", "muscular"]
+      "usos": [
+        "Síntesis proteínas",
+        "Absorción calcio",
+        "Crecimiento óseo",
+        "Antiviral"
+      ],
+      "sistemas": [
+        "oseo",
+        "inmune",
+        "muscular"
+      ]
     },
     {
       "id": "AA014",
       "nombre": "Melis",
-      "marca": "Soria Natural",
+      "marca": "Aminas y Derivados",
       "categoria": "Aminoácidos detox",
       "subcategoria": "Aminoácidos",
       "presentacion": "60 cápsulas 500mg",
@@ -1274,8 +1731,16 @@
         "Mejora metabolismo lipídico",
         "Regeneración tejidos"
       ],
-      "usos": ["Antiviral", "Desintoxicación hepática", "Metabolismo lipídico"],
-      "sistemas": ["inmune", "hepatico", "metabolico"]
+      "usos": [
+        "Antiviral",
+        "Desintoxicación hepática",
+        "Metabolismo lipídico"
+      ],
+      "sistemas": [
+        "inmune",
+        "hepatico",
+        "metabolico"
+      ]
     },
     {
       "id": "BF001",
@@ -1298,11 +1763,17 @@
         "Calma el sistema nervioso",
         "Mejora el estado de ánimo"
       ],
-      "usos": ["Regulación hormonal", "Estrés", "Ansiedad"],
-      "sistemas": ["inmune", "hormonal"]
+      "usos": [
+        "Regulación hormonal",
+        "Estrés",
+        "Ansiedad"
+      ],
+      "sistemas": [
+        "inmune",
+        "hormonal"
+      ]
     }
   ],
-  
   "kits": [
     {
       "id": "K01",
@@ -1310,7 +1781,13 @@
       "problema": "Desintoxicación general del cuerpo",
       "beneficio": "Desintoxicación profunda de hígado, riñones y sistema linfático. Ayuda a eliminar toxinas acumuladas.",
       "descripcion": "Sistema completo de limpieza corporal que trabaja en múltiples órganos de eliminación.",
-      "productIds": ["BF01", "BF02", "BF03", "SN18", "SN15"],
+      "productIds": [
+        "BF01",
+        "BF02",
+        "BF03",
+        "SN18",
+        "SN15"
+      ],
       "productos_incluidos": [
         "Hepacryl - Protección hepática",
         "Diente de León - Diurético y detox",
@@ -1328,7 +1805,13 @@
       "problema": "Problemas digestivos múltiples",
       "beneficio": "Mejora la digestión, equilibra la flora intestinal y elimina gases y molestias digestivas.",
       "descripcion": "Combinación sinérgica para restaurar la salud digestiva completa desde el estómago hasta el intestino.",
-      "productIds": ["BF04", "BF05", "BF06", "SN12", "SN13"],
+      "productIds": [
+        "BF04",
+        "BF05",
+        "BF06",
+        "SN12",
+        "SN13"
+      ],
       "productos_incluidos": [
         "Colix - Antiespasmódico digestivo",
         "Jengibre - Digestivo y antiinflamatorio",
@@ -1346,7 +1829,13 @@
       "problema": "Estrés, ansiedad e insomnio",
       "beneficio": "Promueve la relajación profunda, reduce la ansiedad y mejora la calidad del sueño reparador.",
       "descripcion": "Fórmula integral para restaurar el equilibrio del sistema nervioso y recuperar patrones de sueño saludables.",
-      "productIds": ["BF07", "BF08", "BF09", "SN20", "SN06"],
+      "productIds": [
+        "BF07",
+        "BF08",
+        "BF09",
+        "SN20",
+        "SN06"
+      ],
       "productos_incluidos": [
         "Ner-vit - Calma nervios",
         "Valeriana - Sedante natural",
@@ -1364,7 +1853,13 @@
       "problema": "Fatiga y bajo rendimiento físico/mental",
       "beneficio": "Proporciona energía sostenida, mejora el rendimiento físico y mental sin estimulantes artificiales.",
       "descripcion": "Potencia la energía celular, el metabolismo y la vitalidad general de forma natural y sostenible.",
-      "productIds": ["BF10", "BF11", "SN11", "SN21", "SN02"],
+      "productIds": [
+        "BF10",
+        "BF11",
+        "SN11",
+        "SN21",
+        "SN02"
+      ],
       "productos_incluidos": [
         "Maca Peruana - Energía y resistencia",
         "Alga Espirulina - Superalimento",
@@ -1382,7 +1877,13 @@
       "problema": "Desequilibrios hormonales femeninos",
       "beneficio": "Equilibra las hormonas, alivia síntomas menopáusicos y regula el ciclo menstrual.",
       "descripcion": "Apoyo hormonal completo para mujeres en todas las etapas de la vida.",
-      "productIds": ["BF12", "BF13", "BF14", "SN01", "SN07"],
+      "productIds": [
+        "BF12",
+        "BF13",
+        "BF14",
+        "SN01",
+        "SN07"
+      ],
       "productos_incluidos": [
         "Fem-vit - Equilibrio hormonal completo",
         "Barbasco - Precursor hormonal",
@@ -1400,7 +1901,14 @@
       "problema": "Dolor articular e inflamación",
       "beneficio": "Reduce el dolor y la inflamación articular, mejora la movilidad y regenera tejidos.",
       "descripcion": "Tratamiento integral antiinflamatorio y regenerativo para articulaciones y tejidos conectivos.",
-      "productIds": ["BF15", "BF16", "BF17", "BF18", "SN14", "SN16"],
+      "productIds": [
+        "BF15",
+        "BF16",
+        "BF17",
+        "BF18",
+        "SN14",
+        "SN16"
+      ],
       "productos_incluidos": [
         "Uña de Gato - Antiinflamatorio sistémico",
         "Harpagofito - Analgésico articular",
@@ -1419,7 +1927,13 @@
       "problema": "Defensas bajas y resfriados frecuentes",
       "beneficio": "Fortalece el sistema inmune de manera efectiva y natural.",
       "descripcion": "Potente combinación de inmunoestimulantes y adaptógenos para defensas óptimas.",
-      "productIds": ["BF19", "BF20", "BF21", "SN10", "SN19"],
+      "productIds": [
+        "BF19",
+        "BF20",
+        "BF21",
+        "SN10",
+        "SN19"
+      ],
       "productos_incluidos": [
         "Immune Herb - Complejo inmune",
         "Equinácea - Prevención infecciones",
@@ -1437,7 +1951,13 @@
       "problema": "Sobrepeso y metabolismo lento",
       "beneficio": "Ayuda a acelerar el metabolismo, promover la quema de grasa y controlar el apetito.",
       "descripcion": "Sistema integral para optimizar el metabolismo y apoyar la pérdida de peso saludable.",
-      "productIds": ["BF22", "BF23", "BF24", "SN21", "SN17"],
+      "productIds": [
+        "BF22",
+        "BF23",
+        "BF24",
+        "SN21",
+        "SN17"
+      ],
       "productos_incluidos": [
         "Fat-less - Quema grasa",
         "Té Verde - Metabolismo acelerado",
@@ -1450,7 +1970,6 @@
       "categoria": "Control de Peso"
     }
   ],
-  
   "categorias": {
     "principales": [
       {
@@ -1502,96 +2021,229 @@
       }
     ]
   },
-  
   "sistemas_corporales": {
     "hormonal": {
       "descripcion": "Sistema endocrino y regulación hormonal",
-      "productos_recomendados": ["Pro-vit", "Fem-vit", "Barbasco", "Maca Peruana", "Calciflavón", "Diatonato 3", "Diatonato 5.1", "Diatonato 5.2", "Oligosor", "Deprelat"]
+      "productos_recomendados": [
+        "Pro-vit",
+        "Fem-vit",
+        "Barbasco",
+        "Maca Peruana",
+        "Calciflavón",
+        "Diatonato 3",
+        "Diatonato 5.1",
+        "Diatonato 5.2",
+        "Oligosor",
+        "Deprelat"
+      ]
     },
     "nervioso": {
       "descripcion": "Sistema nervioso central y periférico",
-      "productos_recomendados": ["Pro-vit", "Ner-vit", "Valeriana", "Zapote Blanco", "L-Triptófano", "Analis Neurotransmisores", "Fosfoserina Complex", "Oligosor", "Resverasor"]
+      "productos_recomendados": [
+        "Pro-vit",
+        "Ner-vit",
+        "Valeriana",
+        "Zapote Blanco",
+        "L-Triptófano",
+        "Analis Neurotransmisores",
+        "Fosfoserina Complex",
+        "Oligosor",
+        "Resverasor"
+      ]
     },
     "circulatorio": {
       "descripcion": "Sistema cardiovascular y circulación",
-      "productos_recomendados": ["Zapote Blanco", "Coenzima Q10", "Resverasor", "L-Arginina", "L-Prolina", "Oligonato 1"]
+      "productos_recomendados": [
+        "Zapote Blanco",
+        "Coenzima Q10",
+        "Resverasor",
+        "L-Arginina",
+        "L-Prolina",
+        "Oligonato 1"
+      ]
     },
     "digestivo": {
       "descripcion": "Sistema digestivo y salud intestinal",
-      "productos_recomendados": ["Colix", "Jengibre", "Melissa", "Inulac Tablets", "Lacticol", "Hepacryl", "Diente de León"]
+      "productos_recomendados": [
+        "Colix",
+        "Jengibre",
+        "Melissa",
+        "Inulac Tablets",
+        "Lacticol",
+        "Hepacryl",
+        "Diente de León"
+      ]
     },
     "inmune": {
       "descripcion": "Sistema inmunitario y defensas",
-      "productos_recomendados": ["Equinácea", "Anti-B", "Immune Herb", "Uña de Gato", "Fostprint Classic", "Sorivid", "Totalvid 4", "L-Arginina", "Lisam"]
+      "productos_recomendados": [
+        "Equinácea",
+        "Anti-B",
+        "Immune Herb",
+        "Uña de Gato",
+        "Fostprint Classic",
+        "Sorivid",
+        "Totalvid 4",
+        "L-Arginina",
+        "Lisam"
+      ]
     },
     "musculoesqueletico": {
       "descripcion": "Huesos, músculos, articulaciones y tejidos conectivos",
-      "productos_recomendados": ["Harpagofito", "Uña de Gato", "Cúrcuma", "Bálsamo 3 Damianas", "Mincartil", "L-Prolina", "Glicina", "Glicam", "Oligonato 1"]
+      "productos_recomendados": [
+        "Harpagofito",
+        "Uña de Gato",
+        "Cúrcuma",
+        "Bálsamo 3 Damianas",
+        "Mincartil",
+        "L-Prolina",
+        "Glicina",
+        "Glicam",
+        "Oligonato 1"
+      ]
     },
     "hepatico": {
       "descripcion": "Hígado y función hepática",
-      "productos_recomendados": ["Hepacryl", "Diente de León", "Alcachofa", "Cronovida", "Melis"]
+      "productos_recomendados": [
+        "Hepacryl",
+        "Diente de León",
+        "Alcachofa",
+        "Cronovida",
+        "Melis"
+      ]
     },
     "metabolico": {
       "descripcion": "Metabolismo energético y peso",
-      "productos_recomendados": ["Fat-less", "Té Verde", "Carnilis", "Coenzima Q10", "Diatonato 2", "Diatonato 5.2"]
+      "productos_recomendados": [
+        "Fat-less",
+        "Té Verde",
+        "Carnilis",
+        "Coenzima Q10",
+        "Diatonato 2",
+        "Diatonato 5.2"
+      ]
     },
     "piel": {
       "descripcion": "Salud de la piel, cabello y uñas",
-      "productos_recomendados": ["Crisálida G", "Cola de Caballo", "Mincartil", "Sorivid", "Totalvid 4", "L-Prolina", "Glicina", "Oligonato 2"]
+      "productos_recomendados": [
+        "Crisálida G",
+        "Cola de Caballo",
+        "Mincartil",
+        "Sorivid",
+        "Totalvid 4",
+        "L-Prolina",
+        "Glicina",
+        "Oligonato 2"
+      ]
     },
     "energético": {
       "descripcion": "Energía y vitalidad",
-      "productos_recomendados": ["Maca Peruana", "Alga Espirulina", "Fostprint MAX", "Carnilis", "Coenzima Q10"]
+      "productos_recomendados": [
+        "Maca Peruana",
+        "Alga Espirulina",
+        "Fostprint MAX",
+        "Carnilis",
+        "Coenzima Q10"
+      ]
     }
   },
-  
   "interacciones_sinergicas": {
     "detox_hepatico": {
       "descripcion": "Limpieza y regeneración hepática",
-      "productos": ["Hepacryl", "Diente de León", "Cúrcuma"]
+      "productos": [
+        "Hepacryl",
+        "Diente de León",
+        "Cúrcuma"
+      ]
     },
     "detox_renal": {
       "descripcion": "Limpieza y soporte renal",
-      "productos": ["Diente de León", "Cola de Caballo"]
+      "productos": [
+        "Diente de León",
+        "Cola de Caballo"
+      ]
     },
     "antiinflamatorio": {
       "descripcion": "Reducción de inflamación sistémica",
-      "productos": ["Cúrcuma", "Harpagofito", "Uña de Gato", "Jengibre"]
+      "productos": [
+        "Cúrcuma",
+        "Harpagofito",
+        "Uña de Gato",
+        "Jengibre"
+      ]
     },
     "relajante_nervioso": {
       "descripcion": "Calma y equilibrio del sistema nervioso",
-      "productos": ["Valeriana", "Ner-vit", "Zapote Blanco", "Melissa"]
+      "productos": [
+        "Valeriana",
+        "Ner-vit",
+        "Zapote Blanco",
+        "Melissa"
+      ]
     },
     "inmunidad": {
       "descripcion": "Fortalecimiento del sistema inmune",
-      "productos": ["Equinácea", "Anti-B", "Immune Herb", "Uña de Gato"]
+      "productos": [
+        "Equinácea",
+        "Anti-B",
+        "Immune Herb",
+        "Uña de Gato"
+      ]
     },
     "digestivo_completo": {
       "descripcion": "Salud digestiva integral",
-      "productos": ["Colix", "Jengibre", "Melissa", "Inulac Tablets"]
+      "productos": [
+        "Colix",
+        "Jengibre",
+        "Melissa",
+        "Inulac Tablets"
+      ]
     },
     "energia_natural": {
       "descripcion": "Energía sostenida sin estimulantes",
-      "productos": ["Maca Peruana", "Alga Espirulina", "Coenzima Q10", "Fostprint MAX", "Carnilis"]
+      "productos": [
+        "Maca Peruana",
+        "Alga Espirulina",
+        "Coenzima Q10",
+        "Fostprint MAX",
+        "Carnilis"
+      ]
     },
     "hormonal_femenino": {
       "descripcion": "Equilibrio hormonal femenino",
-      "productos": ["Fem-vit", "Barbasco", "Milenrama", "Calciflavón", "Diatonato 5.1"]
+      "productos": [
+        "Fem-vit",
+        "Barbasco",
+        "Milenrama",
+        "Calciflavón",
+        "Diatonato 5.1"
+      ]
     },
     "articular": {
       "descripcion": "Salud articular y movilidad",
-      "productos": ["Harpagofito", "Uña de Gato", "Cúrcuma", "Mincartil"]
+      "productos": [
+        "Harpagofito",
+        "Uña de Gato",
+        "Cúrcuma",
+        "Mincartil"
+      ]
     }
   },
-  
   "contraindicaciones": {
     "embarazo": {
-      "productos_evitar": ["Barbasco", "Fem-vit", "Milenrama", "Valeriana"],
+      "productos_evitar": [
+        "Barbasco",
+        "Fem-vit",
+        "Milenrama",
+        "Valeriana"
+      ],
       "nota": "Consultar con profesional de salud antes de usar durante embarazo"
     },
     "lactancia": {
-      "productos_evitar": ["Barbasco", "Valeriana"],
+      "productos_evitar": [
+        "Barbasco",
+        "Valeriana"
+      ],
       "nota": "Precaución durante lactancia"
     },
     "hipertension": {
@@ -1603,15 +2255,19 @@
       "nota": "Monitorear niveles de glucosa"
     },
     "anticoagulantes": {
-      "productos_precaucion": ["Ajo", "Jengibre"],
+      "productos_precaucion": [
+        "Ajo",
+        "Jengibre"
+      ],
       "nota": "Consultar con médico si toma anticoagulantes"
     },
     "tiroides": {
-      "productos_precaucion": ["Alga Espirulina"],
+      "productos_precaucion": [
+        "Alga Espirulina"
+      ],
       "nota": "Consultar con médico si tiene problemas de tiroides"
     }
   },
-  
   "recomendaciones_uso": {
     "general": [
       "Tomar productos con alimentos para mejor absorción",
@@ -1627,4 +2283,3 @@
     }
   }
 }
-
